@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+# Fix for tools with custom shells ... I'm looking at you, Sourcetree o.O
+export PATH=$PATH:/usr/local/bin
+
+# Looking for the flag that the project file has been uniquified in pre-commit hook
+if [ -e ".amendCommitWithUniqueProject" ]; then
+
+    SUCCESSCOLOR='\033[0;32m'
+    printf "%b" "${SUCCESSCOLOR}Unique Project File is being added to your commit\n\n"
+
+    # Removing the flag
+    rm .amendCommitWithUniqueProject 
+
+    # Adding the project file to the commit
+    git add Spielebuch.xcodeproj
+
+    # Amend the last commit without verification (this avoids a loop by not calling the pre-commit hook again)
+    git commit --amend -C HEAD --no-verify
+
+fi
+
+exit

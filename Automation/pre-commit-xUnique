@@ -1,0 +1,35 @@
+#!/bin/sh
+set -e
+
+# Fix for tools with custom shells ... I'm looking at you, Sourcetree o.O
+export PATH=$PATH:/usr/local/bin
+
+isCommandAvailable () {
+    type "$1" &> /dev/null;
+}
+
+if (isCommandAvailable xunique); then
+
+    # All necessary commands are available - uniquify the project!
+    xunique Spielebuch.xcodeproj
+
+    # Since pre-commit hooks don't allow the commit to be modified, a file is created as a flag for the post-commit hook.
+    touch .amendCommitWithUniqueProject 
+
+    exit
+
+else
+
+    # One or more commands are missing for the unification of the project file - alert and abort!
+    ALERTCOLOR='\033[0;31m'
+    CLEARCOLOR='\033[0m'
+
+    if !(isCommandAvailable xunique); then
+        printf "%b" "${ALERTCOLOR}xUnique is not installed!\n"
+        printf "%b" "${CLEARCOLOR}Please use the following command to install manually and commit your changes afterwards:\n\n"
+        printf "%b" "${CLEARCOLOR}\t → pip3 install xUnique\n\n"
+    fi
+
+    exit 1
+
+fi
