@@ -1,0 +1,513 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0E27DF57671D58630FF2FF7C2EECC2DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FBEF1B20FA2EF264328AF13178409F /* ViewController.swift */; };
+		1621FEE10894216589A4CDF6E0EEDFAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123A58E94F8AE93E01E4DECC8B8B2D05 /* AppDelegate.swift */; };
+		190624C18C971F4E122EE06F96A4E089 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */; };
+		48E5C920B860C224AA153B212D2AD01C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C896A6CEB4917BBBA108DD777B034CF /* Main.storyboard */; };
+		66DC8A2A485B9F48470BF79D0F125106 /* Spielebuch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D7CF9B8ACADF573883959B6AB30F055 /* Spielebuch.xcdatamodeld */; };
+		7E839104845BD71FC8001FB6D33AA3DB /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B20B9417E1AB4E0778F70E5D686561 /* Defaults.swift */; };
+		A18507A1E9BDCEEF7CE2CD94CCCA055D /* GameDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2E0B7CF271E0AC098977B556263CCA /* GameDataTests.swift */; };
+		B6778C36D03F0326D2ED28A35767F959 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E44C987166D7B7A95727874FC9B09B1 /* GameData.swift */; };
+		EF791F29C1141CAD55D1A3288A3ACC52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB0838AED6EA30674528D184F71B421A /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		509261C139B446896FBE5EFA3D8825F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 536CFBA0EEAF40EBA4892DD68F31F7B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C3D4468F83ECD290BAFF08C1BF80A474;
+			remoteInfo = Spielebuch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		115F9414EEEC7B2753E12E9DCA3423B0 /* Spielebuch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Spielebuch.xcdatamodel; sourceTree = "<group>"; };
+		123A58E94F8AE93E01E4DECC8B8B2D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		47FBEF1B20FA2EF264328AF13178409F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		59C6AE3A73461926E756FB2BDDCD6C8D /* Spielebuch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spielebuch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6258B5EE2D5BDC0EC0630FF4829D6F3E /* SpielebuchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpielebuchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6E44C987166D7B7A95727874FC9B09B1 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		7C2E0B7CF271E0AC098977B556263CCA /* GameDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataTests.swift; sourceTree = "<group>"; };
+		91B20B9417E1AB4E0778F70E5D686561 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		9BDE7A7FAE83701E5F68043D7BCE2BA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A95896FC88B5CA82B23F0859F626C4EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		B5864E860E11B97785B118BDB1187DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB2EE79F29A6FA7125E05DEC3F7360F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		69DC84AF2B5D7F0D6C602B977C141A65 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F977FC9AAA3E8EDA5F1D52D5068BF3B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B0C5B9189529F2D2FC6DCB24A91B982 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59C6AE3A73461926E756FB2BDDCD6C8D /* Spielebuch.app */,
+				6258B5EE2D5BDC0EC0630FF4829D6F3E /* SpielebuchTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4964EA23AD95A30CF08A17ACDA269EB5 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				6E44C987166D7B7A95727874FC9B09B1 /* GameData.swift */,
+			);
+			path = DataModels;
+			sourceTree = "<group>";
+		};
+		7048AC219A28441B34EDDE430F926CF2 /* DataModelsTests */ = {
+			isa = PBXGroup;
+			children = (
+				7C2E0B7CF271E0AC098977B556263CCA /* GameDataTests.swift */,
+			);
+			path = DataModelsTests;
+			sourceTree = "<group>";
+		};
+		97EBF3B2DD23B288D64B7AB4BFEFBB9E /* SpielebuchTests */ = {
+			isa = PBXGroup;
+			children = (
+				7048AC219A28441B34EDDE430F926CF2 /* DataModelsTests */,
+				91B20B9417E1AB4E0778F70E5D686561 /* Defaults.swift */,
+				B5864E860E11B97785B118BDB1187DA7 /* Info.plist */,
+			);
+			path = SpielebuchTests;
+			sourceTree = "<group>";
+		};
+		B510C4E0E2B77628CCFE606E9490DB00 /* Spielebuch */ = {
+			isa = PBXGroup;
+			children = (
+				4964EA23AD95A30CF08A17ACDA269EB5 /* DataModels */,
+				123A58E94F8AE93E01E4DECC8B8B2D05 /* AppDelegate.swift */,
+				6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */,
+				FB2EE79F29A6FA7125E05DEC3F7360F4 /* Info.plist */,
+				AB0838AED6EA30674528D184F71B421A /* LaunchScreen.storyboard */,
+				1C896A6CEB4917BBBA108DD777B034CF /* Main.storyboard */,
+				5D7CF9B8ACADF573883959B6AB30F055 /* Spielebuch.xcdatamodeld */,
+				47FBEF1B20FA2EF264328AF13178409F /* ViewController.swift */,
+			);
+			path = Spielebuch;
+			sourceTree = "<group>";
+		};
+		E15AE00286416F7B9BF6FE56383F9C76 = {
+			isa = PBXGroup;
+			children = (
+				3B0C5B9189529F2D2FC6DCB24A91B982 /* Products */,
+				B510C4E0E2B77628CCFE606E9490DB00 /* Spielebuch */,
+				97EBF3B2DD23B288D64B7AB4BFEFBB9E /* SpielebuchTests */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		28E88ABB205CDBC162123D3F54AD1680 /* SpielebuchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEA64E1003B2C639163512403D0ACD02 /* Build configuration list for PBXNativeTarget "SpielebuchTests" */;
+			buildPhases = (
+				D152DE3B36180E53840AEA4A907D02D3 /* Sources */,
+				69DC84AF2B5D7F0D6C602B977C141A65 /* Frameworks */,
+				39352B51F16E98276BD66E606E7F6928 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				374D38E47927EF76A66CB37FB7EA5E7C /* PBXTargetDependency */,
+			);
+			name = SpielebuchTests;
+			productName = SpielebuchTests;
+			productReference = 6258B5EE2D5BDC0EC0630FF4829D6F3E /* SpielebuchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		C3D4468F83ECD290BAFF08C1BF80A474 /* Spielebuch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60AC28F5DCC6570AF6DA4954E409FD20 /* Build configuration list for PBXNativeTarget "Spielebuch" */;
+			buildPhases = (
+				C5A45208537FAE74925D74BCE79AB709 /* Sources */,
+				6F977FC9AAA3E8EDA5F1D52D5068BF3B /* Frameworks */,
+				3E9D267EDF08F2E9F9E068CA5AD30D08 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Spielebuch;
+			productName = Spielebuch;
+			productReference = 59C6AE3A73461926E756FB2BDDCD6C8D /* Spielebuch.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		536CFBA0EEAF40EBA4892DD68F31F7B6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = "Benno Kress";
+				TargetAttributes = {
+					28E88ABB205CDBC162123D3F54AD1680 = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
+						TestTargetID = C3D4468F83ECD290BAFF08C1BF80A474;
+					};
+					C3D4468F83ECD290BAFF08C1BF80A474 = {
+						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
+					};
+				};
+			};
+			buildConfigurationList = 112F830A827A3DCE9B34663D497720D4 /* Build configuration list for PBXProject "Spielebuch" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E15AE00286416F7B9BF6FE56383F9C76;
+			productRefGroup = 3B0C5B9189529F2D2FC6DCB24A91B982 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C3D4468F83ECD290BAFF08C1BF80A474 /* Spielebuch */,
+				28E88ABB205CDBC162123D3F54AD1680 /* SpielebuchTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		39352B51F16E98276BD66E606E7F6928 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3E9D267EDF08F2E9F9E068CA5AD30D08 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				190624C18C971F4E122EE06F96A4E089 /* Assets.xcassets in Resources */,
+				EF791F29C1141CAD55D1A3288A3ACC52 /* LaunchScreen.storyboard in Resources */,
+				48E5C920B860C224AA153B212D2AD01C /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C5A45208537FAE74925D74BCE79AB709 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1621FEE10894216589A4CDF6E0EEDFAB /* AppDelegate.swift in Sources */,
+				B6778C36D03F0326D2ED28A35767F959 /* GameData.swift in Sources */,
+				66DC8A2A485B9F48470BF79D0F125106 /* Spielebuch.xcdatamodeld in Sources */,
+				0E27DF57671D58630FF2FF7C2EECC2DB /* ViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D152DE3B36180E53840AEA4A907D02D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E839104845BD71FC8001FB6D33AA3DB /* Defaults.swift in Sources */,
+				A18507A1E9BDCEEF7CE2CD94CCCA055D /* GameDataTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		374D38E47927EF76A66CB37FB7EA5E7C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C3D4468F83ECD290BAFF08C1BF80A474 /* Spielebuch */;
+			targetProxy = 509261C139B446896FBE5EFA3D8825F8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1C896A6CEB4917BBBA108DD777B034CF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9BDE7A7FAE83701E5F68043D7BCE2BA2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		AB0838AED6EA30674528D184F71B421A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A95896FC88B5CA82B23F0859F626C4EE /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1F1954D9596F64ADE1EE830716998A09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		32911FFDCE7CA6C7B84AF00A976CFB80 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				INFOPLIST_FILE = Spielebuch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bennokress.Spielebuch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		556A3912AA43F3F6C00AD3F4F8D337DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				INFOPLIST_FILE = Spielebuch/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bennokress.Spielebuch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7A48B8C0E9CE829F256EBD11FFDBA61C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				INFOPLIST_FILE = SpielebuchTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bennokress.SpielebuchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spielebuch.app/Spielebuch";
+			};
+			name = Release;
+		};
+		94034D16BD08B39E304B6A394244AD79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				INFOPLIST_FILE = SpielebuchTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bennokress.SpielebuchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Spielebuch.app/Spielebuch";
+			};
+			name = Debug;
+		};
+		A752D99B02BF3D5A73B67980D19AD595 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		112F830A827A3DCE9B34663D497720D4 /* Build configuration list for PBXProject "Spielebuch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1F1954D9596F64ADE1EE830716998A09 /* Debug */,
+				A752D99B02BF3D5A73B67980D19AD595 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		60AC28F5DCC6570AF6DA4954E409FD20 /* Build configuration list for PBXNativeTarget "Spielebuch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				556A3912AA43F3F6C00AD3F4F8D337DB /* Debug */,
+				32911FFDCE7CA6C7B84AF00A976CFB80 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEA64E1003B2C639163512403D0ACD02 /* Build configuration list for PBXNativeTarget "SpielebuchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94034D16BD08B39E304B6A394244AD79 /* Debug */,
+				7A48B8C0E9CE829F256EBD11FFDBA61C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5D7CF9B8ACADF573883959B6AB30F055 /* Spielebuch.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				115F9414EEEC7B2753E12E9DCA3423B0 /* Spielebuch.xcdatamodel */,
+			);
+			currentVersion = 115F9414EEEC7B2753E12E9DCA3423B0 /* Spielebuch.xcdatamodel */;
+			path = Spielebuch.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 536CFBA0EEAF40EBA4892DD68F31F7B6 /* Project object */;
+}
