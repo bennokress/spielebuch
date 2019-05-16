@@ -13,8 +13,9 @@ struct GameData {
     let primaryHTMLColor = "#000000"
     let secondaryHTMLColor = "#FFFFFF"
     let scoreModelName = "simpleDescending" // see NOTE #1
+    let base64Image = ""
     
-    // NOTE #1
+    // TODO: NOTE #1
     // --> scoreModelName gets converted to ScoreModel later
     // ScoreModel contains:
     //  * scoreComponentDescriptions --> e.g. ["Points", "Coins", "Cards"]

@@ -36,5 +36,10 @@ class GameTests: XCTestCase {
         let game = Defaults.game
         XCTAssert(game.scoreModelName == "simpleDescending")
     }
+    
+    func testGameHasAnEncodedImage() {
+        let game = Defaults.game
+        XCTAssert(game.base64Image == "")
+    }
 
 }
