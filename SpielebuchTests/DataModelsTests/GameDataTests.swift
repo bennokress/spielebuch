@@ -16,5 +16,10 @@ class GameTests: XCTestCase {
 
     override func tearDown() {
     }
+    
+    func testGameHasAName() {
+        let game = Defaults.game
+        XCTAssert(game.name == "Name of the Game")
+    }
 
 }
