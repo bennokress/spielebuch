@@ -31,5 +31,10 @@ class GameTests: XCTestCase {
         let game = Defaults.game
         XCTAssert(game.secondaryHTMLColor == "#FFFFFF")
     }
+    
+    func testGameHasAScoreModel() {
+        let game = Defaults.game
+        XCTAssert(game.scoreModelName == "simpleDescending")
+    }
 
 }
