@@ -21,5 +21,10 @@ class GameTests: XCTestCase {
         let game = Defaults.game
         XCTAssert(game.name == "Name of the Game")
     }
+    
+    func testGameHasAPrimaryColor() {
+        let game = Defaults.game
+        XCTAssert(game.primaryHTMLColor == "#000000")
+    }
 
 }
