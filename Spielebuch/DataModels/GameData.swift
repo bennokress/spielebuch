@@ -9,5 +9,5 @@
 import UIKit
 
 struct GameData {
-    
+    let name = "Name of the Game"
 }
