@@ -26,5 +26,10 @@ class GameTests: XCTestCase {
         let game = GameData.standard
         XCTAssert(game.primaryHTMLColor == "#000000")
     }
+    
+    func testGameHasASecondaryColor() {
+        let game = GameData.standard
+        XCTAssert(game.secondaryHTMLColor == "#FFFFFF")
+    }
 
 }

@@ -11,4 +11,5 @@ import UIKit
 struct GameData {
     let name = "Name of the Game"
     let primaryHTMLColor = "#000000"
+    let secondaryHTMLColor = "#FFFFFF"
 }
