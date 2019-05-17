@@ -16,5 +16,30 @@ class GameTests: XCTestCase {
 
     override func tearDown() {
     }
+    
+    func testGameHasAName() {
+        let game = GameData.standard
+        XCTAssert(game.name == "Name of the Game")
+    }
+    
+    func testGameHasAPrimaryColor() {
+        let game = GameData.standard
+        XCTAssert(game.primaryHTMLColor == "#000000")
+    }
+    
+    func testGameHasASecondaryColor() {
+        let game = GameData.standard
+        XCTAssert(game.secondaryHTMLColor == "#FFFFFF")
+    }
+    
+    func testGameHasAScoreModel() {
+        let game = GameData.standard
+        XCTAssert(game.scoreModelName == "simpleDescending")
+    }
+    
+    func testGameHasAnEncodedImage() {
+        let game = GameData.standard
+        XCTAssert(game.base64Image == "")
+    }
 
 }
