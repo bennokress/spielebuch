@@ -1,0 +1,15 @@
+pull_request_rules:
+  - name: merge and delete source on ci success
+    conditions:
+      - status-success=ci/bitrise/a3630b2c59177ea1/pr
+      - base=master
+    actions:
+      merge:
+        method: merge
+      delete_head_branch: {}
+  - name: close on ci failure
+    conditions:
+      - status-failure=ci/bitrise/a3630b2c59177ea1/pr
+      - base=master
+    actions:
+      close: {}
