@@ -23,5 +23,10 @@ class ScoreDataTests: XCTestCase {
         let score = ScoreData.standard
         XCTAssert(score.isScoreOfStartingPlayer == false)
     }
+    
+    func testScoreHasValue() {
+        let score = ScoreData.standard
+        XCTAssert(score.value == 0.0)
+    }
 
 }

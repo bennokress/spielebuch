@@ -10,4 +10,5 @@ import Foundation
 
 struct ScoreData {
     let isScoreOfStartingPlayer = false
+    let value = 0.0
 }
