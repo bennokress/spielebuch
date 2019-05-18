@@ -12,3 +12,7 @@ import Foundation
 extension GameData {
     static let standard = GameData()
 }
+
+extension MatchData {
+    static let standard = MatchData()
+}
