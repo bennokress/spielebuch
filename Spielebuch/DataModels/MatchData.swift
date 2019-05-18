@@ -11,4 +11,5 @@ import Foundation
 struct MatchData {
     let date = Date(timeIntervalSince1970: 607876860)
     let game = GameData()
+    // TODO: let scores: [Score]
 }
