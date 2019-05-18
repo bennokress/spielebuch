@@ -9,5 +9,5 @@
 import Foundation
 
 struct MatchData {
-    
+    let date = Date(timeIntervalSince1970: 607876860)
 }

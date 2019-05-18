@@ -18,5 +18,10 @@ class MatchDataTests: XCTestCase {
     override func tearDown() {
         
     }
+    
+    func testMatchHasADate() {
+        let match = MatchData.standard
+        XCTAssert(match.date == Date(timeIntervalSince1970: 607876860)) // 06.04.1989, 16:41
+    }
 
 }
