@@ -8,6 +8,12 @@
 
 import Foundation
 
-enum ScoreSortingMethod {
+enum ScoreSortingMethod: String {
+    
+    /// Least is best.
+    case ascending = "<"
+    
+    /// Most is best.
+    case descending = ">"
     
 }
