@@ -18,5 +18,10 @@ class ScoreDataTests: XCTestCase {
     override func tearDown() {
         
     }
+    
+    func testScoreHasStartingPlayerFlag() {
+        let score = ScoreData.standard
+        XCTAssert(score.isScoreOfStartingPlayer == false)
+    }
 
 }
