@@ -9,6 +9,7 @@
 import Foundation
 
 struct ScoreData {
+    // TODO: let player: Player
     let isScoreOfStartingPlayer = false
     let value = 0.0
 }
