@@ -1,5 +1,5 @@
 # Spielebuch
-[![Build Status](https://app.bitrise.io/app/a3630b2c59177ea1/status.svg?token=M338UjA3bQXJP8OlSNY_5w&branch=master)](https://app.bitrise.io/app/a3630b2c59177ea1)
+[![Build Status](https://app.bitrise.io/app/a3630b2c59177ea1/status.svg?token=M338UjA3bQXJP8OlSNY_5w&branch=master)](https://app.bitrise.io/app/a3630b2c59177ea1) [![Mergify Enabled](https://gh.mergify.io/badges/bennokress/spielebuch.png?style=cut)](https://mergify.io)
 
 iOS app to save the results of board &amp; card games
 
