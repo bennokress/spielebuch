@@ -8,7 +8,7 @@ iOS app to save the results of board &amp; card games
 This project uses [xUnique](https://github.com/truebit/xUnique) to reduce merge conflicts with the Xcode project file. To automate the unification process all work is done in git hooks. Since hooks are not part of a git project, please add them manually:
 
 Add a file `.git/hooks/pre-commit` containing:
-```
+```bash
 #!/bin/sh
 
 # Run xUnique --> https://github.com/truebit/xUnique
@@ -16,7 +16,7 @@ Add a file `.git/hooks/pre-commit` containing:
 ```
 
 Add a file `.git/hooks/post-commit` containing:
-```
+```bash
 #!/bin/sh
 
 # Run xUnique --> https://github.com/truebit/xUnique
@@ -27,7 +27,7 @@ Afterwards run `chmod +x` on both hooks to make them executable.
 
 ## Commit Message Prefix
 This project requires a prefix on each commit message on feature branches matching the branch name. The convention is that branches are named "#XX_Y" with XX being the feature or bug identifier from the Github Issue Tracker, the Y is an optional keyword when the branch just handles a part of the issue (e.g. "#1_GameData" or just "#2"). The only exception is maintenance on the repo or tooling without an issue, which is done on a branch named "Maintenance". The following script can be used to automate the commit naming, if is put into `.git/hooks/prepare-commit-msg`:
-```
+```bash
 #!/bin/sh
 
 COMMIT_MSG=$1
