@@ -38,5 +38,10 @@ class PlayerDataTests: XCTestCase {
         let player = PlayerData.standard
         XCTAssert(player.displayname == "Benno")
     }
+    
+    func testPlayerAnEncodedImage() {
+        let player = PlayerData.standard
+        XCTAssert(player.base64Image == "")
+    }
 
 }

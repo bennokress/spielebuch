@@ -13,4 +13,5 @@ struct PlayerData {
     let lastName = "Kress"
     let nickname: String? = nil
     var displayname: String { return nickname ?? firstName }
+    let base64Image = ""
 }
