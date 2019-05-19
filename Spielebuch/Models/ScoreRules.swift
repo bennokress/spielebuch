@@ -8,6 +8,24 @@
 
 import Foundation
 
-struct ScoreRules {
-    
+extension Game {
+    struct ScoreRules {
+    }
+}
+
+extension Game.ScoreRules {
+    struct ScoreComponent {
+    }
+}
+
+extension Game.ScoreRules.ScoreComponent {
+    enum ScoreSorting: String {
+        
+        /// Least is best.
+        case ascending = "<"
+        
+        /// Most is best.
+        case descending = ">"
+        
+    }
 }
