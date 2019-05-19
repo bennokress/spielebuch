@@ -18,5 +18,10 @@ class PlayerDataTests: XCTestCase {
     override func tearDown() {
         
     }
+    
+    func testPlayerHasAFirstName() {
+        let player = PlayerData.standard
+        XCTAssert(player.firstName == "Benno")
+    }
 
 }

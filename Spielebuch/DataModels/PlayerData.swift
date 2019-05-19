@@ -9,5 +9,5 @@
 import Foundation
 
 struct PlayerData {
-    
+    let firstName = "Benno"
 }
