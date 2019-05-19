@@ -1,5 +1,5 @@
 //
-//  MatchDataTests.swift
+//  MatchTests.swift
 //  SpielebuchTests
 //
 //  Created by Benno Kress on 18.05.19.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import Spielebuch
 
-class MatchDataTests: XCTestCase {
+class MatchTests: XCTestCase {
 
     override func setUp() {
         
@@ -20,13 +20,18 @@ class MatchDataTests: XCTestCase {
     }
     
     func testMatchHasADate() {
-        let match = MatchData.standard
+        let match = Match.standard
         XCTAssert(match.date == Date(timeIntervalSince1970: 607876860)) // 06.04.1989, 16:41
     }
     
     func testMatchHasAGame() {
-        let match = MatchData.standard
-        XCTAssert(match.game is GameData)
+        let match = Match.standard
+        XCTAssert(match.game is Game)
+    }
+    
+    func testMatchHasScores() {
+        let match = Match.standard
+        XCTAssert(match.scores.isEmpty)
     }
 
 }

@@ -1,5 +1,5 @@
 //
-//  ScoreData.swift
+//  Score.swift
 //  Spielebuch
 //
 //  Created by Benno Kress on 18.05.19.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct ScoreData {
-    // TODO: let player: Player
+struct Score {
+    let player = Player()
     let isScoreOfStartingPlayer = false
     let value = 0.0
 }

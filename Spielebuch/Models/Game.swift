@@ -1,5 +1,5 @@
 //
-//  GameData.swift
+//  Game.swift
 //  Spielebuch
 //
 //  Created by Benno Kress on 16.05.19.
@@ -8,8 +8,9 @@
 
 import UIKit
 
-struct GameData {
+struct Game {
     let name = "Name of the Game"
+    let type: GameType = .baseGame
     let primaryHTMLColor = "#000000"
     let secondaryHTMLColor = "#FFFFFF"
     let scoreModelName = "simpleDescending" // see NOTE #1

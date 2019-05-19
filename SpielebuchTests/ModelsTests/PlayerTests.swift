@@ -1,5 +1,5 @@
 //
-//  PlayerDataTests.swift
+//  PlayerTests.swift
 //  SpielebuchTests
 //
 //  Created by Benno Kress on 19.05.19.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import Spielebuch
 
-class PlayerDataTests: XCTestCase {
+class PlayerTests: XCTestCase {
 
     override func setUp() {
         
@@ -20,27 +20,27 @@ class PlayerDataTests: XCTestCase {
     }
     
     func testPlayerHasAFirstName() {
-        let player = PlayerData.standard
+        let player = Player.standard
         XCTAssert(player.firstName == "Benno")
     }
     
     func testPlayerHasALastName() {
-        let player = PlayerData.standard
+        let player = Player.standard
         XCTAssert(player.lastName == "Kress")
     }
     
     func testPlayerHasANickname() {
-        let player = PlayerData.standard
+        let player = Player.standard
         XCTAssert(player.nickname == nil)
     }
     
     func testPlayerHasADisplayname() {
-        let player = PlayerData.standard
+        let player = Player.standard
         XCTAssert(player.displayname == "Benno")
     }
     
     func testPlayerAnEncodedImage() {
-        let player = PlayerData.standard
+        let player = Player.standard
         XCTAssert(player.base64Image == "")
     }
 

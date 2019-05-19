@@ -1,5 +1,5 @@
 //
-//  ScoreDataTests.swift
+//  ScoreTests.swift
 //  SpielebuchTests
 //
 //  Created by Benno Kress on 18.05.19.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import Spielebuch
 
-class ScoreDataTests: XCTestCase {
+class ScoreTests: XCTestCase {
 
     override func setUp() {
         
@@ -19,13 +19,18 @@ class ScoreDataTests: XCTestCase {
         
     }
     
+    func testScoreHasAPlayer() {
+        let score = Score.standard
+        XCTAssert(score.player is Player)
+    }
+    
     func testScoreHasStartingPlayerFlag() {
-        let score = ScoreData.standard
+        let score = Score.standard
         XCTAssert(score.isScoreOfStartingPlayer == false)
     }
     
     func testScoreHasValue() {
-        let score = ScoreData.standard
+        let score = Score.standard
         XCTAssert(score.value == 0.0)
     }
 

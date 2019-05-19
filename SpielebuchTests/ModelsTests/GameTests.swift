@@ -1,5 +1,5 @@
 //
-//  GameDataTests.swift
+//  GameTests.swift
 //  SpielebuchTests
 //
 //  Created by Benno Kress on 16.05.19.
@@ -18,27 +18,27 @@ class GameTests: XCTestCase {
     }
     
     func testGameHasAName() {
-        let game = GameData.standard
+        let game = Game.standard
         XCTAssert(game.name == "Name of the Game")
     }
     
     func testGameHasAPrimaryColor() {
-        let game = GameData.standard
+        let game = Game.standard
         XCTAssert(game.primaryHTMLColor == "#000000")
     }
     
     func testGameHasASecondaryColor() {
-        let game = GameData.standard
+        let game = Game.standard
         XCTAssert(game.secondaryHTMLColor == "#FFFFFF")
     }
     
     func testGameHasAScoreModel() {
-        let game = GameData.standard
+        let game = Game.standard
         XCTAssert(game.scoreModelName == "simpleDescending")
     }
     
     func testGameHasAnEncodedImage() {
-        let game = GameData.standard
+        let game = Game.standard
         XCTAssert(game.base64Image == "")
     }
 

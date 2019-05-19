@@ -1,5 +1,5 @@
 //
-//  MatchData.swift
+//  Match.swift
 //  Spielebuch
 //
 //  Created by Benno Kress on 18.05.19.
@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct MatchData {
+struct Match {
     let date = Date(timeIntervalSince1970: 607876860)
-    let game = GameData()
-    // TODO: let scores: [Score]
+    let game = Game()
+    let scores: [Score] = []
 }
