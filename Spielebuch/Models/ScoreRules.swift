@@ -10,6 +10,8 @@ import Foundation
 
 extension Game {
     struct ScoreRules {
+        let instructions = "In diesem Spiel werden zunächst die Punkte aufgeschrieben. Bei Gleichstand gewinnt der Spieler mit den wenigsten Karten. Herrscht auch dann noch Gleichstand so gewinnt der Spieler mit dem meisten Geld."
+        let components = [ScoreComponent(), ScoreComponent()]
     }
 }
 
