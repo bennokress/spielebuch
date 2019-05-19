@@ -24,7 +24,3 @@ extension Player {
 extension Score {
     static let standard = Score()
 }
-
-extension ScoreRules {
-    static let standard = ScoreRules()
-}

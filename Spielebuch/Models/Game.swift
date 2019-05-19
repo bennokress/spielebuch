@@ -11,15 +11,39 @@ import UIKit
 struct Game {
     let name = "Name of the Game"
     let type: GameType = .baseGame
-    let primaryHTMLColor = "#000000"
-    let secondaryHTMLColor = "#FFFFFF"
-    let scoreModelName = "simpleDescending" // see NOTE #1
-    let base64Image = ""
-    
-    // TODO: NOTE #1
-    // --> scoreModelName gets converted to ScoreModel later
-    // ScoreModel contains:
-    //  * scoreComponentDescriptions --> e.g. ["Points", "Coins", "Cards"]
-    //  * scoreComponentSorting --> e.g. [.descending, .descending, .ascending]
-    //  * scoreComponentInstruction --> short info text for the user to be displayed on tap
+    let scoreRules = ScoreRules()
+}
+
+extension Game {
+    enum GameType {
+        case baseGame
+        indirect case ruleset(of: Game)
+        indirect case `extension`(for: Game)
+    }
+}
+
+extension Game {
+    struct ScoreRules {
+        let instructions = "In diesem Spiel werden zunächst die Punkte aufgeschrieben. Bei Gleichstand gewinnt der Spieler mit den wenigsten Karten. Herrscht auch dann noch Gleichstand so gewinnt der Spieler mit dem meisten Geld."
+        let components = [ScoreComponent(), ScoreComponent()]
+    }
+}
+
+extension Game.ScoreRules {
+    struct ScoreComponent {
+        let sorting = ScoreSorting.ascending
+        let description = "Punkte"
+    }
+}
+
+extension Game.ScoreRules.ScoreComponent {
+    enum ScoreSorting: String {
+        
+        /// Least is best.
+        case ascending = "<"
+        
+        /// Most is best.
+        case descending = ">"
+        
+    }
 }
