@@ -33,5 +33,10 @@ class PlayerDataTests: XCTestCase {
         let player = PlayerData.standard
         XCTAssert(player.nickname == nil)
     }
+    
+    func testPlayerHasADisplayname() {
+        let player = PlayerData.standard
+        XCTAssert(player.displayname == "Benno")
+    }
 
 }
