@@ -11,4 +11,5 @@ import Foundation
 struct PlayerData {
     let firstName = "Benno"
     let lastName = "Kress"
+    let nickname: String? = nil
 }
