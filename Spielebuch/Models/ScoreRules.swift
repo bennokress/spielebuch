@@ -15,6 +15,8 @@ extension Game {
 
 extension Game.ScoreRules {
     struct ScoreComponent {
+        let sorting = ScoreSorting.ascending
+        let description = "Punkte"
     }
 }
 
