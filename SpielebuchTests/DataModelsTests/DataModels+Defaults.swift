@@ -17,6 +17,10 @@ extension MatchData {
     static let standard = MatchData()
 }
 
+extension PlayerData {
+    static let standard = PlayerData()
+}
+
 extension ScoreData {
     static let standard = ScoreData()
 }
