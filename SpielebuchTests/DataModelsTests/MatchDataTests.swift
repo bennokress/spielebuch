@@ -28,5 +28,10 @@ class MatchDataTests: XCTestCase {
         let match = MatchData.standard
         XCTAssert(match.game is GameData)
     }
+    
+    func testMatchHasScores() {
+        let match = MatchData.standard
+        XCTAssert(match.scores.isEmpty)
+    }
 
 }
