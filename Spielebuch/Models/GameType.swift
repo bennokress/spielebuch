@@ -10,6 +10,6 @@ import Foundation
 
 enum GameType {
     case baseGame
-    indirect case ruleset(of: GameData)
-    indirect case `extension`(for: GameData)
+    indirect case ruleset(of: Game)
+    indirect case `extension`(for: Game)
 }

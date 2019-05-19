@@ -1,5 +1,5 @@
 //
-//  PlayerData.swift
+//  Player.swift
 //  Spielebuch
 //
 //  Created by Benno Kress on 19.05.19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PlayerData {
+struct Player {
     let firstName = "Benno"
     let lastName = "Kress"
     let nickname: String? = nil
