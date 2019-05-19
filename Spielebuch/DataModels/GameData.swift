@@ -10,6 +10,7 @@ import UIKit
 
 struct GameData {
     let name = "Name of the Game"
+    let type: GameType = .baseGame
     let primaryHTMLColor = "#000000"
     let secondaryHTMLColor = "#FFFFFF"
     let scoreModelName = "simpleDescending" // see NOTE #1
