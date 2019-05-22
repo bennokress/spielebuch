@@ -28,8 +28,8 @@ class GameTests: XCTestCase {
         let game1 = Game.standard
         let game2 = Game(name: givenName)
         
-        XCTAssert(game1.name != givenName, "Name should be \(Game.standardName), but is \(game1.name)")
-        XCTAssert(game2.name == givenName, "Name should be \(givenName), but is \(game2.name)")
+        XCTAssert(game1.name != givenName, "Name should be \(Game.standardName.inQuotes), but is \(game1.name.inQuotes)")
+        XCTAssert(game2.name == givenName, "Name should be \(givenName.inQuotes), but is \(game2.name.inQuotes)")
     }
 
 }

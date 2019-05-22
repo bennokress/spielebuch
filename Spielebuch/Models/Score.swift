@@ -9,7 +9,7 @@
 import Foundation
 
 struct Score {
-    let player = Player()
+    let player: Player
     let isScoreOfStartingPlayer = false
     let value = 0.0
 }
