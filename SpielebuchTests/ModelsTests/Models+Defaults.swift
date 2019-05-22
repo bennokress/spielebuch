@@ -19,10 +19,12 @@ extension Game {
 }
 
 extension Match {
+    static let standardDate = Date(timeIntervalSince1970: 607876860) // = 06.04.1989, 16:41
+    static let standardScores = [Score.standard, Score(testPlayer: Player.standard, testIsScoreOfStartingPlayer: true, testValue: 85.0)]
     
     static let standard = Match()
-    init(testGame game: Game = Game.standard) {
-        self = Match(game: game)
+    init(testDate date: Date = standardDate, testGame game: Game = Game.standard, testScores scores: [Score] = standardScores) {
+        self = Match(date: date, game: game, scores: scores)
     }
 }
 

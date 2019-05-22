@@ -9,7 +9,7 @@
 import Foundation
 
 struct Match {
-    let date = Date(timeIntervalSince1970: 607876860)
+    let date: Date
     let game: Game
-    let scores: [Score] = []
+    let scores: [Score]
 }
