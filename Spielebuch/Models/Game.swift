@@ -10,6 +10,7 @@ import UIKit
 
 struct Game {
     let name: String
+    let groupAffiliation: GameGroup?
 //    let type: GameType = .baseGame
 //    let scoreRules = ScoreRules()
 }
