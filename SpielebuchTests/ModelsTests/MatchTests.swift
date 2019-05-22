@@ -24,11 +24,6 @@ class MatchTests: XCTestCase {
         XCTAssert(match.date == Date(timeIntervalSince1970: 607876860)) // 06.04.1989, 16:41
     }
     
-    func testMatchHasAGame() {
-        let match = Match.standard
-        XCTAssert(match.game is Game)
-    }
-    
     func testMatchHasScores() {
         let match = Match.standard
         XCTAssert(match.scores.isEmpty)
