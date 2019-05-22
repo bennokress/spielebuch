@@ -47,7 +47,7 @@ class MatchTests: XCTestCase {
         let match2 = Match(testScores: givenScores)
         
         XCTAssert(match1.scores.count != givenScores.count, "Match should have \(Match.standardScores.count) scores, but has \(match1.scores.count)")
-        XCTAssert(match2.scores.count == givenScores.count, "Match should have \(givenScores.count), but has \(match2.scores.count)")
+        XCTAssert(match2.scores.count == givenScores.count, "Match should have \(givenScores.count)scores, but has \(match2.scores.count)")
     }
 
 }

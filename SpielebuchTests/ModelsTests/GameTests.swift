@@ -23,10 +23,10 @@ class GameTests: XCTestCase {
     }
     
     func testGameHasTheGivenName() {
-        let givenName = "Not " + Game.standardName
+        let givenName = "Not \(Game.standardName)"
         
         let game1 = Game.standard
-        let game2 = Game(name: givenName)
+        let game2 = Game(testName: givenName)
         
         XCTAssert(game1.name != givenName, "Name should be \(Game.standardName.inQuotes), but is \(game1.name.inQuotes)")
         XCTAssert(game2.name == givenName, "Name should be \(givenName.inQuotes), but is \(game2.name.inQuotes)")

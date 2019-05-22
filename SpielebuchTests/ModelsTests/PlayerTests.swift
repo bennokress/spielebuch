@@ -45,7 +45,7 @@ class PlayerTests: XCTestCase {
     }
     
     func testPlayerHasTheGivenFirstName() {
-        let givenName = "Not " + Player.standardFirstName
+        let givenName = "Not \(Player.standardFirstName)"
         
         let player1 = Player.standard
         let player2 = Player(testFirstName: givenName)
@@ -55,7 +55,7 @@ class PlayerTests: XCTestCase {
     }
     
     func testPlayerHasTheGivenLastName() {
-        let givenName = "Not " + Player.standardLastName
+        let givenName = "Not \(Player.standardLastName)"
         
         let player1 = Player.standard
         let player2 = Player(testLastName: givenName)
@@ -65,7 +65,7 @@ class PlayerTests: XCTestCase {
     }
     
     func testPlayerHasTheGivenNickname() {
-        let givenName = "Not " + Player.standardNickname
+        let givenName = "Not \(Player.standardNickname)"
         
         let player1 = Player.standard
         let player2 = Player(testNickname: givenName)
@@ -85,7 +85,7 @@ class PlayerTests: XCTestCase {
     }
     
     func testPlayerHasTheGivenBase64Image() {
-        let givenBase64Image = "Not " + Player.standardNickname
+        let givenBase64Image = "Not \(Player.standardNickname)"
         let emptyBase64Image: String? = nil
         
         let player1 = Player.standard
