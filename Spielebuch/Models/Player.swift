@@ -9,9 +9,9 @@
 import Foundation
 
 struct Player {
-    let firstName = "Benno"
-    let lastName = "Kress"
-    let nickname: String? = nil
+    let firstName: String
+    let lastName: String
+    let nickname: String?
     var displayname: String { return nickname ?? firstName }
-    let base64Image = ""
+    let base64Image: String?
 }
