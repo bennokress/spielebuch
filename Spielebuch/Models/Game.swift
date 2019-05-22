@@ -9,7 +9,7 @@
 import UIKit
 
 struct Game {
-    let name = "Name of the Game"
+    let name: String
 //    let type: GameType = .baseGame
 //    let scoreRules = ScoreRules()
 }

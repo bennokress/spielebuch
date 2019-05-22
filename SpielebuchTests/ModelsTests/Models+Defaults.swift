@@ -10,11 +10,12 @@ import Foundation
 @testable import Spielebuch
 
 extension Game {
-    static let standard = Game()
+    static let standardName = "Standard Game"
+    static let standard = Game(name: standardName)
 }
 
 extension Match {
-    static let standard = Match()
+    static let standard = Match(game: Game.standard)
 }
 
 extension Player {
