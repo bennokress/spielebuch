@@ -19,14 +19,34 @@ class ScoreTests: XCTestCase {
         
     }
     
-    func testScoreHasStartingPlayerFlag() {
+    func testScoreHasAStartingPlayerFlag() {
         let score = Score.standard
-        XCTAssert(score.isScoreOfStartingPlayer == false)
+        XCTAssert(score.isScoreOfStartingPlayer == Score.standardIsScoreOfStartingPlayer)
     }
     
-    func testScoreHasValue() {
+    func testScoreHasAValue() {
         let score = Score.standard
-        XCTAssert(score.value == 0.0)
+        XCTAssert(score.value == Score.standardValue)
+    }
+    
+    func testScoreHasTheGivenStartingPlayerFlag() {
+        let givenFlag = !Score.standardIsScoreOfStartingPlayer
+        
+        let score1 = Score.standard
+        let score2 = Score(testIsScoreOfStartingPlayer: givenFlag)
+        
+        XCTAssert(score1.isScoreOfStartingPlayer != givenFlag, "Score should \(Score.standardIsScoreOfStartingPlayer ? "be" : "NOT be") the one of the starting player")
+        XCTAssert(score2.isScoreOfStartingPlayer == givenFlag, "Score should be \(givenFlag ? "be" : "NOT be") the one of the starting player")
+    }
+    
+    func testScoreHasTheGivenValue() {
+        let givenValue = Score.standardValue + 1
+        
+        let score1 = Score.standard
+        let score2 = Score(testValue: givenValue)
+        
+        XCTAssert(score1.value != givenValue, "Score should be \(Score.standardValue), but is \(score1.value)")
+        XCTAssert(score2.value == givenValue, "Score should be \(givenValue), but is \(score2.value)")
     }
 
 }

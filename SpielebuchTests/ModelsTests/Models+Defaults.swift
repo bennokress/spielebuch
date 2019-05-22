@@ -39,9 +39,11 @@ extension Player {
 }
 
 extension Score {
+    static let standardIsScoreOfStartingPlayer = false
+    static let standardValue = 89.4
     
-    static let standard = Score(player: Player.standard)
-    init(testPlayer player: Player = Player.standard) {
-        self = Score(player: player)
+    static let standard = Score()
+    init(testPlayer player: Player = Player.standard, testIsScoreOfStartingPlayer isScoreOfStartingPlayer: Bool = standardIsScoreOfStartingPlayer, testValue value: Double = standardValue) {
+        self = Score(player: player, isScoreOfStartingPlayer: isScoreOfStartingPlayer, value: value)
     }
 }
