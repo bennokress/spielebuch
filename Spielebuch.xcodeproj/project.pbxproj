@@ -26,6 +26,7 @@
 		8CC349FC1C802B83E799A330D4F6311C /* Models+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6080FD57DEFC9FEACB3C8FC92223ECAF /* Models+Defaults.swift */; };
 		8DB10ABB2F198B002401F69D8B2960D2 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE9E25B2F71F2169DF6298500EB4EA /* HomePresenter.swift */; };
 		A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */; };
+		ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */; };
 		ACFC7E969A7A3A145261AAC6EB720DE7 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DB9DCD5712A55916A60AAE41CB0071 /* Match.swift */; };
 		B869AF56CA63279608AD87A47BC52AE3 /* Type Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509704EB9F321586D68677594752BC13 /* Type Extensions.swift */; };
 		CE8C85867565B13BE32A3F239DA6484C /* VIPSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */; };
@@ -48,6 +49,7 @@
 		04E447E7F69D61B0C0C6A5B94AA8CF81 /* GameGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGroupTests.swift; sourceTree = "<group>"; };
 		115F9414EEEC7B2753E12E9DCA3423B0 /* Spielebuch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Spielebuch.xcdatamodel; sourceTree = "<group>"; };
 		123A58E94F8AE93E01E4DECC8B8B2D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PullToReach.framework; path = Carthage/Build/iOS/PullToReach.framework; sourceTree = "<group>"; };
 		217EFDD854197E70C8C24D3D8BCFC4B7 /* ScoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTests.swift; sourceTree = "<group>"; };
 		47FBEF1B20FA2EF264328AF13178409F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4CEE9E25B2F71F2169DF6298500EB4EA /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,9 +167,18 @@
 			path = "View - Home";
 			sourceTree = "<group>";
 		};
+		1E43F8FBDB5A010DB87368F493968584 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E15AE00286416F7B9BF6FE56383F9C76 = {
 			isa = PBXGroup;
 			children = (
+				1E43F8FBDB5A010DB87368F493968584 /* Frameworks */,
 				3B0C5B9189529F2D2FC6DCB24A91B982 /* Products */,
 				B510C4E0E2B77628CCFE606E9490DB00 /* Spielebuch */,
 				97EBF3B2DD23B288D64B7AB4BFEFBB9E /* SpielebuchTests */,
@@ -293,6 +305,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PullToReach.framework",
 			);
 			name = Carthage;
 			outputFileListPaths = (
@@ -439,6 +452,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Spielebuch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -457,6 +474,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EM47M4JQ9E;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Spielebuch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
