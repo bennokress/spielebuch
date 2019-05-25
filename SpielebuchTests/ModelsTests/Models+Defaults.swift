@@ -11,10 +11,20 @@ import Foundation
 
 extension Game {
     static let standardName = "Standard Game"
+    static let standardGroupAffiliation = GameGroup.standard
     
     static let standard = Game()
+    init(testName name: String = standardName, testGroupAffiliation groupAffiliation: GameGroup? = standardGroupAffiliation) {
+        self = Game(name: name, groupAffiliation: groupAffiliation)
+    }
+}
+
+extension GameGroup {
+    static let standardName = "Standard GameGroup"
+    
+    static let standard = GameGroup()
     init(testName name: String = standardName) {
-        self = Game(name: name)
+        self = GameGroup(name: name)
     }
 }
 

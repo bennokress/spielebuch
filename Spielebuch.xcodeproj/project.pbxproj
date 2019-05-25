@@ -15,7 +15,9 @@
 		190624C18C971F4E122EE06F96A4E089 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */; };
 		236F3E8D95DC0C98BDBDCEE25C51A967 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D225D33F61D074727EF83E5235CC115 /* Game.swift */; };
 		3618AF41C15F37A33E65F9F9D47BBB9B /* ScoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217EFDD854197E70C8C24D3D8BCFC4B7 /* ScoreTests.swift */; };
+		46108B95119B5A2AECAE155902562871 /* GameGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEE882FA46650F1F678B3245474E582 /* GameGroup.swift */; };
 		48E5C920B860C224AA153B212D2AD01C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C896A6CEB4917BBBA108DD777B034CF /* Main.storyboard */; };
+		65F017F1CF2BCB72BA4222D75E26AC5A /* GameGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E447E7F69D61B0C0C6A5B94AA8CF81 /* GameGroupTests.swift */; };
 		66DC8A2A485B9F48470BF79D0F125106 /* Spielebuch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D7CF9B8ACADF573883959B6AB30F055 /* Spielebuch.xcdatamodeld */; };
 		8CC349FC1C802B83E799A330D4F6311C /* Models+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6080FD57DEFC9FEACB3C8FC92223ECAF /* Models+Defaults.swift */; };
 		A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */; };
@@ -37,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04E447E7F69D61B0C0C6A5B94AA8CF81 /* GameGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGroupTests.swift; sourceTree = "<group>"; };
 		115F9414EEEC7B2753E12E9DCA3423B0 /* Spielebuch.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Spielebuch.xcdatamodel; sourceTree = "<group>"; };
 		123A58E94F8AE93E01E4DECC8B8B2D05 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		217EFDD854197E70C8C24D3D8BCFC4B7 /* ScoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreTests.swift; sourceTree = "<group>"; };
@@ -58,6 +61,7 @@
 		F650B1B1F6E39876B8BE70D8867392FE /* MatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchTests.swift; sourceTree = "<group>"; };
 		F7F033747AC483C496F37894CCE09636 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FB2EE79F29A6FA7125E05DEC3F7360F4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCEE882FA46650F1F678B3245474E582 /* GameGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameGroup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,7 @@
 		88E05A2224F30FF9A1F43C58423A5B48 /* ModelsTests */ = {
 			isa = PBXGroup;
 			children = (
+				04E447E7F69D61B0C0C6A5B94AA8CF81 /* GameGroupTests.swift */,
 				8D441795AC8CC24F16114BBDBD0D687B /* GameTests.swift */,
 				F650B1B1F6E39876B8BE70D8867392FE /* MatchTests.swift */,
 				6080FD57DEFC9FEACB3C8FC92223ECAF /* Models+Defaults.swift */,
@@ -138,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				4D225D33F61D074727EF83E5235CC115 /* Game.swift */,
+				FCEE882FA46650F1F678B3245474E582 /* GameGroup.swift */,
 				B0DB9DCD5712A55916A60AAE41CB0071 /* Match.swift */,
 				F7F033747AC483C496F37894CCE09636 /* Player.swift */,
 				74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */,
@@ -250,6 +256,7 @@
 			files = (
 				1621FEE10894216589A4CDF6E0EEDFAB /* AppDelegate.swift in Sources */,
 				236F3E8D95DC0C98BDBDCEE25C51A967 /* Game.swift in Sources */,
+				46108B95119B5A2AECAE155902562871 /* GameGroup.swift in Sources */,
 				ACFC7E969A7A3A145261AAC6EB720DE7 /* Match.swift in Sources */,
 				02DCACE5F86E06637A266E168CE4D7ED /* Player.swift in Sources */,
 				A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */,
@@ -263,6 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65F017F1CF2BCB72BA4222D75E26AC5A /* GameGroupTests.swift in Sources */,
 				FACE9C643A18EBB75745BFDE488CE0D3 /* GameTests.swift in Sources */,
 				EAF84487C9F5AD12F279BC0F23C2C573 /* MatchTests.swift in Sources */,
 				8CC349FC1C802B83E799A330D4F6311C /* Models+Defaults.swift in Sources */,

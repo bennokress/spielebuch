@@ -10,18 +10,10 @@ import UIKit
 
 struct Game {
     let name: String
-//    let type: GameType = .baseGame
+    let groupAffiliation: GameGroup?
 //    let scoreRules = ScoreRules()
 }
 
-//extension Game {
-//    enum GameType {
-//        case baseGame
-//        indirect case ruleset(of: Game)
-//        indirect case `extension`(for: Game)
-//    }
-//}
-//
 //extension Game {
 //    struct ScoreRules {
 //        let instructions = "In diesem Spiel werden zunächst die Punkte aufgeschrieben. Bei Gleichstand gewinnt der Spieler mit den wenigsten Karten. Herrscht auch dann noch Gleichstand so gewinnt der Spieler mit dem meisten Geld."
