@@ -17,6 +17,10 @@ class GamesInterpreterImplementation {
         self.presenter = presenter
     }
     
+    private func getGamesList() -> [Game] {
+        return Mock.games
+    }
+    
 }
 
 // MARK: - GamesInterpreter Protocol
@@ -31,7 +35,8 @@ protocol GamesInterpreter: class {
 extension GamesInterpreterImplementation: GamesInterpreter {
     
     func viewWillAppear(with setupData: VIPViewSetupData?) {
-        presenter.setup(with: setupData)
+        let gamesViewSetup = setupData ?? .games(list: getGamesList())
+        presenter.setup(with: gamesViewSetup)
     }
     
 }
