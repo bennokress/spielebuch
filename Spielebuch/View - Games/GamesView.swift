@@ -14,7 +14,7 @@ class GamesViewController: VIPViewController {
     private var interpreter: GamesInterpreter?
     private let gamesTableView = UITableView()
     
-    private let games = ["Azul", "Rommé", "Istanbul", "Texas Hold'Em Poker"]
+    private var games: [Game] = []
     
     override func loadView() {
         super.loadView()
@@ -70,16 +70,16 @@ protocol GamesView: class {
     /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
     func setPassOnData(to passOnData: VIPViewSetupData?)
     
-    /// Normally used to display the value, but used in console for demonstration purposes here.
-    func doSomething(with someBoolValue: Bool)
+    /// Set the games to be displayed
+    func updateGames(from newGamesList: [Game])
     
 }
 
 // MARK: - GamesView Conformance
 extension GamesViewController: GamesView {
     
-    func doSomething(with someBoolValue: Bool) {
-        print(someBoolValue ? "yup" : "nope")
+    func updateGames(from newGamesList: [Game]) {
+        self.games = newGamesList
     }
     
 }
@@ -93,7 +93,7 @@ extension GamesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
-        gameCell.textLabel?.text = games[indexPath.row]
+        gameCell.textLabel?.text = games[indexPath.row].name
         return gameCell
     }
     

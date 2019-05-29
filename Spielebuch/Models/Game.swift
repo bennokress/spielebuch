@@ -12,6 +12,11 @@ struct Game {
     let name: String
     let groupAffiliation: GameGroup?
 //    let scoreRules = ScoreRules()
+    
+    init(named name: String, asPartOf groupAffiliation: GameGroup? = nil) {
+        self.name = name
+        self.groupAffiliation = groupAffiliation
+    }
 }
 
 //extension Game {

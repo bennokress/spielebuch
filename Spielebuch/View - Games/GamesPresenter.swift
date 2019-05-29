@@ -31,8 +31,8 @@ protocol GamesPresenter: class {
 extension GamesPresenterImplementation: GamesPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
-        guard let data = setupData, case let VIPViewSetupData.games(someBoolValue) = data else { return }
-        view.doSomething(with: someBoolValue)
+        guard let data = setupData, case let VIPViewSetupData.games(list) = data else { return }
+        view.updateGames(from: list)
     }
     
 }
