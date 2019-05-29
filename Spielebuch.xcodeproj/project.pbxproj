@@ -30,6 +30,7 @@
 		B36F62F6D628D21AD9A5F0AAFCDA5793 /* GamesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED817874721D1F68963C1206C151AFC /* GamesPresenter.swift */; };
 		B869AF56CA63279608AD87A47BC52AE3 /* Type Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509704EB9F321586D68677594752BC13 /* Type Extensions.swift */; };
 		CE8C85867565B13BE32A3F239DA6484C /* VIPSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */; };
+		D60E4D537A9985DB62F0CEB1D24D91D0 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 894DC39CF8E8E24AEBC67D2F9E53F96B /* SnapKit.framework */; };
 		EAF84487C9F5AD12F279BC0F23C2C573 /* MatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F650B1B1F6E39876B8BE70D8867392FE /* MatchTests.swift */; };
 		EF791F29C1141CAD55D1A3288A3ACC52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB0838AED6EA30674528D184F71B421A /* LaunchScreen.storyboard */; };
 		FACE9C643A18EBB75745BFDE488CE0D3 /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D441795AC8CC24F16114BBDBD0D687B /* GameTests.swift */; };
@@ -61,6 +62,7 @@
 		6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPSegue.swift; sourceTree = "<group>"; };
 		74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		894DC39CF8E8E24AEBC67D2F9E53F96B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
 		8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/iOS/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		8D441795AC8CC24F16114BBDBD0D687B /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 		A95896FC88B5CA82B23F0859F626C4EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */,
+				D60E4D537A9985DB62F0CEB1D24D91D0 /* SnapKit.framework in Frameworks */,
 				8903D330A3D8E30312DE74E8DCC9B347 /* SwiftyBeaver.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -102,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */,
+				894DC39CF8E8E24AEBC67D2F9E53F96B /* SnapKit.framework */,
 				8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */,
 			);
 			name = Frameworks;
@@ -306,6 +310,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PullToReach.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyBeaver.framework",
 			);
 			name = Carthage;

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class GamesViewController: VIPViewController {
     
@@ -40,11 +41,9 @@ class GamesViewController: VIPViewController {
     private func setupGamesTableView() {
         view.addSubview(gamesTableView)
         
-        gamesTableView.translatesAutoresizingMaskIntoConstraints = false
-        gamesTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        gamesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        gamesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        gamesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        gamesTableView.snp.makeConstraints { (constraint) in
+            constraint.edges.equalTo(self.view)
+        }
         
         gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
         gamesTableView.dataSource = self
