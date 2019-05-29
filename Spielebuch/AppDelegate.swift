@@ -22,6 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupLogging()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let gamesViewController = GamesViewController()
+        let gamesNavigationController = UINavigationController(rootViewController: gamesViewController)
+        gamesNavigationController.title = "Games"
+        // TODO: Set Tab Bar Image for Games Tab
+        
+        // TODO: Instantiate the View Controllers for all other tabs …
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [gamesNavigationController]
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

@@ -10,6 +10,6 @@ import Foundation
 
 enum VIPViewSetupData {
     
-    case home(someBoolValue: Bool)
+    case games(someBoolValue: Bool)
     
 }

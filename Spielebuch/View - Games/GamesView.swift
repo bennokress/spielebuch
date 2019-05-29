@@ -1,20 +1,25 @@
 //
-//  HomeView.swift
+//  GamesView.swift
 //  Spielebuch
 //
-//  Created by Benno Kress on 25.05.19.
+//  Created by Benno Kress on 29.05.19.
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
 import UIKit
 
-class HomeViewController: VIPViewController {
+class GamesViewController: VIPViewController {
     
-    private var interpreter: HomeInterpreter?
+    private var interpreter: GamesInterpreter?
+    
+    override func loadView() {
+        super.loadView()
+        initializeVIP()
+        self.title = "Games"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeVIP()
         // Do any additional setup after loading the view
     }
     
@@ -27,19 +32,19 @@ class HomeViewController: VIPViewController {
     
     /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
-        let presenter = HomePresenterImplementation(for: self as HomeView)
-        self.interpreter = HomeInterpreterImplementation(with: presenter)
+        let presenter = GamesPresenterImplementation(for: self as GamesView)
+        self.interpreter = GamesInterpreterImplementation(with: presenter)
     }
     
     /// Unwind Segue Setup
-    @IBAction func unwindToHomeView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToHome.prepare(from: sender, to: self as VIPViewController)
+    @IBAction func unwindToGamesView(sender: UIStoryboardSegue) {
+        VIPSegue.unwindToGames.prepare(from: sender, to: self as VIPViewController)
     }
     
 }
 
-// MARK: - HomeView Protocol
-protocol HomeView: class {
+// MARK: - GamesView Protocol
+protocol GamesView: class {
     
     /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
     func setPassOnData(to passOnData: VIPViewSetupData?)
@@ -49,8 +54,8 @@ protocol HomeView: class {
     
 }
 
-// MARK: - HomeView Conformance
-extension HomeViewController: HomeView {
+// MARK: - GamesView Conformance
+extension GamesViewController: GamesView {
     
     func doSomething(with someBoolValue: Bool) {
         print(someBoolValue ? "yup" : "nope")

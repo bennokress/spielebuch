@@ -16,7 +16,7 @@ enum VIPSegue: String {
     // MARK: Normal Segues
     
     // MARK: Unwind Segues
-    case unwindToHome
+    case unwindToGames
     
     // MARK: - Public functions
     
