@@ -11,11 +11,16 @@ import UIKit
 class GamesViewController: VIPViewController {
     
     private var interpreter: GamesInterpreter?
+    private let gamesTableView = UITableView()
+    
+    private let games = ["Azul", "Rommé", "Istanbul", "Texas Hold'Em Poker"]
     
     override func loadView() {
         super.loadView()
         initializeVIP()
         self.title = "Games"
+        view.backgroundColor = .white
+        setupView()
     }
     
     override func viewDidLoad() {
@@ -26,6 +31,23 @@ class GamesViewController: VIPViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         interpreter?.viewWillAppear(with: setupData)
+    }
+    
+    private func setupView() {
+        setupGamesTableView()
+    }
+    
+    private func setupGamesTableView() {
+        view.addSubview(gamesTableView)
+        
+        gamesTableView.translatesAutoresizingMaskIntoConstraints = false
+        gamesTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        gamesTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        gamesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        gamesTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
+        gamesTableView.dataSource = self
     }
     
     // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
@@ -63,3 +85,17 @@ extension GamesViewController: GamesView {
     
 }
 
+// MARK: - UITableViewDataSource Conformance
+extension GamesViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return games.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
+        gameCell.textLabel?.text = games[indexPath.row]
+        return gameCell
+    }
+    
+}
