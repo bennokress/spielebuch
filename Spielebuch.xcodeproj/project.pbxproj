@@ -23,6 +23,7 @@
 		64F30952C0F0A24C7EBD548637191AEF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1590884360BECCCE28E39412E62C01 /* HomeView.swift */; };
 		65F017F1CF2BCB72BA4222D75E26AC5A /* GameGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E447E7F69D61B0C0C6A5B94AA8CF81 /* GameGroupTests.swift */; };
 		66DC8A2A485B9F48470BF79D0F125106 /* Spielebuch.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D7CF9B8ACADF573883959B6AB30F055 /* Spielebuch.xcdatamodeld */; };
+		8903D330A3D8E30312DE74E8DCC9B347 /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */; };
 		8CC349FC1C802B83E799A330D4F6311C /* Models+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6080FD57DEFC9FEACB3C8FC92223ECAF /* Models+Defaults.swift */; };
 		8DB10ABB2F198B002401F69D8B2960D2 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEE9E25B2F71F2169DF6298500EB4EA /* HomePresenter.swift */; };
 		A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */; };
@@ -61,6 +62,7 @@
 		6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPSegue.swift; sourceTree = "<group>"; };
 		74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
+		8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/iOS/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		8D441795AC8CC24F16114BBDBD0D687B /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 		9BDE7A7FAE83701E5F68043D7BCE2BA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A95896FC88B5CA82B23F0859F626C4EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,12 +93,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */,
+				8903D330A3D8E30312DE74E8DCC9B347 /* SwiftyBeaver.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E43F8FBDB5A010DB87368F493968584 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */,
+				8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3B0C5B9189529F2D2FC6DCB24A91B982 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,14 +177,6 @@
 				EB1590884360BECCCE28E39412E62C01 /* HomeView.swift */,
 			);
 			path = "View - Home";
-			sourceTree = "<group>";
-		};
-		1E43F8FBDB5A010DB87368F493968584 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E15AE00286416F7B9BF6FE56383F9C76 = {
@@ -306,6 +310,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PullToReach.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyBeaver.framework",
 			);
 			name = Carthage;
 			outputFileListPaths = (
