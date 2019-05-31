@@ -6,21 +6,22 @@
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
-import UIKit
+import PullToReach
 import SnapKit
+import UIKit
 
 class GamesViewController: VIPViewController {
     
     private var interpreter: GamesInterpreter?
     private let gamesTableView = UITableView()
     
+    private let searchController = UISearchController(searchResultsController: nil)
+    
     private var games: [Game] = []
     
     override func loadView() {
         super.loadView()
         initializeVIP()
-        self.title = "Games"
-        view.backgroundColor = .white
         setupView()
     }
     
@@ -35,7 +36,29 @@ class GamesViewController: VIPViewController {
     }
     
     private func setupView() {
+        view.backgroundColor = .white
         setupGamesTableView()
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        self.title = "Games"
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .always
+        
+        let addBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
+        let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
+        self.navigationItem.rightBarButtonItems = [addBarButtonItem, searchBarButtonItem]
+        
+        self.activatePullToReach(on: navigationItem)
+    }
+    
+    private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
+        let item = UIBarButtonItem(image: UIImage(named: assetName), style: .plain, target: self, action: action)
+        item.tintColor = .black
+        item.width = 24
+        return item
     }
     
     private func setupGamesTableView() {
@@ -47,6 +70,7 @@ class GamesViewController: VIPViewController {
         
         gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
         gamesTableView.dataSource = self
+        gamesTableView.tableHeaderView = searchController.searchBar
     }
     
     // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
@@ -95,6 +119,41 @@ extension GamesViewController: UITableViewDataSource {
         let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
         gameCell.textLabel?.text = games[indexPath.row].name
         return gameCell
+    }
+    
+}
+
+extension GamesViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: Implement and link GameDetailViewController
+        // let gameDetailViewController = GameDetailViewController()
+        // self.navigationController?.pushViewController(profileViewController, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+}
+
+// MARK: - PullToReach Conformance
+extension GamesViewController: PullToReach {
+    var scrollView: UIScrollView {
+        return gamesTableView
+    }
+}
+
+// MARK: - Bar Button Items
+extension GamesViewController {
+    
+    @objc func addItem() {
+        // TODO: Implement and link AddGameViewController
+        // let addGameViewController = AddGameViewController()
+        // let navigationController = UINavigationController(rootViewController: addViewController)
+        // self.navigationController?.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func searchItems() {
+        searchController.searchBar.becomeFirstResponder()
     }
     
 }
