@@ -126,6 +126,7 @@ extension GamesViewController: UITableViewDataSource {
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        log.info("Games Table Row \(indexPath.row) tapped")
         // TODO: Implement and link GameDetailViewController
         // let gameDetailViewController = GameDetailViewController()
         // self.navigationController?.pushViewController(profileViewController, animated: true)
@@ -146,6 +147,7 @@ extension GamesViewController: PullToReach {
 extension GamesViewController {
     
     @objc func addItem() {
+        log.info("Add Game Button tapped")
         // TODO: Implement and link AddGameViewController
         // let addGameViewController = AddGameViewController()
         // let navigationController = UINavigationController(rootViewController: addViewController)

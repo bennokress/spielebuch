@@ -50,15 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupLogging() {
         let console = ConsoleDestination()  // log to Xcode Console
-        console.format = "$DHH:mm:ss$d $C$M$c"
+        console.format = "$DHH:mm:ss$d $C$L$c → $N.$F:$l\n         $C$M$c"
         log.addDestination(console)
-        
-        // Display Color Information in Xcode Console
-        log.verbose("= VERBOSE")
-        log.debug("= DEBUG")
-        log.info("= INFO")
-        log.warning("= WARNING")
-        log.error("= ERROR")
     }
 
     // MARK: - Core Data stack
