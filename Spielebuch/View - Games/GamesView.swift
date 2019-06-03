@@ -16,7 +16,8 @@ class GamesViewController: VIPViewController {
     
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private var games: [Game] = []
+    private var groupedGames: [String: [Game]] = [:]
+    private var sections: [String] { return groupedGames.keys.sorted { $0 < $1 } }
     
     override func loadView() {
         super.loadView()
@@ -96,15 +97,15 @@ protocol GamesView: class {
     func setPassOnData(to passOnData: VIPViewSetupData?)
     
     /// Set the games to be displayed
-    func updateGames(from newGamesList: [Game])
+    func updateGames(from groupedGames: [String: [Game]])
     
 }
 
 // MARK: - GamesView Conformance
 extension GamesViewController: GamesView {
     
-    func updateGames(from newGamesList: [Game]) {
-        self.games = newGamesList
+    func updateGames(from groupedGames: [String: [Game]]) {
+        self.groupedGames = groupedGames
     }
     
 }
@@ -112,13 +113,33 @@ extension GamesViewController: GamesView {
 // MARK: - UITableViewDataSource Conformance
 extension GamesViewController: UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return sections
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return games.count
+        let sectionTitle = sections[section]
+        guard let gameCountForSection = groupedGames[sectionTitle]?.count else {
+            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
+            fatalError()
+        }
+        return gameCountForSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let sectionTitle = sections[indexPath.section]
+        guard let sectionGames = groupedGames[sectionTitle] else {
+            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
+            fatalError()
+        }
+        let game = sectionGames[indexPath.row]
+        
         let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
-        gameCell.textLabel?.text = games[indexPath.row].name
+        gameCell.textLabel?.text = game.name
         gameCell.accessoryType = .disclosureIndicator
         return gameCell
     }
