@@ -41,15 +41,18 @@ class GamesViewController: VIPViewController {
     }
     
     private func setupNavigationBar() {
-        self.title = "Games"
+        title = "Games"
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
         
         let addBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
         let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
-        self.navigationItem.rightBarButtonItems = [addBarButtonItem, searchBarButtonItem]
+        navigationItem.rightBarButtonItem = addBarButtonItem
+        navigationItem.leftBarButtonItem = searchBarButtonItem
         
+        let searchController = UISearchController(searchResultsController: nil)
+        navigationItem.searchController = searchController
     }
     
     private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
@@ -68,7 +71,7 @@ class GamesViewController: VIPViewController {
         
         gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
         gamesTableView.dataSource = self
-        gamesTableView.tableHeaderView = searchController.searchBar
+        gamesTableView.delegate = self
     }
     
     // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
@@ -148,7 +151,7 @@ extension GamesViewController {
     }
     
     @objc func searchItems() {
-        searchController.searchBar.becomeFirstResponder()
+        navigationItem.searchController?.searchBar.becomeFirstResponder()
     }
     
 }
