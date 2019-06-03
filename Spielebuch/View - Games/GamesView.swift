@@ -6,7 +6,6 @@
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
-import PullToReach
 import SnapKit
 import UIKit
 
@@ -51,7 +50,6 @@ class GamesViewController: VIPViewController {
         let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
         self.navigationItem.rightBarButtonItems = [addBarButtonItem, searchBarButtonItem]
         
-        self.activatePullToReach(on: navigationItem)
     }
     
     private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
@@ -134,13 +132,6 @@ extension GamesViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-}
-
-// MARK: - PullToReach Conformance
-extension GamesViewController: PullToReach {
-    var scrollView: UIScrollView {
-        return gamesTableView
-    }
 }
 
 // MARK: - Bar Button Items
