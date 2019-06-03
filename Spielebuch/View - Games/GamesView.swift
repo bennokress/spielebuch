@@ -116,11 +116,13 @@ extension GamesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
         gameCell.textLabel?.text = games[indexPath.row].name
+        gameCell.accessoryType = .disclosureIndicator
         return gameCell
     }
     
 }
 
+// MARK: - UITableViewDelegate Conformance
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
