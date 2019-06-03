@@ -26,7 +26,6 @@
 		8A7C846036661C8451AA32C695C442A4 /* Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D17E512A0E9AE46C89B3C46F218CA43 /* Mock.swift */; };
 		8CC349FC1C802B83E799A330D4F6311C /* Models+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6080FD57DEFC9FEACB3C8FC92223ECAF /* Models+Defaults.swift */; };
 		A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */; };
-		ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12D2EE4975CD60DC8BAE50D699CA8386 /* PullToReach.framework */; };
 		ACFC7E969A7A3A145261AAC6EB720DE7 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DB9DCD5712A55916A60AAE41CB0071 /* Match.swift */; };
 		B36F62F6D628D21AD9A5F0AAFCDA5793 /* GamesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED817874721D1F68963C1206C151AFC /* GamesPresenter.swift */; };
 		B869AF56CA63279608AD87A47BC52AE3 /* Type Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509704EB9F321586D68677594752BC13 /* Type Extensions.swift */; };
@@ -94,7 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACF8391C7CB5C829F25335EE73AF8B26 /* PullToReach.framework in Frameworks */,
 				D60E4D537A9985DB62F0CEB1D24D91D0 /* SnapKit.framework in Frameworks */,
 				8903D330A3D8E30312DE74E8DCC9B347 /* SwiftyBeaver.framework in Frameworks */,
 			);
@@ -142,6 +140,14 @@
 			path = "View - Games";
 			sourceTree = "<group>";
 		};
+		5728C8882A1059838D7DE1649616D284 /* Data Layer */ = {
+			isa = PBXGroup;
+			children = (
+				1D17E512A0E9AE46C89B3C46F218CA43 /* Mock.swift */,
+			);
+			path = "Data Layer";
+			sourceTree = "<group>";
+		};
 		88E05A2224F30FF9A1F43C58423A5B48 /* ModelsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,14 +187,6 @@
 				47FBEF1B20FA2EF264328AF13178409F /* ViewController.swift */,
 			);
 			path = Spielebuch;
-			sourceTree = "<group>";
-		};
-		5728C8882A1059838D7DE1649616D284 /* Data Layer */ = {
-			isa = PBXGroup;
-			children = (
-				1D17E512A0E9AE46C89B3C46F218CA43 /* Mock.swift */,
-			);
-			path = "Data Layer";
 			sourceTree = "<group>";
 		};
 		E15AE00286416F7B9BF6FE56383F9C76 = {
@@ -320,7 +318,6 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/PullToReach.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SnapKit.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyBeaver.framework",
 			);
