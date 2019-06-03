@@ -17,6 +17,23 @@ class GamesPresenterImplementation {
         self.view = view
     }
     
+    private func group(games: [Game]) -> [String : [Game]] {
+        let sortedGames = games.sorted { $0.name < $1.name }
+        var groupedGames: [String : [Game]] = [:]
+        for game in sortedGames {
+            // TODO: Allow more game names, strip whitespace and new lines, test symbols in name
+            if let firstCharacter = game.name.first, (firstCharacter.isLetter || firstCharacter.isNumber) {
+                let firstLetter = String(firstCharacter)
+                var gamesWithTheSameFirstLetter = groupedGames[firstLetter] ?? []
+                gamesWithTheSameFirstLetter.append(game)
+                groupedGames[firstLetter] = gamesWithTheSameFirstLetter
+            } else {
+                log.warning("Game named \"\(game.name)\" was skipped.")
+            }
+        }
+        return groupedGames
+    }
+    
 }
 
 // MARK: - GamesPresenter Protocol
@@ -32,7 +49,8 @@ extension GamesPresenterImplementation: GamesPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
         guard let data = setupData, case let VIPViewSetupData.games(list) = data else { return }
-        view.updateGames(from: list)
+        let groupedGames = group(games: list)
+        view.updateGames(from: groupedGames)
     }
     
 }
