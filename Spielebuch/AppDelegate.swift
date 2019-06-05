@@ -22,6 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupLogging()
+        window = UIWindow(frame: UIScreen.main.bounds)
+        
+        let gamesViewController = GamesViewController()
+        let gamesNavigationController = UINavigationController(rootViewController: gamesViewController)
+        gamesNavigationController.title = "Games"
+        // TODO: Set Tab Bar Image for Games Tab
+        
+        // TODO: Instantiate the View Controllers for all other tabs …
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [gamesNavigationController]
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 
@@ -35,15 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupLogging() {
         let console = ConsoleDestination()  // log to Xcode Console
-        console.format = "$DHH:mm:ss$d $C$M$c"
+        console.format = "$DHH:mm:ss$d $C$L$c → $N.$F:$l\n         $C$M$c"
         log.addDestination(console)
-        
-        // Display Color Information in Xcode Console
-        log.verbose("= VERBOSE")
-        log.debug("= DEBUG")
-        log.info("= INFO")
-        log.warning("= WARNING")
-        log.error("= ERROR")
     }
 
     // MARK: - Core Data stack
