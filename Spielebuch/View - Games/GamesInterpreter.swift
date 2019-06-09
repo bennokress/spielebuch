@@ -17,8 +17,15 @@ class GamesInterpreterImplementation {
         self.presenter = presenter
     }
     
-    private func getGamesList() -> [Game] {
+    private var gamesList: [Game] {
         return Mock.games
+    }
+    
+    // MARK: - Search Behavior
+    
+    func filteredGames(for searchTerm: String) -> [Game] {
+        log.verbose("Searching for \"\(searchTerm)\"")
+        return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
     }
     
 }
@@ -29,14 +36,22 @@ protocol GamesInterpreter: class {
     /// Takes the necessary actions when the GamesView is finished loading
     func viewWillAppear(with setupData: VIPViewSetupData?)
     
+    /// Retrieves a filtered list of games based on the search term
+    func userSearches(for searchTerm: String)
+    
 }
 
 // MARK: - GamesInterpreter Conformance
 extension GamesInterpreterImplementation: GamesInterpreter {
     
     func viewWillAppear(with setupData: VIPViewSetupData?) {
-        let gamesViewSetup = setupData ?? .games(list: getGamesList())
+        let gamesViewSetup = setupData ?? .games(list: gamesList)
         presenter.setup(with: gamesViewSetup)
+    }
+    
+    func userSearches(for searchTerm: String) {
+        let filteredGamesList = searchTerm.count > 0 ? filteredGames(for: searchTerm) :  gamesList
+        presenter.updateTable(with: filteredGamesList)
     }
     
 }

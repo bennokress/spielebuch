@@ -35,12 +35,27 @@ class GamesViewController: VIPViewController {
         interpreter?.viewWillAppear(with: setupData)
     }
     
+    // MARK: - Setup
+    
+    // MARK: View
     private func setupView() {
         view.backgroundColor = .white
         setupGamesTableView()
         setupNavigationBar()
+        setupSearchController()
     }
     
+    // MARK: Search Controller
+    private func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Games"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
+    // MARK: Navigation Bar
     private func setupNavigationBar() {
         title = "Games"
         
@@ -51,11 +66,9 @@ class GamesViewController: VIPViewController {
         let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
         navigationItem.rightBarButtonItem = addBarButtonItem
         navigationItem.leftBarButtonItem = searchBarButtonItem
-        
-        let searchController = UISearchController(searchResultsController: nil)
-        navigationItem.searchController = searchController
     }
     
+    // MARK: Navigation Items
     private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
         let item = UIBarButtonItem(image: UIImage(named: assetName), style: .plain, target: self, action: action)
         item.tintColor = .black
@@ -63,6 +76,7 @@ class GamesViewController: VIPViewController {
         return item
     }
     
+    // MARK: Games Table View
     private func setupGamesTableView() {
         view.addSubview(gamesTableView)
         
@@ -75,7 +89,7 @@ class GamesViewController: VIPViewController {
         gamesTableView.delegate = self
     }
     
-    // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
+    // MARK: - VIP Cycle
     
     /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
@@ -90,7 +104,27 @@ class GamesViewController: VIPViewController {
     
 }
 
-// MARK: - GamesView Protocol
+// MARK: - Bar Button Items
+extension GamesViewController {
+    
+    @objc func addItem() {
+        log.info("Add Game Button tapped")
+        // TODO: Implement and link AddGameViewController
+        // let addGameViewController = AddGameViewController()
+        // let navigationController = UINavigationController(rootViewController: addViewController)
+        // self.navigationController?.present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc func searchItems() {
+        navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
+}
+
+// MARK: - Protocol Conformances
+
+// MARK: GamesView
+
 protocol GamesView: class {
     
     /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
@@ -101,16 +135,16 @@ protocol GamesView: class {
     
 }
 
-// MARK: - GamesView Conformance
 extension GamesViewController: GamesView {
     
     func updateGames(from groupedGames: [String: [Game]]) {
         self.groupedGames = groupedGames
+        gamesTableView.reloadData()
     }
     
 }
 
-// MARK: - UITableViewDataSource Conformance
+// MARK: UITableViewDataSource
 extension GamesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -146,11 +180,14 @@ extension GamesViewController: UITableViewDataSource {
     
 }
 
-// MARK: - UITableViewDelegate Conformance
+// MARK: UITableViewDelegate
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        log.info("Games Table Row \(indexPath.row) tapped")
+        let firstLetter = sections[indexPath.section]
+        let game = groupedGames[firstLetter]?[indexPath.row]
+        log.info("Games Table Row \(indexPath.section):\(indexPath.row) tapped: \(game?.name ?? "Unknown Game!")")
+        
         // TODO: Implement and link GameDetailViewController
         // let gameDetailViewController = GameDetailViewController()
         // self.navigationController?.pushViewController(profileViewController, animated: true)
@@ -160,19 +197,15 @@ extension GamesViewController: UITableViewDelegate {
     
 }
 
-// MARK: - Bar Button Items
-extension GamesViewController {
+// MARK: UISearchResultsUpdating
+extension GamesViewController: UISearchResultsUpdating {
     
-    @objc func addItem() {
-        log.info("Add Game Button tapped")
-        // TODO: Implement and link AddGameViewController
-        // let addGameViewController = AddGameViewController()
-        // let navigationController = UINavigationController(rootViewController: addViewController)
-        // self.navigationController?.present(navigationController, animated: true, completion: nil)
-    }
-    
-    @objc func searchItems() {
-        navigationItem.searchController?.searchBar.becomeFirstResponder()
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchTerm = searchController.searchBar.text else {
+            log.error("It seems like a search text was typed, but could not be retrieved.")
+            return
+        }
+        interpreter?.userSearches(for: searchTerm)
     }
     
 }
