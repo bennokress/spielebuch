@@ -42,6 +42,8 @@ protocol GamesPresenter: class {
     /// Display the provided data on the GamesView
     func setup(with setupData: VIPViewSetupData?)
     
+    func updateTable(with gamesList: [Game])
+    
 }
 
 // MARK: - GamesPresenter Conformance
@@ -50,6 +52,12 @@ extension GamesPresenterImplementation: GamesPresenter {
     func setup(with setupData: VIPViewSetupData?) {
         guard let data = setupData, case let VIPViewSetupData.games(list) = data else { return }
         let groupedGames = group(games: list)
+        view.updateGames(from: groupedGames)
+    }
+    
+    func updateTable(with gamesList: [Game]) {
+        log.verbose("Letting the Games Table View display \(gamesList.count) games")
+        let groupedGames = group(games: gamesList)
         view.updateGames(from: groupedGames)
     }
     
