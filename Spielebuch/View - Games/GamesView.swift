@@ -139,7 +139,7 @@ extension GamesViewController: GamesView {
     
     func updateGames(from groupedGames: [String: [Game]]) {
         self.groupedGames = groupedGames
-        gamesTableView.reloadData()
+        reloadGamesTableViewData()
     }
     
 }
