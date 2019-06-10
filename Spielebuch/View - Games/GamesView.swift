@@ -89,6 +89,12 @@ class GamesViewController: VIPViewController {
         gamesTableView.delegate = self
     }
     
+    private func reloadGamesTableViewData() {
+        DispatchQueue.main.async {
+            self.gamesTableView.reloadData()
+        }
+    }
+    
     // MARK: - VIP Cycle
     
     /// Initializes corresponding Interpreter and Presenter
