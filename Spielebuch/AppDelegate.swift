@@ -17,26 +17,12 @@ let log = SwiftyBeaver.self
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
-    // MARK: - Application Lifecycle
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupLogging()
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let gamesViewController = GamesViewController()
-        let gamesNavigationController = UINavigationController(rootViewController: gamesViewController)
-        gamesNavigationController.title = "Games"
-        // TODO: Set Tab Bar Image for Games Tab
-        
-        // TODO: Instantiate the View Controllers for all other tabs …
-        
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [gamesNavigationController]
-        
-        window?.rootViewController = tabBarController
+        setupTabBar(with: viewControllersForTabBar)
         window?.makeKeyAndVisible()
-        
         return true
     }
 
@@ -45,16 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
     }
-    
-    // MARK: - Logging
-    
-    private func setupLogging() {
-        let console = ConsoleDestination()  // log to Xcode Console
-        console.format = "$DHH:mm:ss$d $C$L$c → $N.$F:$l\n         $C$M$c"
-        log.addDestination(console)
-    }
 
-    // MARK: - Core Data stack
+    // MARK: Core Data
 
     lazy var persistentContainer: NSPersistentContainer = {
         /*
@@ -83,8 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return container
     }()
 
-    // MARK: - Core Data Saving support
-
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -101,3 +77,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// MARK: Tab Bar
+extension AppDelegate {
+    
+    enum TabBarItemParameters: String {
+        case home = "Home"
+        case scores = "Scores"
+        case games = "Games"
+        case players = "Players"
+        
+        var title: String { return rawValue }
+        
+        var icon: UIImage? {
+            switch self {
+            case .home: return UIImage()
+            case .scores: return UIImage()
+            case .games: return UIImage(named: "TabBarItem-Games")
+            case .players: return UIImage()
+            }
+        }
+    }
+    
+    private var viewControllersForTabBar: [UIViewController] {
+        let gamesViewController = GamesViewController()
+        let gamesNavigationController = UINavigationController(rootViewController: gamesViewController)
+        gamesNavigationController.title = TabBarItemParameters.games.title
+        
+        // TODO: Instantiate the View Controllers for all other tabs …
+        
+        return [gamesNavigationController]
+    }
+    
+    private func setupTabBar(with viewControllers: [UIViewController]) {
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = viewControllers
+        guard viewControllers.count > 0, let tabBarItems = tabBarController.tabBar.items else {
+            log.error("No View Controllers defined for Tab Bar, will be empty ...")
+            window?.rootViewController = tabBarController
+            return
+        }
+        
+        for item in tabBarItems {
+            let rawTitle = item.title ?? ""
+            if let parameters = TabBarItemParameters(rawValue: rawTitle) {
+                item.image = parameters.icon
+                item.selectedImage = parameters.icon
+            } else {
+                log.warning("No TabBarItem named \"\(rawTitle)\" found ")
+            }
+        }
+        
+        window?.rootViewController = tabBarController
+    }
+    
+}
+
+// MARK: Logging
+extension AppDelegate {
+    
+    private func setupLogging() {
+        let console = ConsoleDestination()  // log to Xcode Console
+        console.format = "$DHH:mm:ss$d $C$L$c → $N.$F:$l\n         $C$M$c"
+        log.addDestination(console)
+    }
+    
+}
