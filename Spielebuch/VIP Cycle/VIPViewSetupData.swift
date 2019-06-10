@@ -11,5 +11,6 @@ import Foundation
 enum VIPViewSetupData {
     
     case games(list: [Game])
+    case gameDetail(game: Game)
     
 }
