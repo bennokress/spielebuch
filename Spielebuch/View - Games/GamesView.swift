@@ -191,12 +191,18 @@ extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let firstLetter = sections[indexPath.section]
-        let game = groupedGames[firstLetter]?[indexPath.row]
-        log.info("Games Table Row \(indexPath.section):\(indexPath.row) tapped: \(game?.name ?? "Unknown Game!")")
+        guard let game = groupedGames[firstLetter]?[indexPath.row] else {
+            log.error("Could not find the selected game for cell \(indexPath.section)-\(indexPath.row)")
+            return
+        }
+        log.info("Games Table Row \(indexPath.section):\(indexPath.row) tapped: \(game.name)")
         
         // TODO: Implement and link GameDetailViewController
-        // let gameDetailViewController = GameDetailViewController()
-        // self.navigationController?.pushViewController(profileViewController, animated: true)
+        let gameDetail = VIPViewSetupData.gameDetail(game: game)
+        setPassOnData(to: gameDetail)
+        
+        let gameDetailViewController = GameDetailViewController()
+        self.navigationController?.pushViewController(gameDetailViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

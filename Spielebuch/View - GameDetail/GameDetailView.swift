@@ -10,13 +10,16 @@ import UIKit
 
 class GameDetailViewController: VIPViewController {
     
-    // FIXME: Add normal segues from this ViewController to VIPSegue
-    
     private var interpreter: GameDetailInterpreter?
+    
+    override func loadView() {
+        super.loadView()
+        initializeVIP()
+        setupView()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeVIP()
         // Do any additional setup after loading the view
     }
     
@@ -25,7 +28,14 @@ class GameDetailViewController: VIPViewController {
         interpreter?.viewWillAppear(with: setupData)
     }
     
-    // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
+    // MARK: - Setup
+    
+    // MARK: View
+    private func setupView() {
+        view.backgroundColor = .white
+    }
+    
+    // MARK: - VIP Cycle
     
     /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
