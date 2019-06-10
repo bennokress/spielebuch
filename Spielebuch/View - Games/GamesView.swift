@@ -139,6 +139,9 @@ protocol GamesView: class {
     /// Set the games to be displayed
     func updateGames(from groupedGames: [String: [Game]])
     
+    /// Present a GameDetailView with the Setup Data
+    func showGameDetails(with setupData: VIPViewSetupData)
+    
 }
 
 extension GamesViewController: GamesView {
@@ -146,6 +149,12 @@ extension GamesViewController: GamesView {
     func updateGames(from groupedGames: [String: [Game]]) {
         self.groupedGames = groupedGames
         reloadGamesTableViewData()
+    }
+    
+    func showGameDetails(with setupData: VIPViewSetupData) {
+        let gameDetailViewController = GameDetailViewController()
+        gameDetailViewController.setSetupData(to: setupData)
+        self.navigationController?.pushViewController(gameDetailViewController, animated: true)
     }
     
 }
@@ -194,16 +203,8 @@ extension GamesViewController: UITableViewDelegate {
         guard let game = groupedGames[firstLetter]?[indexPath.row] else {
             log.error("Could not find the selected game for cell \(indexPath.section)-\(indexPath.row)")
             return
-        }
-        log.info("Games Table Row \(indexPath.section):\(indexPath.row) tapped: \(game.name)")
-        
-        // TODO: Implement and link GameDetailViewController
-        let gameDetail = VIPViewSetupData.gameDetail(game: game)
-        setPassOnData(to: gameDetail)
-        
-        let gameDetailViewController = GameDetailViewController()
-        self.navigationController?.pushViewController(gameDetailViewController, animated: true)
-        
+        }        
+        interpreter?.userTappedCell(of: game)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

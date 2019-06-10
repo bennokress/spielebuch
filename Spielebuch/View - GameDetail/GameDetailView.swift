@@ -65,7 +65,7 @@ protocol GameDetailView: class {
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
-        print(game.name)
+        log.verbose("Showing details of the game named \"\(game.name)\"")
     }
     
 }
