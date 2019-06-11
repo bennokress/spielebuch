@@ -39,6 +39,9 @@ protocol GamesInterpreter: class {
     /// Retrieves a filtered list of games based on the search term
     func userSearches(for searchTerm: String)
     
+    /// Passes the game on to the Game Detail View and opens it
+    func userTappedCell(of game: Game)
+    
 }
 
 // MARK: - GamesInterpreter Conformance
@@ -52,6 +55,10 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     func userSearches(for searchTerm: String) {
         let filteredGamesList = searchTerm.count > 0 ? filteredGames(for: searchTerm) :  gamesList
         presenter.updateTable(with: filteredGamesList)
+    }
+    
+    func userTappedCell(of game: Game) {
+        presenter.displayGameDetails(for: game)
     }
     
 }
