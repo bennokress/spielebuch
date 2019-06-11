@@ -96,6 +96,12 @@ class GamesViewController: VIPViewController {
         }
     }
     
+    private func push(_ viewController: UIViewController) {
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    
     private func releaseSearchController() {
         navigationItem.searchController?.searchBar.text = ""
         navigationItem.searchController?.searchBar.resignFirstResponder()
@@ -121,11 +127,7 @@ class GamesViewController: VIPViewController {
 extension GamesViewController {
     
     @objc func addItem() {
-        log.info("Add Game Button tapped")
-        // TODO: Implement and link AddGameViewController
-        // let addGameViewController = AddGameViewController()
-        // let navigationController = UINavigationController(rootViewController: addViewController)
-        // self.navigationController?.present(navigationController, animated: true, completion: nil)
+        interpreter?.userTappedAddGameButton()
     }
     
     @objc func searchItems() {
@@ -149,6 +151,9 @@ protocol GamesView: class {
     /// Present a GameDetailView with the Setup Data
     func showGameDetails(with setupData: VIPViewSetupData)
     
+    /// Present an empty GameModificationView
+    func showNewGameView()
+    
 }
 
 extension GamesViewController: GamesView {
@@ -161,7 +166,12 @@ extension GamesViewController: GamesView {
     func showGameDetails(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
         gameDetailViewController.setSetupData(to: setupData)
-        self.navigationController?.pushViewController(gameDetailViewController, animated: true)
+        push(gameDetailViewController)
+    }
+    
+    func showNewGameView() {
+        let newGameViewController = GameModificationViewController()
+        push(newGameViewController)
     }
     
 }

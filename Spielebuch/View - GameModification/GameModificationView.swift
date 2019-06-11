@@ -12,18 +12,31 @@ class GameModificationViewController: VIPViewController {
     
     private var interpreter: GameModificationInterpreter?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private var game: Game? = nil
+    
+    override func loadView() {
+        super.loadView()
         initializeVIP()
-        // Do any additional setup after loading the view
+//        interpreter?.loadView(with: setupData)
+        setupView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        interpreter?.viewWillAppear(with: setupData)
+    // MARK: - Setup
+    
+    // MARK: View
+    private func setupView() {
+        view.backgroundColor = .white
+        setupNavigationBar()
     }
     
-    // MARK: 📱 Presentation Layer Cycle (View - Interpreter - Presenter)
+    // MARK: Navigation Bar
+    private func setupNavigationBar() {
+        title = "New Game"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+    }
+    
+    // MARK: - VIP Cycle
     
     /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
