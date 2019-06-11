@@ -49,6 +49,7 @@ class GamesViewController: VIPViewController {
     private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+        searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search Games"
         navigationItem.searchController = searchController
@@ -93,6 +94,12 @@ class GamesViewController: VIPViewController {
         DispatchQueue.main.async {
             self.gamesTableView.reloadData()
         }
+    }
+    
+    private func releaseSearchController() {
+        navigationItem.searchController?.searchBar.text = ""
+        navigationItem.searchController?.searchBar.resignFirstResponder()
+        navigationItem.searchController?.isActive = false
     }
     
     // MARK: - VIP Cycle
@@ -205,6 +212,7 @@ extension GamesViewController: UITableViewDelegate {
             return
         }        
         interpreter?.userTappedCell(of: game)
+        releaseSearchController()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
