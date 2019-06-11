@@ -12,20 +12,13 @@ class GameDetailViewController: VIPViewController {
     
     private var interpreter: GameDetailInterpreter?
     
+    private var game: Game? = nil
+    
     override func loadView() {
         super.loadView()
         initializeVIP()
+        interpreter?.loadView(with: setupData)
         setupView()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        interpreter?.viewWillAppear(with: setupData)
     }
     
     // MARK: - Setup
@@ -33,6 +26,13 @@ class GameDetailViewController: VIPViewController {
     // MARK: View
     private func setupView() {
         view.backgroundColor = .white
+//        setupGameDetailView()
+        setupNavigationBar()
+    }
+    
+    // MARK: Navigation Bar
+    private func setupNavigationBar() {
+//        title = game.name
     }
     
     // MARK: - VIP Cycle
@@ -65,7 +65,7 @@ protocol GameDetailView: class {
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
-        log.verbose("Showing details of the game named \"\(game.name)\"")
+        title = game.name
     }
     
 }
