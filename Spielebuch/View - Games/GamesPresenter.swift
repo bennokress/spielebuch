@@ -46,6 +46,8 @@ protocol GamesPresenter: class {
     
     func displayGameDetails(for game: Game)
     
+    func displayAddGameView()
+    
 }
 
 // MARK: - GamesPresenter Conformance
@@ -66,6 +68,10 @@ extension GamesPresenterImplementation: GamesPresenter {
     func displayGameDetails(for game: Game) {
         let gameData = VIPViewSetupData.gameDetail(game: game)
         view.showGameDetails(with: gameData)
+    }
+    
+    func displayAddGameView() {
+        view.showNewGameView()
     }
     
 }

@@ -42,6 +42,9 @@ protocol GamesInterpreter: class {
     /// Passes the game on to the Game Detail View and opens it
     func userTappedCell(of game: Game)
     
+    /// Prepares to show the New Game View
+    func userTappedAddGameButton()
+    
 }
 
 // MARK: - GamesInterpreter Conformance
@@ -59,6 +62,10 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     
     func userTappedCell(of game: Game) {
         presenter.displayGameDetails(for: game)
+    }
+    
+    func userTappedAddGameButton() {
+        presenter.displayAddGameView()
     }
     
 }
