@@ -22,6 +22,9 @@ class GameDetailInterpreterImplementation {
 // MARK: - GameDetailInterpreter Protocol
 protocol GameDetailInterpreter: class {
     
+    /// Takes the necessary actions when the GameDetailView is being initialized
+    func loadView(with setupData: VIPViewSetupData?)
+    
     /// Takes the necessary actions when the GameDetailView is finished loading
     func viewWillAppear(with setupData: VIPViewSetupData?)
     
@@ -30,8 +33,12 @@ protocol GameDetailInterpreter: class {
 // MARK: - GameDetailInterpreter Conformance
 extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     
-    func viewWillAppear(with setupData: VIPViewSetupData?) {
+    func loadView(with setupData: VIPViewSetupData?) {
         presenter.setup(with: setupData)
+    }
+    
+    func viewWillAppear(with setupData: VIPViewSetupData?) {
+        
     }
     
 }
