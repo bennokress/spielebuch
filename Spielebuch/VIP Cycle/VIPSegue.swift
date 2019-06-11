@@ -15,10 +15,12 @@ enum VIPSegue: String {
     
     // MARK: Normal Segues
     case goToGameDetail
+    case goToGameModification
     
     // MARK: Unwind Segues
     case unwindToGames
     case unwindToGameDetail
+    case unwindToGameModification
     
     // MARK: - Public functions
     
