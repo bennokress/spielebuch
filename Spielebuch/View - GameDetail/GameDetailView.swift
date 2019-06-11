@@ -33,6 +33,12 @@ class GameDetailViewController: VIPViewController {
     // MARK: Navigation Bar
     private func setupNavigationBar() {
 //        title = game.name
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        
+        let editGameBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.edit, target: self, action: #selector(editGame))
+        navigationItem.rightBarButtonItem = editGameBarButtonItem
     }
     
     // MARK: - VIP Cycle
@@ -46,6 +52,15 @@ class GameDetailViewController: VIPViewController {
     /// Unwind Segue Setup
     @IBAction func unwindToGameDetailView(sender: UIStoryboardSegue) {
         VIPSegue.unwindToGameDetail.prepare(from: sender, to: self as VIPViewController)
+    }
+    
+}
+
+// MARK: - Bar Button Items
+extension GameDetailViewController {
+    
+    @objc func editGame() {
+        log.info("Edit Game Button tapped")
     }
     
 }
