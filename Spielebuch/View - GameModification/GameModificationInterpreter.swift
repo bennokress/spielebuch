@@ -19,7 +19,7 @@ class GameModificationInterpreterImplementation {
     
 }
 
-// MARK: - GameModificationInterpreter Protocol
+// MARK: - Public Methods
 protocol GameModificationInterpreter: class {
     
     /// Takes the necessary actions when the GameModificationView is finished loading
@@ -27,11 +27,19 @@ protocol GameModificationInterpreter: class {
     
 }
 
-// MARK: - GameModificationInterpreter Conformance
 extension GameModificationInterpreterImplementation: GameModificationInterpreter {
+    
+    // MARK: View Actions
     
     func viewWillAppear(with setupData: VIPViewSetupData?) {
         presenter.setup(with: setupData)
     }
     
+    // MARK: User Actions
+    
+}
+
+// MARK: - Private Helpers
+extension GameModificationInterpreterImplementation {
+
 }

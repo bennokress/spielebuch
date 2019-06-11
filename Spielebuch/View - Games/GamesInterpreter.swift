@@ -17,20 +17,9 @@ class GamesInterpreterImplementation {
         self.presenter = presenter
     }
     
-    private var gamesList: [Game] {
-        return Mock.games
-    }
-    
-    // MARK: - Search Behavior
-    
-    func filteredGames(for searchTerm: String) -> [Game] {
-        log.verbose("Searching for \"\(searchTerm)\"")
-        return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
-    }
-    
 }
 
-// MARK: - GamesInterpreter Protocol
+// MARK: - Public Methods
 protocol GamesInterpreter: class {
     
     /// Takes the necessary actions when the GamesView is finished loading
@@ -47,13 +36,16 @@ protocol GamesInterpreter: class {
     
 }
 
-// MARK: - GamesInterpreter Conformance
 extension GamesInterpreterImplementation: GamesInterpreter {
+    
+    // MARK: View Actions
     
     func viewWillAppear(with setupData: VIPViewSetupData?) {
         let gamesViewSetup = setupData ?? .games(list: gamesList)
         presenter.setup(with: gamesViewSetup)
     }
+    
+    // MARK: User Actions
     
     func userSearches(for searchTerm: String) {
         let filteredGamesList = searchTerm.count > 0 ? filteredGames(for: searchTerm) :  gamesList
@@ -66,6 +58,20 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     
     func userTappedAddGameButton() {
         presenter.displayAddGameView()
+    }
+    
+}
+
+// MARK: - Private Helpers
+extension GamesInterpreterImplementation {
+    
+    private var gamesList: [Game] {
+        return Mock.games
+    }
+    
+    private func filteredGames(for searchTerm: String) -> [Game] {
+        log.verbose("Searching for \"\(searchTerm)\"")
+        return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
     }
     
 }
