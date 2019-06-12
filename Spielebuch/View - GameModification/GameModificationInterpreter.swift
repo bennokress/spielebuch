@@ -23,7 +23,7 @@ class GameModificationInterpreterImplementation {
 protocol GameModificationInterpreter: class {
     
     /// Takes the necessary actions when the GameModificationView is finished loading
-    func viewWillAppear(with setupData: VIPViewSetupData?)
+    func viewIsLoading(with setupData: VIPViewSetupData?)
     
     /// Takes action on a new game saved by the user
     func userTappedSaveGameButton(name: String)
@@ -39,7 +39,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     
     // MARK: View Actions
     
-    func viewWillAppear(with setupData: VIPViewSetupData?) {
+    func viewIsLoading(with setupData: VIPViewSetupData?) {
         presenter.setup(with: setupData)
     }
     

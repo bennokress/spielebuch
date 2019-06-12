@@ -19,10 +19,12 @@ class GameModificationViewController: VIPViewController {
     let saveBarButtonItem = UIBarButtonItem()
     
     private var game: Game? = nil
+    private var isInEditMode: Bool { return game != nil }
     
     override func loadView() {
         super.loadView()
         initializeVIP()
+        interpreter?.viewIsLoading(with: setupData)
         setupView()
     }
     
@@ -42,7 +44,6 @@ class GameModificationViewController: VIPViewController {
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
-        title = "New Game"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
@@ -125,6 +126,8 @@ protocol GameModificationView: class {
     /// Removes the GameModificationView.
     func dismiss()
     
+    func setTitle(to title: String)
+    
     func notifyDelegate()
     
     func disableSaveButton()
@@ -144,6 +147,10 @@ extension GameModificationViewController: GameModificationView {
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true)
         }
+    }
+    
+    func setTitle(to title: String) {
+        self.title = title
     }
     
     func notifyDelegate() {
