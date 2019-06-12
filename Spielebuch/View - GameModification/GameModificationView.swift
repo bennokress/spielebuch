@@ -6,11 +6,14 @@
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
+import SnapKit
 import UIKit
 
 class GameModificationViewController: VIPViewController {
     
     private var interpreter: GameModificationInterpreter?
+    
+    let nameTextField = UITextField()
     
     private var game: Game? = nil
     
@@ -20,12 +23,18 @@ class GameModificationViewController: VIPViewController {
         setupView()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+    }
+    
     // MARK: - Setup
     
     // MARK: View
     private func setupView() {
         view.backgroundColor = .white
         setupNavigationBar()
+        setupNameLabel()
     }
     
     // MARK: Navigation Bar
@@ -38,6 +47,22 @@ class GameModificationViewController: VIPViewController {
         let saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveGame))
         navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
+    }
+    
+    // MARK: Name Label
+    private func setupNameLabel() {
+        nameTextField.backgroundColor = .red
+        view.addSubview(nameTextField)
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
+        nameTextField.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+            constraint.height.equalTo(50)
+        }
     }
     
     // MARK: - VIP Cycle
@@ -63,7 +88,8 @@ extension GameModificationViewController {
     }
     
     @objc func saveGame() {
-        interpreter?.userTappedSaveGameButton(name: "Dummy")
+        // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
+        interpreter?.userTappedSaveGameButton(name: nameTextField.text ?? "Dummy")
     }
     
 }
@@ -95,5 +121,11 @@ extension GameModificationViewController: GameModificationView {
         }
     }
     
+}
+
+// MARK: - SnapKit Helper
+extension GameModificationViewController {
+    private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
+    private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
 }
 
