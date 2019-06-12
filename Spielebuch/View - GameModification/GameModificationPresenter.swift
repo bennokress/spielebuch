@@ -29,6 +29,10 @@ protocol GameModificationPresenter: class {
     
     func cancelRequested()
     
+    func nameTextFieldIsEmpty()
+    
+    func nameTextFieldIsFilled()
+    
 }
 
 // MARK: - GameModificationPresenter Conformance
@@ -45,6 +49,14 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     
     func cancelRequested() {
         view.dismiss()
+    }
+    
+    func nameTextFieldIsEmpty() {
+        view.disableSaveButton()
+    }
+    
+    func nameTextFieldIsFilled() {
+        view.enableSaveButton()
     }
     
 }

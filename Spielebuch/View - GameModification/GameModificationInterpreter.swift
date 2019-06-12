@@ -31,6 +31,8 @@ protocol GameModificationInterpreter: class {
     /// Takes action when the game modification is cancelled by the user
     func userTappedCancelButton()
     
+    func userEditedNameTextField(to textFieldValue: String?)
+    
 }
 
 extension GameModificationInterpreterImplementation: GameModificationInterpreter {
@@ -52,6 +54,14 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
+    }
+    
+    func userEditedNameTextField(to textFieldValue: String?) {
+        guard let name = textFieldValue, name.count > 0 else {
+            presenter.nameTextFieldIsEmpty()
+            return
+        }
+        presenter.nameTextFieldIsFilled()
     }
     
 }
