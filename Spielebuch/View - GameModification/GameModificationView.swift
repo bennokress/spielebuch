@@ -30,10 +30,14 @@ class GameModificationViewController: VIPViewController {
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
-        // TODO: Show Cancel and Save BarButtonItems
         title = "New Game"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        
+        let cancelBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
+        let saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveGame))
+        navigationItem.leftBarButtonItem = cancelBarButtonItem
+        navigationItem.rightBarButtonItem = saveBarButtonItem
     }
     
     // MARK: - VIP Cycle
@@ -51,6 +55,19 @@ class GameModificationViewController: VIPViewController {
     
 }
 
+// MARK: - Bar Button Items
+extension GameModificationViewController {
+    
+    @objc func cancelModification() {
+        interpreter?.userTappedCancelButton()
+    }
+    
+    @objc func saveGame() {
+        interpreter?.userTappedSaveGameButton(name: "Dummy")
+    }
+    
+}
+
 // MARK: - GameModificationView Protocol
 protocol GameModificationView: class {
     
@@ -60,6 +77,9 @@ protocol GameModificationView: class {
     /// Normally used to display the value, but used in console for demonstration purposes here.
     func fillFieldsWithCurrentValues(of game: Game)
     
+    /// Removes the GameModificationView.
+    func dismiss()
+    
 }
 
 // MARK: - GameModificationView Conformance
@@ -67,6 +87,12 @@ extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
         log.info("Filling fields for \(game.name)")
+    }
+    
+    func dismiss() {
+        DispatchQueue.main.async {
+            self.navigationController?.dismiss(animated: true)
+        }
     }
     
 }

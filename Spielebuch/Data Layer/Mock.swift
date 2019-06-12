@@ -75,4 +75,12 @@ struct Mock {
         return [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel]
     }
     
+    static func save(_ game: Game) {
+        log.info("Game saved: \(game.name)")
+    }
+    
+    static func modify(_ game: Game, toBe modifiedGame: Game) {
+        log.info("Game modified: \(game.name) → \(modifiedGame.name)")
+    }
+    
 }

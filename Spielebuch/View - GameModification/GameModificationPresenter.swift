@@ -25,6 +25,10 @@ protocol GameModificationPresenter: class {
     /// Display the provided data on the GameModificationView
     func setup(with setupData: VIPViewSetupData?)
     
+    func gameSavedSuccessfully()
+    
+    func cancelRequested()
+    
 }
 
 // MARK: - GameModificationPresenter Conformance
@@ -33,6 +37,14 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     func setup(with setupData: VIPViewSetupData?) {
         guard let data = setupData, case let VIPViewSetupData.gameModification(game) = data, let gameToModify = game else { return }
         view.fillFieldsWithCurrentValues(of: gameToModify)
+    }
+    
+    func gameSavedSuccessfully() {
+        view.dismiss()
+    }
+    
+    func cancelRequested() {
+        view.dismiss()
     }
     
 }
