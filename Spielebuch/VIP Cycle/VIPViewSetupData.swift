@@ -12,5 +12,6 @@ enum VIPViewSetupData {
     
     case games(list: [Game])
     case gameDetail(game: Game)
+    case gameModification(game: Game?)
     
 }

@@ -17,48 +17,77 @@ class GamesInterpreterImplementation {
         self.presenter = presenter
     }
     
-    private var gamesList: [Game] {
-        return Mock.games
-    }
-    
-    // MARK: - Search Behavior
-    
-    func filteredGames(for searchTerm: String) -> [Game] {
-        log.verbose("Searching for \"\(searchTerm)\"")
-        return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
-    }
-    
 }
 
-// MARK: - GamesInterpreter Protocol
+// MARK: - Public Methods
 protocol GamesInterpreter: class {
     
-    /// Takes the necessary actions when the GamesView is finished loading
-    func viewWillAppear(with setupData: VIPViewSetupData?)
+    /// Takes the necessary actions when the GamesView is loading
+    func loadView(with setupData: VIPViewSetupData?)
+    
+    /// Takes the necessary actions when a GameModificationView notifies about changes
+    func gameChanged()
     
     /// Retrieves a filtered list of games based on the search term
     func userSearches(for searchTerm: String)
     
     /// Passes the game on to the Game Detail View and opens it
-    func userTappedCell(of game: Game)
+    func userTapped(_ game: Game)
+    
+    /// Passes the game on to the Game Detail View and opens it
+    func userTappedSearched(_ game: Game)
+    
+    /// Prepares to show the New Game View
+    func userTappedAddGameButton()
     
 }
 
-// MARK: - GamesInterpreter Conformance
 extension GamesInterpreterImplementation: GamesInterpreter {
     
-    func viewWillAppear(with setupData: VIPViewSetupData?) {
+    // MARK: View Actions
+    
+    func loadView(with setupData: VIPViewSetupData?) {
         let gamesViewSetup = setupData ?? .games(list: gamesList)
         presenter.setup(with: gamesViewSetup)
     }
+    
+    // MARK: User Actions
     
     func userSearches(for searchTerm: String) {
         let filteredGamesList = searchTerm.count > 0 ? filteredGames(for: searchTerm) :  gamesList
         presenter.updateTable(with: filteredGamesList)
     }
     
-    func userTappedCell(of game: Game) {
+    func userTapped(_ game: Game) {
         presenter.displayGameDetails(for: game)
+    }
+    
+    func userTappedSearched(_ game: Game) {
+        presenter.displayGameDetails(for: game)
+        presenter.searchWasCompleted()
+    }
+    
+    func userTappedAddGameButton() {
+        presenter.displayAddGameView()
+    }
+    
+    // MARK: Delegate Actions
+    
+    func gameChanged() {
+        presenter.updateTable(with: gamesList)
+    }
+    
+}
+
+// MARK: - Private Helpers
+extension GamesInterpreterImplementation {
+    
+    private var gamesList: [Game] {
+        return Mock.shared.games
+    }
+    
+    private func filteredGames(for searchTerm: String) -> [Game] {
+        return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
     }
     
 }
