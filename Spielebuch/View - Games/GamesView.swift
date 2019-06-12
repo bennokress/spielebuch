@@ -171,8 +171,8 @@ extension GamesViewController: GamesView {
     
     func showNewGameView() {
         let newGameViewController = GameModificationViewController()
-        // FIXME: Maybe do not push this via UINavigationController in order to get a cancel and a save button as bar buttons (or override default behavior.
-        push(newGameViewController)
+        let newGameNavigationController = UINavigationController(rootViewController: newGameViewController)
+        present(newGameNavigationController, animated: true)
     }
     
 }

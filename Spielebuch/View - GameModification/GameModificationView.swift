@@ -17,7 +17,6 @@ class GameModificationViewController: VIPViewController {
     override func loadView() {
         super.loadView()
         initializeVIP()
-//        interpreter?.loadView(with: setupData)
         setupView()
     }
     
@@ -31,6 +30,7 @@ class GameModificationViewController: VIPViewController {
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
+        // TODO: Show Cancel and Save BarButtonItems
         title = "New Game"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
