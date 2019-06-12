@@ -33,6 +33,8 @@ protocol GameModificationPresenter: class {
     
     func nameTextFieldIsFilled()
     
+    func nameIsUnchanged()
+    
 }
 
 // MARK: - GameModificationPresenter Conformance
@@ -62,6 +64,10 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     
     func nameTextFieldIsFilled() {
         view.enableSaveButton()
+    }
+    
+    func nameIsUnchanged() {
+        view.disableSaveButton()
     }
     
 }

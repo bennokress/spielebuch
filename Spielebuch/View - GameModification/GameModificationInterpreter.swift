@@ -31,7 +31,7 @@ protocol GameModificationInterpreter: class {
     /// Takes action when the game modification is cancelled by the user
     func userTappedCancelButton()
     
-    func userEditedNameTextField(to textFieldValue: String?)
+    func userEditedNameTextField(to textFieldValue: String?, for game: Game?)
     
 }
 
@@ -56,12 +56,16 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
         presenter.cancelRequested()
     }
     
-    func userEditedNameTextField(to textFieldValue: String?) {
+    func userEditedNameTextField(to textFieldValue: String?, for game: Game?) {
         guard let name = textFieldValue, name.count > 0 else {
             presenter.nameTextFieldIsEmpty()
             return
         }
-        presenter.nameTextFieldIsFilled()
+        if let originalGame = game, originalGame.name == name {
+            presenter.nameIsUnchanged()
+        } else {
+            presenter.nameTextFieldIsFilled()
+        }
     }
     
 }

@@ -72,7 +72,7 @@ class GameModificationViewController: VIPViewController {
     }
     
     @objc private func nameTextFieldDidChange() {
-        interpreter?.userEditedNameTextField(to: nameTextField.text)
+        interpreter?.userEditedNameTextField(to: nameTextField.text, for: game)
     }
     
     // MARK: Constraints
@@ -140,6 +140,7 @@ protocol GameModificationView: class {
 extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
+        self.game = game
         nameTextField.text = game.name
     }
     
@@ -177,6 +178,7 @@ extension GameModificationViewController {
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
 }
 
+// MARK: - GameModificationDelegate
 protocol GameModificationDelegate {
     func gameChanged()
 }
