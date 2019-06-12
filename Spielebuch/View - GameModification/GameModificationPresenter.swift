@@ -39,7 +39,11 @@ protocol GameModificationPresenter: class {
 extension GameModificationPresenterImplementation: GameModificationPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
-        guard let data = setupData, case let VIPViewSetupData.gameModification(game) = data, let gameToModify = game else { return }
+        guard let data = setupData, case let VIPViewSetupData.gameModification(game) = data, let gameToModify = game else {
+            view.setTitle(to: "New Game")
+            return
+        }
+        view.setTitle(to: "Edit Game")
         view.fillFieldsWithCurrentValues(of: gameToModify)
     }
     
