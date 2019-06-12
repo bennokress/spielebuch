@@ -14,6 +14,8 @@ class GameModificationViewController: VIPViewController {
     private var interpreter: GameModificationInterpreter?
     
     let nameTextField = UITextField()
+    let cancelBarButtonItem = UIBarButtonItem()
+    let saveBarButtonItem = UIBarButtonItem()
     
     private var game: Game? = nil
     
@@ -34,7 +36,7 @@ class GameModificationViewController: VIPViewController {
     private func setupView() {
         view.backgroundColor = .white
         setupNavigationBar()
-        setupNameLabel()
+        setupNameTextField()
     }
     
     // MARK: Navigation Bar
@@ -43,16 +45,31 @@ class GameModificationViewController: VIPViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        let cancelBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelModification))
-        let saveBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveGame))
+        cancelBarButtonItem.title = "Cancel"
+        cancelBarButtonItem.style = .plain
+        cancelBarButtonItem.target = self
+        cancelBarButtonItem.action = #selector(cancelModification)
+        
+        saveBarButtonItem.title = "Save"
+        saveBarButtonItem.style = .done
+        saveBarButtonItem.target = self
+        saveBarButtonItem.action = #selector(saveGame)
+        
         navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
+        
+        disableSaveButton()
     }
     
-    // MARK: Name Label
-    private func setupNameLabel() {
+    // MARK: Name Text Field
+    private func setupNameTextField() {
         nameTextField.backgroundColor = .red
+        nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
         view.addSubview(nameTextField)
+    }
+    
+    @objc private func nameTextFieldDidChange() {
+        interpreter?.userEditedNameTextField(to: nameTextField.text)
     }
     
     // MARK: Constraints
@@ -106,6 +123,10 @@ protocol GameModificationView: class {
     /// Removes the GameModificationView.
     func dismiss()
     
+    func disableSaveButton()
+    
+    func enableSaveButton()
+    
 }
 
 // MARK: - GameModificationView Conformance
@@ -118,6 +139,18 @@ extension GameModificationViewController: GameModificationView {
     func dismiss() {
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true)
+        }
+    }
+    
+    func disableSaveButton() {
+        DispatchQueue.main.async {
+            self.saveBarButtonItem.isEnabled = false
+        }
+    }
+    
+    func enableSaveButton() {
+        DispatchQueue.main.async {
+            self.saveBarButtonItem.isEnabled = true
         }
     }
     
