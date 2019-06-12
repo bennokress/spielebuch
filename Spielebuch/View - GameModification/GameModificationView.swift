@@ -64,7 +64,8 @@ class GameModificationViewController: VIPViewController {
     
     // MARK: Name Text Field
     private func setupNameTextField() {
-        nameTextField.backgroundColor = .red
+        nameTextField.borderStyle = .roundedRect
+        nameTextField.placeholder = "Name"
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
         view.addSubview(nameTextField)
     }
