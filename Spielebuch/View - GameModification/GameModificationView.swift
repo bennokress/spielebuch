@@ -109,7 +109,7 @@ extension GameModificationViewController {
     
     @objc func saveGame() {
         // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
-        interpreter?.userTappedSaveGameButton(name: nameTextField.text ?? "Dummy")
+        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
     }
     
 }
