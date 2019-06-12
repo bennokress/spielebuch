@@ -140,7 +140,7 @@ protocol GameModificationView: class {
 extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
-        log.info("Filling fields for \(game.name)")
+        nameTextField.text = game.name
     }
     
     func dismiss() {
