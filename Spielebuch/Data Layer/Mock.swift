@@ -12,7 +12,11 @@ import Foundation
 
 struct Mock {
     
-    static var games: [Game] {
+    static var shared = Mock()
+    
+    var userGames: [Game] = []
+    
+    var games: [Game] {
         let activity = Game(named: "Activity")
         let alhambra = Game(named: "Alhambra")
         let arlerErde = Game(named: "Arler Erde")
@@ -72,11 +76,12 @@ struct Mock {
 //        let woodlandsGrafDracula = Game(named: "Woodlands - Graf Dracula")
         let sevenWondersDuel = Game(named: "7 Wonders Duel")
         
-        return [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel]
+        return [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel] + userGames
     }
     
-    static func save(_ game: Game) {
+    mutating func save(_ game: Game) {
         log.info("Game saved: \(game.name)")
+        userGames.append(game)
     }
     
     static func modify(_ game: Game, toBe modifiedGame: Game) {
@@ -84,3 +89,5 @@ struct Mock {
     }
     
 }
+
+

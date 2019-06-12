@@ -44,6 +44,7 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     }
     
     func gameSavedSuccessfully() {
+        view.notifyDelegate()
         view.dismiss()
     }
     

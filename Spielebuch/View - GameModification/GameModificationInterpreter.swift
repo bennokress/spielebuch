@@ -48,7 +48,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     func userTappedSaveGameButton(name: String) {
         // TODO: Check validity of the provided data?
         let newGame = Game(named: name)
-        Mock.save(newGame)
+        Mock.shared.save(newGame)
         presenter.gameSavedSuccessfully()
     }
     
