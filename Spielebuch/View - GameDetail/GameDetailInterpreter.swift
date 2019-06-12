@@ -28,6 +28,8 @@ protocol GameDetailInterpreter: class {
     /// Takes the necessary actions when the GameDetailView is finished loading
     func viewWillAppear(with setupData: VIPViewSetupData?)
     
+    func userTappedEditButton()
+    
 }
 
 extension GameDetailInterpreterImplementation: GameDetailInterpreter {
@@ -43,6 +45,10 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     }
     
     // MARK: User Actions
+    
+    func userTappedEditButton() {
+        presenter.editGameViewNeeded()
+    }
     
 }
 
