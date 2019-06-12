@@ -29,7 +29,10 @@ protocol GamesInterpreter: class {
     func userSearches(for searchTerm: String)
     
     /// Passes the game on to the Game Detail View and opens it
-    func userTappedCell(of game: Game)
+    func userTapped(_ game: Game)
+    
+    /// Passes the game on to the Game Detail View and opens it
+    func userTappedSearched(_ game: Game)
     
     /// Prepares to show the New Game View
     func userTappedAddGameButton()
@@ -52,8 +55,13 @@ extension GamesInterpreterImplementation: GamesInterpreter {
         presenter.updateTable(with: filteredGamesList)
     }
     
-    func userTappedCell(of game: Game) {
+    func userTapped(_ game: Game) {
         presenter.displayGameDetails(for: game)
+    }
+    
+    func userTappedSearched(_ game: Game) {
+        presenter.displayGameDetails(for: game)
+        presenter.searchWasCompleted()
     }
     
     func userTappedAddGameButton() {
@@ -70,7 +78,6 @@ extension GamesInterpreterImplementation {
     }
     
     private func filteredGames(for searchTerm: String) -> [Game] {
-        log.verbose("Searching for \"\(searchTerm)\"")
         return gamesList.filter { $0.name.lowercased().contains(searchTerm.lowercased()) }
     }
     

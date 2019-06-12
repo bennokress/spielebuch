@@ -102,11 +102,7 @@ class GamesViewController: VIPViewController {
         }
     }
     
-    private func releaseSearchController() {
-        navigationItem.searchController?.searchBar.text = ""
-        navigationItem.searchController?.searchBar.resignFirstResponder()
-        navigationItem.searchController?.isActive = false
-    }
+    private var isSearchActive = false
     
     // MARK: - VIP Cycle
     
@@ -154,6 +150,9 @@ protocol GamesView: class {
     /// Present an empty GameModificationView
     func showNewGameView()
     
+    /// Dismiss the SearchBar
+    func dismissSearchController()
+    
 }
 
 extension GamesViewController: GamesView {
@@ -173,6 +172,15 @@ extension GamesViewController: GamesView {
         let newGameViewController = GameModificationViewController()
         let newGameNavigationController = UINavigationController(rootViewController: newGameViewController)
         present(newGameNavigationController, animated: true)
+    }
+    
+    func dismissSearchController() {
+        isSearchActive = false
+        DispatchQueue.main.async {
+            self.navigationItem.searchController?.searchBar.text = ""
+            self.navigationItem.searchController?.searchBar.resignFirstResponder()
+            self.navigationItem.searchController?.isActive = false
+        }
     }
     
 }
@@ -218,13 +226,17 @@ extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let firstLetter = sections[indexPath.section]
-        guard let game = groupedGames[firstLetter]?[indexPath.row] else {
-            log.error("Could not find the selected game for cell \(indexPath.section)-\(indexPath.row)")
-            return
-        }        
-        interpreter?.userTappedCell(of: game)
-        releaseSearchController()
-        tableView.deselectRow(at: indexPath, animated: true)
+        let game = groupedGames[firstLetter]![indexPath.row]
+        
+        if isSearchActive {
+            interpreter?.userTappedSearched(game)
+        } else {
+            interpreter?.userTapped(game)
+        }
+        
+        DispatchQueue.main.async {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
     
 }
@@ -233,6 +245,7 @@ extension GamesViewController: UITableViewDelegate {
 extension GamesViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
+        isSearchActive = true
         guard let searchTerm = searchController.searchBar.text else {
             log.error("It seems like a search text was typed, but could not be retrieved.")
             return
