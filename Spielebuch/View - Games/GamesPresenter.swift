@@ -46,6 +46,10 @@ protocol GamesPresenter: class {
     
     func displayGameDetails(for game: Game)
     
+    func displayAddGameView()
+    
+    func searchWasCompleted()
+    
 }
 
 // MARK: - GamesPresenter Conformance
@@ -58,7 +62,6 @@ extension GamesPresenterImplementation: GamesPresenter {
     }
     
     func updateTable(with gamesList: [Game]) {
-        log.verbose("Letting the Games Table View display \(gamesList.count) games")
         let groupedGames = group(games: gamesList)
         view.updateGames(from: groupedGames)
     }
@@ -66,6 +69,14 @@ extension GamesPresenterImplementation: GamesPresenter {
     func displayGameDetails(for game: Game) {
         let gameData = VIPViewSetupData.gameDetail(game: game)
         view.showGameDetails(with: gameData)
+    }
+    
+    func displayAddGameView() {
+        view.showNewGameView()
+    }
+    
+    func searchWasCompleted() {
+        view.dismissSearchController()
     }
     
 }
