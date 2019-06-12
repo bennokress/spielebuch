@@ -128,7 +128,7 @@ protocol GameModificationView: class {
     
     func setTitle(to title: String)
     
-    func notifyDelegate()
+    func notifyDelegate(about modifiedGame: Game)
     
     func disableSaveButton()
     
@@ -154,8 +154,8 @@ extension GameModificationViewController: GameModificationView {
         self.title = title
     }
     
-    func notifyDelegate() {
-        delegate?.gameChanged()
+    func notifyDelegate(about modifiedGame: Game) {
+        delegate?.gameChanged(to: modifiedGame)
     }
     
     func disableSaveButton() {
@@ -180,6 +180,6 @@ extension GameModificationViewController {
 
 // MARK: - GameModificationDelegate
 protocol GameModificationDelegate {
-    func gameChanged()
+    func gameChanged(to game: Game)
 }
 

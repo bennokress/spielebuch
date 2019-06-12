@@ -56,7 +56,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
         } else {
             Mock.shared.save(savedGame)
         }
-        presenter.gameSavedSuccessfully()
+        presenter.gameSavedSuccessfully(savedGame)
     }
     
     func userTappedCancelButton() {

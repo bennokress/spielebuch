@@ -248,7 +248,7 @@ extension GamesViewController: UISearchResultsUpdating {
 }
 
 extension GamesViewController: GameModificationDelegate {
-    func gameChanged() {
-        interpreter?.gameChanged()
+    func gameChanged(to game: Game) {
+        interpreter?.gameChanged(to: game)
     }
 }

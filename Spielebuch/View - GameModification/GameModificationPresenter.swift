@@ -25,7 +25,7 @@ protocol GameModificationPresenter: class {
     /// Display the provided data on the GameModificationView
     func setup(with setupData: VIPViewSetupData?)
     
-    func gameSavedSuccessfully()
+    func gameSavedSuccessfully(_ savedGame: Game)
     
     func cancelRequested()
     
@@ -49,8 +49,8 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
         view.fillFieldsWithCurrentValues(of: gameToModify)
     }
     
-    func gameSavedSuccessfully() {
-        view.notifyDelegate()
+    func gameSavedSuccessfully(_ savedGame: Game) {
+        view.notifyDelegate(about: savedGame)
         view.dismiss()
     }
     
