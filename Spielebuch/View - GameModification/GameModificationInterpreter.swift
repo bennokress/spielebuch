@@ -26,7 +26,7 @@ protocol GameModificationInterpreter: class {
     func viewIsLoading(with setupData: VIPViewSetupData?)
     
     /// Takes action on a new game saved by the user
-    func userTappedSaveGameButton(name: String)
+    func userTappedSaveGameButton(name: String?, for game: Game?)
     
     /// Takes action when the game modification is cancelled by the user
     func userTappedCancelButton()
@@ -45,10 +45,17 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     
     // MARK: User Actions
     
-    func userTappedSaveGameButton(name: String) {
-        // TODO: Check validity of the provided data?
-        let newGame = Game(named: name)
-        Mock.shared.save(newGame)
+    func userTappedSaveGameButton(name: String?, for game: Game?) {
+        guard let name = name else {
+            log.error("The save button should not have been active!")
+            return
+        }
+        let savedGame = Game(named: name)
+        if let originalGame = game {
+            Mock.shared.modify(originalGame, toBe: savedGame)
+        } else {
+            Mock.shared.save(savedGame)
+        }
         presenter.gameSavedSuccessfully()
     }
     
