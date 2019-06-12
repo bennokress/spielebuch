@@ -25,6 +25,8 @@ protocol GameDetailPresenter: class {
     /// Display the provided data on the GameDetailView
     func setup(with setupData: VIPViewSetupData?)
     
+    func editGameViewNeeded()
+    
 }
 
 // MARK: - GameDetailPresenter Conformance
@@ -33,6 +35,10 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
     func setup(with setupData: VIPViewSetupData?) {
         guard let data = setupData, case let VIPViewSetupData.gameDetail(game) = data else { return }
         view.showDetails(of: game)
+    }
+    
+    func editGameViewNeeded() {
+        view.showEditGameView()
     }
     
 }

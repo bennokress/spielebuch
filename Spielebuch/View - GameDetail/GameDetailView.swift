@@ -60,7 +60,7 @@ class GameDetailViewController: VIPViewController {
 extension GameDetailViewController {
     
     @objc func editGame() {
-        log.info("Edit Game Button tapped")
+        interpreter?.userTappedEditButton()
     }
     
 }
@@ -71,8 +71,11 @@ protocol GameDetailView: class {
     /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
     func setPassOnData(to passOnData: VIPViewSetupData?)
     
-    /// Normally used to display the value, but used in console for demonstration purposes here.
+    /// Used to display the game properties
     func showDetails(of game: Game)
+    
+    /// Presents the Edit Game View
+    func showEditGameView()
     
 }
 
@@ -80,7 +83,24 @@ protocol GameDetailView: class {
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
+        self.game = game
         title = game.name
+    }
+    
+    func showEditGameView() {
+        let editGameViewController = GameModificationViewController()
+        editGameViewController.delegate = self
+        editGameViewController.setSetupData(to: .gameModification(game: game))
+        let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
+        present(editGameNavigationController, animated: true)
+    }
+    
+}
+
+extension GameDetailViewController: GameModificationDelegate {
+    
+    func gameChanged() {
+        log.verbose("Must reload game from Backend")
     }
     
 }
