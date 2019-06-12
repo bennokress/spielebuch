@@ -12,6 +12,7 @@ import UIKit
 class GameModificationViewController: VIPViewController {
     
     private var interpreter: GameModificationInterpreter?
+    var delegate: GameModificationDelegate? = nil
     
     let nameTextField = UITextField()
     let cancelBarButtonItem = UIBarButtonItem()
@@ -123,6 +124,8 @@ protocol GameModificationView: class {
     /// Removes the GameModificationView.
     func dismiss()
     
+    func notifyDelegate()
+    
     func disableSaveButton()
     
     func enableSaveButton()
@@ -140,6 +143,10 @@ extension GameModificationViewController: GameModificationView {
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true)
         }
+    }
+    
+    func notifyDelegate() {
+        delegate?.gameChanged()
     }
     
     func disableSaveButton() {
@@ -160,5 +167,9 @@ extension GameModificationViewController: GameModificationView {
 extension GameModificationViewController {
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
+}
+
+protocol GameModificationDelegate {
+    func gameChanged()
 }
 

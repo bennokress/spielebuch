@@ -23,16 +23,7 @@ class GamesViewController: VIPViewController {
         super.loadView()
         initializeVIP()
         setupView()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        interpreter?.viewWillAppear(with: setupData)
+        interpreter?.loadView(with: setupData)
     }
     
     // MARK: - Setup
@@ -170,6 +161,7 @@ extension GamesViewController: GamesView {
     
     func showNewGameView() {
         let newGameViewController = GameModificationViewController()
+        newGameViewController.delegate = self
         let newGameNavigationController = UINavigationController(rootViewController: newGameViewController)
         present(newGameNavigationController, animated: true)
     }
@@ -253,4 +245,10 @@ extension GamesViewController: UISearchResultsUpdating {
         interpreter?.userSearches(for: searchTerm)
     }
     
+}
+
+extension GamesViewController: GameModificationDelegate {
+    func gameChanged() {
+        interpreter?.gameChanged()
+    }
 }
