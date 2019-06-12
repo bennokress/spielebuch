@@ -18,12 +18,12 @@ class GamesPresenterImplementation {
     }
     
     private func group(games: [Game]) -> [String : [Game]] {
-        let sortedGames = games.sorted { $0.name < $1.name }
+        let sortedGames = games.sorted { $0.name.lowercased() < $1.name.lowercased() }
         var groupedGames: [String : [Game]] = [:]
         for game in sortedGames {
             // TODO: Allow more game names, strip whitespace and new lines, test symbols in name
             if let firstCharacter = game.name.first, (firstCharacter.isLetter || firstCharacter.isNumber) {
-                let firstLetter = String(firstCharacter)
+                let firstLetter = firstCharacter.uppercased()
                 var gamesWithTheSameFirstLetter = groupedGames[firstLetter] ?? []
                 gamesWithTheSameFirstLetter.append(game)
                 groupedGames[firstLetter] = gamesWithTheSameFirstLetter
