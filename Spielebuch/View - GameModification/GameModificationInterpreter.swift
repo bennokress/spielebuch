@@ -25,6 +25,12 @@ protocol GameModificationInterpreter: class {
     /// Takes the necessary actions when the GameModificationView is finished loading
     func viewWillAppear(with setupData: VIPViewSetupData?)
     
+    /// Takes action on a new game saved by the user
+    func userTappedSaveGameButton(name: String)
+    
+    /// Takes action when the game modification is cancelled by the user
+    func userTappedCancelButton()
+    
 }
 
 extension GameModificationInterpreterImplementation: GameModificationInterpreter {
@@ -36,6 +42,17 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     }
     
     // MARK: User Actions
+    
+    func userTappedSaveGameButton(name: String) {
+        // TODO: Check validity of the provided data?
+        let newGame = Game(named: name)
+        Mock.save(newGame)
+        presenter.gameSavedSuccessfully()
+    }
+    
+    func userTappedCancelButton() {
+        presenter.cancelRequested()
+    }
     
 }
 
