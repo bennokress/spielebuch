@@ -99,8 +99,8 @@ extension GameDetailViewController: GameDetailView {
 
 extension GameDetailViewController: GameModificationDelegate {
     
-    func gameChanged() {
-        log.verbose("Must reload game from Backend")
+    func gameChanged(to game: Game) {
+        interpreter?.received(game)
     }
     
 }

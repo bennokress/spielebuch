@@ -30,6 +30,8 @@ protocol GameDetailInterpreter: class {
     
     func userTappedEditButton()
     
+    func received(_ modifiedGame: Game)
+    
 }
 
 extension GameDetailInterpreterImplementation: GameDetailInterpreter {
@@ -48,6 +50,12 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     
     func userTappedEditButton() {
         presenter.editGameViewNeeded()
+    }
+    
+    // MARK: Delegate Actions
+    
+    func received(_ modifiedGame: Game) {
+        presenter.showDetails(of: modifiedGame)
     }
     
 }
