@@ -13,47 +13,48 @@ class GameDetailViewController: VIPViewController {
     private var interpreter: GameDetailInterpreter?
     var delegate: GameDetailDelegate? = nil
     
+    // Data
     private var game: Game? = nil
+    
+    // View Components
+    private let editGameBarButtonItem = UIBarButtonItem()
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GameDetailViewController {
     
     override func loadView() {
         super.loadView()
         initializeVIP()
-        interpreter?.loadView(with: setupData)
+        interpreter?.viewIsLoading(with: setupData)
         setupView()
     }
     
-    // MARK: - Setup
+}
+
+// MARK: - View Setup
+
+extension GameDetailViewController {
     
-    // MARK: View
     private func setupView() {
         view.backgroundColor = .white
-//        setupGameDetailView()
         setupNavigationBar()
     }
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
-//        title = game.name
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        let editGameBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.edit, target: self, action: #selector(editGame))
+        editGameBarButtonItem.title = "Edit"
+        editGameBarButtonItem.style = .plain
+        editGameBarButtonItem.target = self
+        editGameBarButtonItem.action = #selector(editGame)
+        
         navigationItem.rightBarButtonItem = editGameBarButtonItem
     }
-    
-    // MARK: - VIP Cycle
-    
-    /// Initializes corresponding Interpreter and Presenter
-    private func initializeVIP() {
-        let presenter = GameDetailPresenterImplementation(for: self as GameDetailView)
-        self.interpreter = GameDetailInterpreterImplementation(with: presenter)
-    }
-    
-}
-
-// MARK: - Bar Button Items
-extension GameDetailViewController {
     
     @objc func editGame() {
         interpreter?.userTappedEditButton()
@@ -61,20 +62,35 @@ extension GameDetailViewController {
     
 }
 
-// MARK: - GameDetailView Protocol
-protocol GameDetailView: class {
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GameDetailViewController {
     
-    /// Used to display the game properties
-    func showDetails(of game: Game)
-    
-    /// Presents the Edit Game View
-    func showEditGameView()
-    
-    func notifyGamesListAboutChange()
+    private func initializeVIP() {
+        let presenter = GameDetailPresenterImplementation(for: self as GameDetailView)
+        self.interpreter = GameDetailInterpreterImplementation(with: presenter)
+    }
     
 }
 
-// MARK: - GameDetailView Conformance
+// MARK: View Protocol
+// --> Every action provided to the Presenter
+
+protocol GameDetailView: class {
+    
+    /// Displays the details of the provided game.
+    /// - Parameter game: The game to be displayed.
+    func showDetails(of game: Game)
+    
+    /// Presents a prefilled GameModificationView.
+    func showEditGameView()
+    
+    /// Notifies the delegates about modified games.
+    func notifyDelegateAboutChange()
+    
+}
+
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
@@ -90,22 +106,27 @@ extension GameDetailViewController: GameDetailView {
         present(editGameNavigationController, animated: true)
     }
     
-    func notifyGamesListAboutChange() {
+    func notifyDelegateAboutChange() {
         delegate?.gamesWereModified()
     }
     
 }
 
+// MARK: - Delegate Implementations
+
 extension GameDetailViewController: GameModificationDelegate {
     
     func gameDetailChanged(for game: Game) {
-        interpreter?.received(game)
+        interpreter?.delegateReceived(game)
     }
     
 }
 
-// MARK: - GameDetailDelegate
+// MARK: - Delegate Protocols
+
 protocol GameDetailDelegate {
+    
     func gamesWereModified()
+    
 }
 
