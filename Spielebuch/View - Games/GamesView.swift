@@ -100,7 +100,7 @@ extension GamesViewController {
     
     // MARK: Games Table View
     private func setupGamesTableView() {
-        gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
+        gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: Identifier.gameCell.rawValue)
         gamesTableView.dataSource = self
         gamesTableView.delegate = self
         view.addSubview(gamesTableView)
@@ -118,6 +118,10 @@ extension GamesViewController {
 // MARK: - Private Helpers
 
 extension GamesViewController {
+    
+    private enum Identifier: String {
+        case gameCell
+    }
     
     private func reloadGamesTableViewData() {
         DispatchQueue.main.async {
@@ -233,7 +237,7 @@ extension GamesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let game = self.game(at: indexPath)
         
-        let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
+        let gameCell = tableView.dequeueReusableCell(withIdentifier: Identifier.gameCell.rawValue, for: indexPath)
         gameCell.textLabel?.text = game.name
         gameCell.accessoryType = .disclosureIndicator
         return gameCell
