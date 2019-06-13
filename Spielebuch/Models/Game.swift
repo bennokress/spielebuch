@@ -22,7 +22,7 @@ struct Game {
 extension Game: Hashable {
     
     static func == (lhs: Game, rhs: Game) -> Bool {
-        lhs.hashValue == rhs.hashValue
+        return lhs.hashValue == rhs.hashValue
     }
     
     func hash(into hasher: inout Hasher) {
