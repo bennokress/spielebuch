@@ -165,14 +165,14 @@ extension GamesViewController: GamesView {
     
     func showGameDetails(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
-        gameDetailViewController.delegate = self
+        gameDetailViewController.delegates.append(self)
         gameDetailViewController.setup(with: setupData)
         push(gameDetailViewController)
     }
     
     func showNewGameView() {
         let newGameViewController = GameModificationViewController()
-        newGameViewController.delegate = self
+        newGameViewController.delegates.append(self)
         let newGameNavigationController = UINavigationController(rootViewController: newGameViewController)
         present(newGameNavigationController, animated: true)
     }

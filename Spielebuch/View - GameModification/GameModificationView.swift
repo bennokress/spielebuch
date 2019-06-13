@@ -12,7 +12,7 @@ import UIKit
 class GameModificationViewController: VIPViewController {
     
     private var interpreter: GameModificationInterpreter?
-    var delegate: GameModificationDelegate? = nil
+    var delegates: [GameModificationDelegate] = []
     
     // Data
     private var game: Game? = nil
@@ -137,7 +137,7 @@ protocol GameModificationView: class {
     
     /// Notifies all delegates about the modified game.
     /// - Parameter modifiedGame: The modified game.
-    func notifyDelegate(about modifiedGame: Game)
+    func notifyDelegates(about modifiedGame: Game)
     
     /// Disables the save button.
     func disableSaveButton()
@@ -164,8 +164,8 @@ extension GameModificationViewController: GameModificationView {
         self.title = title
     }
     
-    func notifyDelegate(about modifiedGame: Game) {
-        delegate?.gameDetailChanged(for: modifiedGame)
+    func notifyDelegates(about modifiedGame: Game) {
+        delegates.forEach { $0.gameDetailChanged(for: modifiedGame) }
     }
     
     func disableSaveButton() {

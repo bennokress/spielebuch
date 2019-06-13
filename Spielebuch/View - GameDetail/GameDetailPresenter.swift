@@ -55,7 +55,7 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
     }
     
     func requestGamesListReload() {
-        view.notifyDelegateAboutChange()
+        view.notifyDelegatesAboutChange()
     }
     
 }

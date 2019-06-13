@@ -11,7 +11,7 @@ import UIKit
 class GameDetailViewController: VIPViewController {
     
     private var interpreter: GameDetailInterpreter?
-    var delegate: GameDetailDelegate? = nil
+    var delegates: [GameDetailDelegate] = []
     
     // Data
     private var game: Game? = nil
@@ -87,7 +87,7 @@ protocol GameDetailView: class {
     func showEditGameView()
     
     /// Notifies the delegates about modified games.
-    func notifyDelegateAboutChange()
+    func notifyDelegatesAboutChange()
     
 }
 
@@ -100,14 +100,14 @@ extension GameDetailViewController: GameDetailView {
     
     func showEditGameView() {
         let editGameViewController = GameModificationViewController()
-        editGameViewController.delegate = self
+        editGameViewController.delegates.append(self)
         editGameViewController.setup(with: .gameModification(game: game))
         let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
         present(editGameNavigationController, animated: true)
     }
     
-    func notifyDelegateAboutChange() {
-        delegate?.gamesWereModified()
+    func notifyDelegatesAboutChange() {
+        delegates.forEach { $0.gamesWereModified() }
     }
     
 }

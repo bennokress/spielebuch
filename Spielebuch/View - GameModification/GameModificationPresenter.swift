@@ -57,7 +57,7 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     }
     
     func gameSavedSuccessfully(_ savedGame: Game) {
-        view.notifyDelegate(about: savedGame)
+        view.notifyDelegates(about: savedGame)
         view.dismiss()
     }
     
