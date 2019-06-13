@@ -93,11 +93,6 @@ class GameModificationViewController: VIPViewController {
         self.interpreter = GameModificationInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGameModificationView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGameModification.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
 // MARK: - Bar Button Items
@@ -116,9 +111,6 @@ extension GameModificationViewController {
 
 // MARK: - GameModificationView Protocol
 protocol GameModificationView: class {
-    
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
     
     /// Normally used to display the value, but used in console for demonstration purposes here.
     func fillFieldsWithCurrentValues(of game: Game)

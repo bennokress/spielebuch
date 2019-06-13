@@ -103,11 +103,6 @@ class GamesViewController: VIPViewController {
         self.interpreter = GamesInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGamesView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGames.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
 // MARK: - Bar Button Items
@@ -128,9 +123,6 @@ extension GamesViewController {
 // MARK: GamesView
 
 protocol GamesView: class {
-    
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
     
     /// Set the games to be displayed
     func updateGames(from groupedGames: [String: [Game]])
@@ -156,7 +148,7 @@ extension GamesViewController: GamesView {
     func showGameDetails(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
         gameDetailViewController.delegate = self
-        gameDetailViewController.setSetupData(to: setupData)
+        gameDetailViewController.setup(with: setupData)
         push(gameDetailViewController)
     }
     

@@ -50,11 +50,6 @@ class GameDetailViewController: VIPViewController {
         self.interpreter = GameDetailInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGameDetailView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGameDetail.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
 // MARK: - Bar Button Items
@@ -68,9 +63,6 @@ extension GameDetailViewController {
 
 // MARK: - GameDetailView Protocol
 protocol GameDetailView: class {
-    
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
     
     /// Used to display the game properties
     func showDetails(of game: Game)
@@ -93,7 +85,7 @@ extension GameDetailViewController: GameDetailView {
     func showEditGameView() {
         let editGameViewController = GameModificationViewController()
         editGameViewController.delegate = self
-        editGameViewController.setSetupData(to: .gameModification(game: game))
+        editGameViewController.setup(with: .gameModification(game: game))
         let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
         present(editGameNavigationController, animated: true)
     }
