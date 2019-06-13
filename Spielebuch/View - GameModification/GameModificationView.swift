@@ -75,11 +75,12 @@ extension GameModificationViewController {
     }
     
     @objc func cancelModification() {
+        nameTextField.resignFirstResponder()
         interpreter?.userTappedCancelButton()
     }
     
     @objc func saveGame() {
-        // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
+        nameTextField.resignFirstResponder()
         interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
     }
     
@@ -87,6 +88,8 @@ extension GameModificationViewController {
     private func setupNameTextField() {
         nameTextField.borderStyle = .roundedRect
         nameTextField.placeholder = "Name"
+        nameTextField.returnKeyType = UIReturnKeyType.done
+        nameTextField.delegate = self
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
         view.addSubview(nameTextField)
     }
@@ -187,6 +190,15 @@ extension GameModificationViewController {
     
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
+    
+}
+
+extension GameModificationViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
 }
 
