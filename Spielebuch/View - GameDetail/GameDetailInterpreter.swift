@@ -28,7 +28,7 @@ protocol GameDetailInterpreter: class {
     func viewIsLoading(with setupData: VIPViewSetupData?)
     
     /// Takes action when the user wants to edit the shown game.
-    func userTappedEditButton()
+    func userTappedEditButton(for game: Game?)
     
     /// Takes action when the game displayed by the corresponding view was modified elsewhere.
     /// - Parameter modifiedGame: The modified game to be displayed.
@@ -46,8 +46,10 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     
     // MARK: User Actions
     
-    func userTappedEditButton() {
-        presenter.displayEditGameView()
+    func userTappedEditButton(for game: Game?) {
+        guard let game = game else { return }
+        let gameModificationViewSetupData = VIPViewSetupData.gameModification(game: game)
+        presenter.displayEditGameView(with: gameModificationViewSetupData)
     }
     
     // MARK: Delegate Actions

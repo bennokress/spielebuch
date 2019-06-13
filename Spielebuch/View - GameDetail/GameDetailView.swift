@@ -57,7 +57,7 @@ extension GameDetailViewController {
     }
     
     @objc func editGame() {
-        interpreter?.userTappedEditButton()
+        interpreter?.userTappedEditButton(for: game)
     }
     
 }
@@ -84,7 +84,8 @@ protocol GameDetailView: class {
     func showDetails(of game: Game)
     
     /// Presents a prefilled GameModificationView.
-    func showEditGameView()
+    /// - Parameter setupData: The data used to set up the GameDetailView.
+    func showEditGameView(with setupData: VIPViewSetupData?)
     
     /// Notifies the delegates about modified games.
     func notifyDelegatesAboutChange()
@@ -98,10 +99,10 @@ extension GameDetailViewController: GameDetailView {
         title = game.name
     }
     
-    func showEditGameView() {
+    func showEditGameView(with setupData: VIPViewSetupData?) {
         let editGameViewController = GameModificationViewController()
         editGameViewController.delegates.append(self)
-        editGameViewController.setup(with: .gameModification(game: game))
+        editGameViewController.setup(with: setupData)
         let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
         present(editGameNavigationController, animated: true)
     }

@@ -32,7 +32,7 @@ protocol GameDetailPresenter: class {
     func showDetails(of game: Game)
     
     /// Instructs the GameDetailView to display a GameModificationView.
-    func displayEditGameView()
+    func displayEditGameView(with setupData: VIPViewSetupData?)
     
     /// Instructs the GameDetailView to notify delegates about modified games.
     func requestGamesListReload()
@@ -46,8 +46,8 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
         showDetails(of: game)
     }
     
-    func displayEditGameView() {
-        view.showEditGameView()
+    func displayEditGameView(with setupData: VIPViewSetupData?) {
+        view.showEditGameView(with: setupData)
     }
     
     func showDetails(of game: Game) {

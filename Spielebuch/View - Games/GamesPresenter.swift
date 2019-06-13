@@ -59,7 +59,7 @@ extension GamesPresenterImplementation: GamesPresenter {
     
     func displayGameDetails(for game: Game) {
         let gameData = VIPViewSetupData.gameDetail(game: game)
-        view.showGameDetails(with: gameData)
+        view.showGameDetailView(with: gameData)
     }
     
     func displayAddGameView() {

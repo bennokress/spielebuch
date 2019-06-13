@@ -146,7 +146,7 @@ protocol GamesView: class {
     
     /// Presents a GameDetailView with the provided Data.
     /// - Parameter setupData: The data used to set up the GameDetailView.
-    func showGameDetails(with setupData: VIPViewSetupData)
+    func showGameDetailView(with setupData: VIPViewSetupData)
     
     /// Presents an empty GameModificationView.
     func showNewGameView()
@@ -163,7 +163,7 @@ extension GamesViewController: GamesView {
         reloadGamesTableViewData()
     }
     
-    func showGameDetails(with setupData: VIPViewSetupData) {
+    func showGameDetailView(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
         gameDetailViewController.delegates.append(self)
         gameDetailViewController.setup(with: setupData)
