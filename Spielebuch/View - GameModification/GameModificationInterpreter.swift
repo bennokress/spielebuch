@@ -53,7 +53,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     // MARK: User Actions
     
     func userTappedSaveGameButton(name: String?, for game: Game?) {
-        guard let name = name else {
+        guard let name = name?.withTrimmedWhitespace else {
             log.error("The save button should not have been active!")
             return
         }
@@ -71,7 +71,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     }
     
     func userEditedNameTextField(to textFieldValue: String?, for game: Game?) {
-        guard let name = textFieldValue, name.count > 0 else {
+        guard let name = textFieldValue?.withTrimmedWhitespace, name.count > 0 else {
             presenter.nameTextFieldIsEmpty()
             return
         }
