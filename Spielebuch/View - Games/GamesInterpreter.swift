@@ -28,6 +28,9 @@ protocol GamesInterpreter: class {
     /// Takes the necessary actions when a GameModificationView notifies about changes
     func gameChanged(to modifiedGame: Game)
     
+    /// Takes the necessary actions when a GameModificationView notifies about changes
+    func gamesWereModified()
+    
     /// Retrieves a filtered list of games based on the search term
     func userSearches(for searchTerm: String)
     
@@ -74,6 +77,10 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     // MARK: Delegate Actions
     
     func gameChanged(to modifiedGame: Game) {
+        presenter.updateTable(with: gamesList)
+    }
+    
+    func gamesWereModified() {
         presenter.updateTable(with: gamesList)
     }
     

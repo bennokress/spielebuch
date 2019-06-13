@@ -155,7 +155,7 @@ extension GameModificationViewController: GameModificationView {
     }
     
     func notifyDelegate(about modifiedGame: Game) {
-        delegate?.gameChanged(to: modifiedGame)
+        delegate?.gameDetailChanged(for: modifiedGame)
     }
     
     func disableSaveButton() {
@@ -180,6 +180,6 @@ extension GameModificationViewController {
 
 // MARK: - GameModificationDelegate
 protocol GameModificationDelegate {
-    func gameChanged(to game: Game)
+    func gameDetailChanged(for game: Game)
 }
 

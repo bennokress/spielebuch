@@ -29,6 +29,8 @@ protocol GameDetailPresenter: class {
     
     func showDetails(of game: Game)
     
+    func requestGamesListReload()
+    
 }
 
 // MARK: - GameDetailPresenter Conformance
@@ -45,6 +47,10 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
     
     func showDetails(of game: Game) {
         view.showDetails(of: game)
+    }
+    
+    func requestGamesListReload() {
+        view.notifyGamesListAboutChange()
     }
     
 }
