@@ -62,13 +62,17 @@ extension GamesViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        let addBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
-        let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
+        setupBarButtonItems()
+    }
+    
+    private func setupBarButtonItems() {
+        let addBarButtonItem = setupBarButtonItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
+        let searchBarButtonItem = setupBarButtonItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
         navigationItem.rightBarButtonItem = addBarButtonItem
         navigationItem.leftBarButtonItem = searchBarButtonItem
     }
     
-    private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
+    private func setupBarButtonItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
         let item = UIBarButtonItem(image: UIImage(named: assetName), style: .plain, target: self, action: action)
         item.tintColor = .black
         item.width = 24
@@ -89,7 +93,7 @@ extension GamesViewController {
         searchController.searchResultsUpdater = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Games"
+        searchController.searchBar.placeholder = "Search in Games"
         navigationItem.searchController = searchController
         definesPresentationContext = true
     }
@@ -109,6 +113,12 @@ extension GamesViewController {
         }
     }
     
+}
+
+// MARK: - Private Helpers
+
+extension GamesViewController {
+    
     private func reloadGamesTableViewData() {
         DispatchQueue.main.async {
             self.gamesTableView.reloadData()
@@ -119,6 +129,18 @@ extension GamesViewController {
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(viewController, animated: true)
         }
+    }
+    
+    private func game(at indexPath: IndexPath) -> Game {
+        let section = self.section(at: indexPath)
+        guard let gamesInSection = groupedGames[section] else {
+            let errorMessage = "Error while searching for Games in Section \"\(section)\""; log.error(errorMessage); fatalError(errorMessage)
+        }
+        return gamesInSection[indexPath.row]
+    }
+    
+    private func section(at indexPath: IndexPath) -> String {
+        return sections[indexPath.section]
     }
     
 }
@@ -203,19 +225,13 @@ extension GamesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionTitle = sections[section]
         guard let gameCountForSection = groupedGames[sectionTitle]?.count else {
-            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
-            fatalError()
+            let errorMessage = "Error while searching for Games in Section \"\(sectionTitle)\""; log.error(errorMessage); fatalError(errorMessage)
         }
         return gameCountForSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionTitle = sections[indexPath.section]
-        guard let sectionGames = groupedGames[sectionTitle] else {
-            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
-            fatalError()
-        }
-        let game = sectionGames[indexPath.row]
+        let game = self.game(at: indexPath)
         
         let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
         gameCell.textLabel?.text = game.name
@@ -230,15 +246,8 @@ extension GamesViewController: UITableViewDataSource {
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let firstLetter = sections[indexPath.section]
-        let game = groupedGames[firstLetter]![indexPath.row]
-        
-        if isSearchActive {
-            interpreter?.userTappedSearched(game)
-        } else {
-            interpreter?.userTapped(game)
-        }
-        
+        let game = self.game(at: indexPath)
+        interpreter?.userTapped(game, withActiveSearch: isSearchActive)
         DispatchQueue.main.async {
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -251,8 +260,7 @@ extension GamesViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         isSearchActive = true
         guard let searchTerm = searchController.searchBar.text else {
-            log.error("It seems like a search text was typed, but could not be retrieved.")
-            return
+            log.error("It seems like a search text was typed, but could not be retrieved."); return
         }
         interpreter?.userSearches(for: searchTerm)
     }

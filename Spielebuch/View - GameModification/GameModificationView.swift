@@ -164,7 +164,9 @@ extension GameModificationViewController: GameModificationView {
     }
     
     func setTitle(to title: String) {
-        self.title = title
+        DispatchQueue.main.async {
+            self.title = title
+        }
     }
     
     func notifyDelegates(about modifiedGame: Game) {

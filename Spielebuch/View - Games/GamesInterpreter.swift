@@ -33,11 +33,8 @@ protocol GamesInterpreter: class {
     
     /// Takes actions when the user taps on a game.
     /// - Parameter game: The game the user tapped on.
-    func userTapped(_ game: Game)
-    
-    /// Takes actions when the user taps on a game while the search bar is active.
-    /// - Parameter game: The game the user tapped on.
-    func userTappedSearched(_ game: Game)
+    /// - Parameter isSearchActive: True if the user searched prior to tapping on the game.
+    func userTapped(_ game: Game, withActiveSearch isSearchActive: Bool)
     
     /// Takes actions when the user taps the "new game" button.
     func userTappedAddGameButton()
@@ -67,13 +64,11 @@ extension GamesInterpreterImplementation: GamesInterpreter {
         presenter.updateTable(with: filteredGamesList)
     }
     
-    func userTapped(_ game: Game) {
+    func userTapped(_ game: Game, withActiveSearch isSearchActive: Bool) {
         presenter.displayGameDetails(for: game)
-    }
-    
-    func userTappedSearched(_ game: Game) {
-        presenter.displayGameDetails(for: game)
-        presenter.searchWasCompleted()
+        if isSearchActive {
+            presenter.searchWasCompleted()
+        }
     }
     
     func userTappedAddGameButton() {

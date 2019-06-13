@@ -54,8 +54,7 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     
     func userTappedSaveGameButton(name: String?, for game: Game?) {
         guard let name = name?.withTrimmedWhitespace else {
-            log.error("The save button should not have been active!")
-            return
+            log.error("The save button should not have been active!"); return
         }
         let savedGame = Game(named: name)
         if let originalGame = game {
