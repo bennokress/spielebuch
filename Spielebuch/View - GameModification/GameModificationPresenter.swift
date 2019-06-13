@@ -12,32 +12,39 @@ class GameModificationPresenterImplementation {
     
     private unowned var view: GameModificationView
     
-    /// This initializer is called when a new GameModificationView is created.
     init(for view: GameModificationView) {
         self.view = view
     }
     
 }
 
-// MARK: - GameModificationPresenter Protocol
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
 protocol GameModificationPresenter: class {
     
-    /// Display the provided data on the GameModificationView
+    /// Populates the GameModificationView with data.
+    /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
     func setup(with setupData: VIPViewSetupData?)
     
+    /// Instructs the GameModificationView to be dismissed and notify delegates about the modified game.
+    /// - Parameter savedGame: The modified game.
     func gameSavedSuccessfully(_ savedGame: Game)
     
+    /// Instructs the GameModificationView to be dismissed.
     func cancelRequested()
     
+    /// Instructs the GameModificationView to disable the save option.
     func nameTextFieldIsEmpty()
     
+    /// Instructs the GameModificationView to enable the save button.
     func nameTextFieldIsFilled()
     
+    /// Instructs the GameModificationView to disable the save button.
     func nameIsUnchanged()
     
 }
 
-// MARK: - GameModificationPresenter Conformance
 extension GameModificationPresenterImplementation: GameModificationPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
@@ -69,5 +76,11 @@ extension GameModificationPresenterImplementation: GameModificationPresenter {
     func nameIsUnchanged() {
         view.disableSaveButton()
     }
+    
+}
+
+// MARK: - Private Helpers
+
+extension GameModificationPresenterImplementation {
     
 }

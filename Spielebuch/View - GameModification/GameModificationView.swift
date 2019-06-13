@@ -14,12 +14,20 @@ class GameModificationViewController: VIPViewController {
     private var interpreter: GameModificationInterpreter?
     var delegate: GameModificationDelegate? = nil
     
-    let nameTextField = UITextField()
-    let cancelBarButtonItem = UIBarButtonItem()
-    let saveBarButtonItem = UIBarButtonItem()
-    
+    // Data
     private var game: Game? = nil
     private var isInEditMode: Bool { return game != nil }
+    
+    // View Components
+    private let cancelBarButtonItem = UIBarButtonItem()
+    private let saveBarButtonItem = UIBarButtonItem()
+    private let nameTextField = UITextField()
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GameModificationViewController {
     
     override func loadView() {
         super.loadView()
@@ -33,9 +41,12 @@ class GameModificationViewController: VIPViewController {
         setupConstraints()
     }
     
-    // MARK: - Setup
+}
+
+// MARK: - View Setup
+
+extension GameModificationViewController {
     
-    // MARK: View
     private func setupView() {
         view.backgroundColor = .white
         setupNavigationBar()
@@ -63,6 +74,15 @@ class GameModificationViewController: VIPViewController {
         disableSaveButton()
     }
     
+    @objc func cancelModification() {
+        interpreter?.userTappedCancelButton()
+    }
+    
+    @objc func saveGame() {
+        // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
+        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
+    }
+    
     // MARK: Name Text Field
     private func setupNameTextField() {
         nameTextField.borderStyle = .roundedRect
@@ -85,9 +105,13 @@ class GameModificationViewController: VIPViewController {
         }
     }
     
-    // MARK: - VIP Cycle
+}
+
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GameModificationViewController {
     
-    /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
         let presenter = GameModificationPresenterImplementation(for: self as GameModificationView)
         self.interpreter = GameModificationInterpreterImplementation(with: presenter)
@@ -95,40 +119,34 @@ class GameModificationViewController: VIPViewController {
     
 }
 
-// MARK: - Bar Button Items
-extension GameModificationViewController {
-    
-    @objc func cancelModification() {
-        interpreter?.userTappedCancelButton()
-    }
-    
-    @objc func saveGame() {
-        // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
-        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
-    }
-    
-}
+// MARK: View Protocol
+// --> Every action provided to the Presenter
 
-// MARK: - GameModificationView Protocol
 protocol GameModificationView: class {
     
-    /// Normally used to display the value, but used in console for demonstration purposes here.
+    /// Fills in the details for the game that is being modified.
+    /// - Parameter game: The game to be modified.
     func fillFieldsWithCurrentValues(of game: Game)
     
     /// Removes the GameModificationView.
     func dismiss()
     
+    /// Sets the title of the view.
+    /// - Parameter title: The title to be displayed.
     func setTitle(to title: String)
     
+    /// Notifies all delegates about the modified game.
+    /// - Parameter modifiedGame: The modified game.
     func notifyDelegate(about modifiedGame: Game)
     
+    /// Disables the save button.
     func disableSaveButton()
     
+    /// Enable the save button.
     func enableSaveButton()
     
 }
 
-// MARK: - GameModificationView Conformance
 extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
@@ -166,12 +184,17 @@ extension GameModificationViewController: GameModificationView {
 
 // MARK: - SnapKit Helper
 extension GameModificationViewController {
+    
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
+    
 }
 
-// MARK: - GameModificationDelegate
+// MARK: - Delegate Protocols
+
 protocol GameModificationDelegate {
-    func gameDetailChanged(for game: Game)
+    
+    func gameDetailChanged(for modified: Game)
+    
 }
 
