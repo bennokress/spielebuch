@@ -56,6 +56,7 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     
     func received(_ modifiedGame: Game) {
         presenter.showDetails(of: modifiedGame)
+        presenter.requestGamesListReload()
     }
     
 }
