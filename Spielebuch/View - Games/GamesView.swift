@@ -12,39 +12,47 @@ import UIKit
 class GamesViewController: VIPViewController {
     
     private var interpreter: GamesInterpreter?
-    private let gamesTableView = UITableView()
     
+    // Data
+    private var groupedGames: [String: [Game]] = [:]
+    
+    // View Components
+    private let gamesTableView = UITableView()
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private var groupedGames: [String: [Game]] = [:]
+    // View State
     private var sections: [String] { return groupedGames.keys.sorted { $0 < $1 } }
+    private var isSearchActive = false
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GamesViewController {
     
     override func loadView() {
         super.loadView()
         initializeVIP()
         setupView()
-        interpreter?.loadView(with: setupData)
+        interpreter?.viewIsLoading(with: setupData)
     }
     
-    // MARK: - Setup
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+    }
     
-    // MARK: View
+}
+
+// MARK: - View Setup
+
+extension GamesViewController {
+    
     private func setupView() {
         view.backgroundColor = .white
         setupGamesTableView()
         setupNavigationBar()
         setupSearchController()
-    }
-    
-    // MARK: Search Controller
-    private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Games"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
     }
     
     // MARK: Navigation Bar
@@ -60,7 +68,6 @@ class GamesViewController: VIPViewController {
         navigationItem.leftBarButtonItem = searchBarButtonItem
     }
     
-    // MARK: Navigation Items
     private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
         let item = UIBarButtonItem(image: UIImage(named: assetName), style: .plain, target: self, action: action)
         item.tintColor = .black
@@ -68,17 +75,38 @@ class GamesViewController: VIPViewController {
         return item
     }
     
+    @objc func addItem() {
+        interpreter?.userTappedAddGameButton()
+    }
+    
+    @objc func searchItems() {
+        navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
+    // MARK: Search Controller
+    private func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Games"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
     // MARK: Games Table View
     private func setupGamesTableView() {
-        view.addSubview(gamesTableView)
-        
-        gamesTableView.snp.makeConstraints { (constraint) in
-            constraint.edges.equalTo(self.view)
-        }
-        
         gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
         gamesTableView.dataSource = self
         gamesTableView.delegate = self
+        view.addSubview(gamesTableView)
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
+        gamesTableView.snp.makeConstraints { (constraint) in
+            constraint.edges.equalTo(self.view)
+        }
     }
     
     private func reloadGamesTableViewData() {
@@ -93,11 +121,13 @@ class GamesViewController: VIPViewController {
         }
     }
     
-    private var isSearchActive = false
+}
+
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GamesViewController {
     
-    // MARK: - VIP Cycle
-    
-    /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
         let presenter = GamesPresenterImplementation(for: self as GamesView)
         self.interpreter = GamesInterpreterImplementation(with: presenter)
@@ -105,35 +135,23 @@ class GamesViewController: VIPViewController {
     
 }
 
-// MARK: - Bar Button Items
-extension GamesViewController {
-    
-    @objc func addItem() {
-        interpreter?.userTappedAddGameButton()
-    }
-    
-    @objc func searchItems() {
-        navigationItem.searchController?.searchBar.becomeFirstResponder()
-    }
-    
-}
-
-// MARK: - Protocol Conformances
-
-// MARK: GamesView
+// MARK: View Protocol
+// --> Every action provided to the Presenter
 
 protocol GamesView: class {
     
-    /// Set the games to be displayed
+    /// Replaces the currently displayed games by the ones provided.
+    /// - Parameter groupedGames: The games to be displayed.
     func updateGames(from groupedGames: [String: [Game]])
     
-    /// Present a GameDetailView with the Setup Data
+    /// Presents a GameDetailView with the provided Data.
+    /// - Parameter setupData: The data used to set up the GameDetailView.
     func showGameDetails(with setupData: VIPViewSetupData)
     
-    /// Present an empty GameModificationView
+    /// Presents an empty GameModificationView.
     func showNewGameView()
     
-    /// Dismiss the SearchBar
+    /// Dismisses the search controller.
     func dismissSearchController()
     
 }
@@ -170,7 +188,8 @@ extension GamesViewController: GamesView {
     
 }
 
-// MARK: UITableViewDataSource
+// MARK: - Data Source Implementations
+
 extension GamesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -206,7 +225,8 @@ extension GamesViewController: UITableViewDataSource {
     
 }
 
-// MARK: UITableViewDelegate
+// MARK: - Delegate Implementations
+
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -226,7 +246,6 @@ extension GamesViewController: UITableViewDelegate {
     
 }
 
-// MARK: UISearchResultsUpdating
 extension GamesViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -242,8 +261,8 @@ extension GamesViewController: UISearchResultsUpdating {
 
 extension GamesViewController: GameModificationDelegate {
     
-    func gameDetailChanged(for game: Game) {
-        interpreter?.gameChanged(to: game)
+    func gameDetailChanged(for modifiedGame: Game) {
+        interpreter?.delegateWasNotified(about: modifiedGame)
     }
     
 }
@@ -251,7 +270,9 @@ extension GamesViewController: GameModificationDelegate {
 extension GamesViewController: GameDetailDelegate {
     
     func gamesWereModified() {
-        interpreter?.gamesWereModified()
+        interpreter?.delegateWasNotifiedAboutModifiedGames()
     }
     
 }
+
+// MARK: - Delegate Protocols
