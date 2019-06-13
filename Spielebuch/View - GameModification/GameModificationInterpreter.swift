@@ -23,15 +23,15 @@ class GameModificationInterpreterImplementation {
 protocol GameModificationInterpreter: class {
     
     /// Takes the necessary actions when the GameModificationView is finished loading
-    func viewWillAppear(with setupData: VIPViewSetupData?)
+    func viewIsLoading(with setupData: VIPViewSetupData?)
     
     /// Takes action on a new game saved by the user
-    func userTappedSaveGameButton(name: String)
+    func userTappedSaveGameButton(name: String?, for game: Game?)
     
     /// Takes action when the game modification is cancelled by the user
     func userTappedCancelButton()
     
-    func userEditedNameTextField(to textFieldValue: String?)
+    func userEditedNameTextField(to textFieldValue: String?, for game: Game?)
     
 }
 
@@ -39,29 +39,40 @@ extension GameModificationInterpreterImplementation: GameModificationInterpreter
     
     // MARK: View Actions
     
-    func viewWillAppear(with setupData: VIPViewSetupData?) {
+    func viewIsLoading(with setupData: VIPViewSetupData?) {
         presenter.setup(with: setupData)
     }
     
     // MARK: User Actions
     
-    func userTappedSaveGameButton(name: String) {
-        // TODO: Check validity of the provided data?
-        let newGame = Game(named: name)
-        Mock.shared.save(newGame)
-        presenter.gameSavedSuccessfully()
+    func userTappedSaveGameButton(name: String?, for game: Game?) {
+        guard let name = name else {
+            log.error("The save button should not have been active!")
+            return
+        }
+        let savedGame = Game(named: name)
+        if let originalGame = game {
+            Mock.shared.modify(originalGame, toBe: savedGame)
+        } else {
+            Mock.shared.save(savedGame)
+        }
+        presenter.gameSavedSuccessfully(savedGame)
     }
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
     }
     
-    func userEditedNameTextField(to textFieldValue: String?) {
+    func userEditedNameTextField(to textFieldValue: String?, for game: Game?) {
         guard let name = textFieldValue, name.count > 0 else {
             presenter.nameTextFieldIsEmpty()
             return
         }
-        presenter.nameTextFieldIsFilled()
+        if let originalGame = game, originalGame.name == name {
+            presenter.nameIsUnchanged()
+        } else {
+            presenter.nameTextFieldIsFilled()
+        }
     }
     
 }

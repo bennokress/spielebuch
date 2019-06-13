@@ -155,6 +155,7 @@ extension GamesViewController: GamesView {
     
     func showGameDetails(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
+        gameDetailViewController.delegate = self
         gameDetailViewController.setSetupData(to: setupData)
         push(gameDetailViewController)
     }
@@ -248,7 +249,17 @@ extension GamesViewController: UISearchResultsUpdating {
 }
 
 extension GamesViewController: GameModificationDelegate {
-    func gameChanged() {
-        interpreter?.gameChanged()
+    
+    func gameDetailChanged(for game: Game) {
+        interpreter?.gameChanged(to: game)
     }
+    
+}
+
+extension GamesViewController: GameDetailDelegate {
+    
+    func gamesWereModified() {
+        interpreter?.gamesWereModified()
+    }
+    
 }
