@@ -14,6 +14,15 @@ struct Mock {
     
     static var shared = Mock()
     
+    /// Games added or edited by the user. Will be deleted when restarting the app.
+    private var userGames: [Game] = []
+    
+    /// The games provided below. Those will be present with every app start.
+    private var baseGames: [Game] = []
+    
+    /// The combination of baseGames and userGames.
+    var games: [Game] { return baseGames + userGames }
+    
     init() {
         baseGames = [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel]
     }
@@ -76,11 +85,6 @@ struct Mock {
 //    private let woodlandsKönigArtus = Game(named: "Woodlands - König Artus")
 //    private let woodlandsGrafDracula = Game(named: "Woodlands - Graf Dracula")
     private let sevenWondersDuel = Game(named: "7 Wonders Duel")
-    
-    var baseGames: [Game] = []
-    var userGames: [Game] = []
-        
-    var games: [Game] { return baseGames + userGames }
     
     mutating func save(_ game: Game) {
         log.info("Game saved: \(game.name)")
