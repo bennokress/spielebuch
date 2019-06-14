@@ -11,78 +11,87 @@ import UIKit
 class GameDetailViewController: VIPViewController {
     
     private var interpreter: GameDetailInterpreter?
-    var delegate: GameDetailDelegate? = nil
+    var delegates: [GameDetailDelegate] = []
     
+    // Data
     private var game: Game? = nil
+    
+    // View Components
+    private let editGameBarButtonItem = UIBarButtonItem()
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GameDetailViewController {
     
     override func loadView() {
         super.loadView()
         initializeVIP()
-        interpreter?.loadView(with: setupData)
+        interpreter?.viewIsLoading(with: setupData)
         setupView()
     }
     
-    // MARK: - Setup
+}
+
+// MARK: - View Setup
+
+extension GameDetailViewController {
     
-    // MARK: View
     private func setupView() {
         view.backgroundColor = .white
-//        setupGameDetailView()
         setupNavigationBar()
     }
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
-//        title = game.name
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        let editGameBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.edit, target: self, action: #selector(editGame))
+        editGameBarButtonItem.title = "Edit"
+        editGameBarButtonItem.style = .plain
+        editGameBarButtonItem.target = self
+        editGameBarButtonItem.action = #selector(editGame)
+        
         navigationItem.rightBarButtonItem = editGameBarButtonItem
     }
     
-    // MARK: - VIP Cycle
+    @objc func editGame() {
+        interpreter?.userTappedEditButton(for: game)
+    }
     
-    /// Initializes corresponding Interpreter and Presenter
+}
+
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GameDetailViewController {
+    
     private func initializeVIP() {
         let presenter = GameDetailPresenterImplementation(for: self as GameDetailView)
         self.interpreter = GameDetailInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGameDetailView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGameDetail.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
-// MARK: - Bar Button Items
-extension GameDetailViewController {
-    
-    @objc func editGame() {
-        interpreter?.userTappedEditButton()
-    }
-    
-}
+// MARK: View Protocol
+// --> Every action provided to the Presenter
 
-// MARK: - GameDetailView Protocol
 protocol GameDetailView: class {
     
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
-    
-    /// Used to display the game properties
+    /// Displays the details of the provided game.
+    /// - Parameter game: The game to be displayed.
     func showDetails(of game: Game)
     
-    /// Presents the Edit Game View
-    func showEditGameView()
+    /// Presents a prefilled GameModificationView.
+    /// - Parameter setupData: The data used to set up the GameDetailView.
+    func showEditGameView(with setupData: VIPViewSetupData?)
     
-    func notifyGamesListAboutChange()
+    /// Notifies the delegates about modified games.
+    func notifyDelegatesAboutChange()
     
 }
 
-// MARK: - GameDetailView Conformance
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
@@ -90,30 +99,35 @@ extension GameDetailViewController: GameDetailView {
         title = game.name
     }
     
-    func showEditGameView() {
+    func showEditGameView(with setupData: VIPViewSetupData?) {
         let editGameViewController = GameModificationViewController()
-        editGameViewController.delegate = self
-        editGameViewController.setSetupData(to: .gameModification(game: game))
+        editGameViewController.delegates.append(self)
+        editGameViewController.setup(with: setupData)
         let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
         present(editGameNavigationController, animated: true)
     }
     
-    func notifyGamesListAboutChange() {
-        delegate?.gamesWereModified()
+    func notifyDelegatesAboutChange() {
+        delegates.forEach { $0.gamesWereModified() }
     }
     
 }
+
+// MARK: - Delegate Implementations
 
 extension GameDetailViewController: GameModificationDelegate {
     
     func gameDetailChanged(for game: Game) {
-        interpreter?.received(game)
+        interpreter?.delegateReceived(game)
     }
     
 }
 
-// MARK: - GameDetailDelegate
+// MARK: - Delegate Protocols
+
 protocol GameDetailDelegate {
+    
     func gamesWereModified()
+    
 }
 

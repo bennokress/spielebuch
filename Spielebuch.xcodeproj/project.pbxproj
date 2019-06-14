@@ -32,7 +32,6 @@
 		A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */; };
 		ACFC7E969A7A3A145261AAC6EB720DE7 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DB9DCD5712A55916A60AAE41CB0071 /* Match.swift */; };
 		B36F62F6D628D21AD9A5F0AAFCDA5793 /* GamesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED817874721D1F68963C1206C151AFC /* GamesPresenter.swift */; };
-		CE8C85867565B13BE32A3F239DA6484C /* VIPSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */; };
 		D60E4D537A9985DB62F0CEB1D24D91D0 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 894DC39CF8E8E24AEBC67D2F9E53F96B /* SnapKit.framework */; };
 		EAF84487C9F5AD12F279BC0F23C2C573 /* MatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F650B1B1F6E39876B8BE70D8867392FE /* MatchTests.swift */; };
 		ED160467E1886A17831121076C74127C /* Margin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0DA7E5771813AC70C1C4D9E796E565 /* Margin.swift */; };
@@ -69,7 +68,6 @@
 		610B302453E2A0F800D5DA4D50D78363 /* GameDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailView.swift; sourceTree = "<group>"; };
 		6258B5EE2D5BDC0EC0630FF4829D6F3E /* SpielebuchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpielebuchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D71B3315BA185E1E807BC2929C25A83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VIPSegue.swift; sourceTree = "<group>"; };
 		74D987E8D18E77AD7D811E8518647AA9 /* Score.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Score.swift; sourceTree = "<group>"; };
 		8133DC6C1FC05E0F010FD497AE527745 /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/iOS/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		894DC39CF8E8E24AEBC67D2F9E53F96B /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapKit.framework; path = Carthage/Build/iOS/SnapKit.framework; sourceTree = "<group>"; };
@@ -145,7 +143,6 @@
 		452A9F80ADD743F27AB80A7ABA671B92 /* VIP Cycle */ = {
 			isa = PBXGroup;
 			children = (
-				71EF5F47D2AAC4553E7DC77A0DD36713 /* VIPSegue.swift */,
 				C856FE8CE81B72CC70523ADFFDAE6DAB /* VIPViewController.swift */,
 				BD3CDDF8D72E04DD9CD221EC3D775B51 /* VIPViewSetupData.swift */,
 			);
@@ -398,7 +395,6 @@
 				A176D406BE9B9E60FCA78015293D3189 /* Score.swift in Sources */,
 				66DC8A2A485B9F48470BF79D0F125106 /* Spielebuch.xcdatamodeld in Sources */,
 				4B2CB78FF5D494EC7B167EC28CAB12DC /* Type Extensions.swift in Sources */,
-				CE8C85867565B13BE32A3F239DA6484C /* VIPSegue.swift in Sources */,
 				38252DC54A29CF296DB98D9496897F63 /* VIPViewController.swift in Sources */,
 				50CB96F2D8FC115AE07D3C6737D616DC /* VIPViewSetupData.swift in Sources */,
 			);

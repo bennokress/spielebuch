@@ -12,28 +12,33 @@ class GameDetailPresenterImplementation {
     
     private unowned var view: GameDetailView
     
-    /// This initializer is called when a new GameDetailView is created.
     init(for view: GameDetailView) {
         self.view = view
     }
     
 }
 
-// MARK: - GameDetailPresenter Protocol
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
 protocol GameDetailPresenter: class {
     
-    /// Display the provided data on the GameDetailView
+    /// Populates the GameDetailView with data.
+    /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
     func setup(with setupData: VIPViewSetupData?)
     
-    func editGameViewNeeded()
-    
+    /// Provides the details of the game to be displayed.
+    /// - Parameter game: The game to be displayed.
     func showDetails(of game: Game)
     
+    /// Instructs the GameDetailView to display a GameModificationView.
+    func displayEditGameView(with setupData: VIPViewSetupData?)
+    
+    /// Instructs the GameDetailView to notify delegates about modified games.
     func requestGamesListReload()
     
 }
 
-// MARK: - GameDetailPresenter Conformance
 extension GameDetailPresenterImplementation: GameDetailPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
@@ -41,8 +46,8 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
         showDetails(of: game)
     }
     
-    func editGameViewNeeded() {
-        view.showEditGameView()
+    func displayEditGameView(with setupData: VIPViewSetupData?) {
+        view.showEditGameView(with: setupData)
     }
     
     func showDetails(of game: Game) {
@@ -50,7 +55,13 @@ extension GameDetailPresenterImplementation: GameDetailPresenter {
     }
     
     func requestGamesListReload() {
-        view.notifyGamesListAboutChange()
+        view.notifyDelegatesAboutChange()
     }
+    
+}
+
+// MARK: - Private Helpers
+
+extension GameDetailPresenterImplementation {
     
 }

@@ -12,36 +12,39 @@ class GamesInterpreterImplementation {
     
     private let presenter: GamesPresenter
     
-    /// This initializer is called when a new GamesView is created.
     init(with presenter: GamesPresenter) {
         self.presenter = presenter
     }
     
 }
 
-// MARK: - Public Methods
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
 protocol GamesInterpreter: class {
     
-    /// Takes the necessary actions when the GamesView is loading
-    func loadView(with setupData: VIPViewSetupData?)
+    /// Takes actions when the GamesView is loading.
+    /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
+    func viewIsLoading(with setupData: VIPViewSetupData?)
     
-    /// Takes the necessary actions when a GameModificationView notifies about changes
-    func gameChanged(to modifiedGame: Game)
-    
-    /// Takes the necessary actions when a GameModificationView notifies about changes
-    func gamesWereModified()
-    
-    /// Retrieves a filtered list of games based on the search term
+    /// Takes actions when the user searches for a game by typing in the search bar.
+    /// - Parameter searchTerm: The current content of the search bar.
     func userSearches(for searchTerm: String)
     
-    /// Passes the game on to the Game Detail View and opens it
-    func userTapped(_ game: Game)
+    /// Takes actions when the user taps on a game.
+    /// - Parameter game: The game the user tapped on.
+    /// - Parameter isSearchActive: True if the user searched prior to tapping on the game.
+    func userTapped(_ game: Game, withActiveSearch isSearchActive: Bool)
     
-    /// Passes the game on to the Game Detail View and opens it
-    func userTappedSearched(_ game: Game)
-    
-    /// Prepares to show the New Game View
+    /// Takes actions when the user taps the "new game" button.
     func userTappedAddGameButton()
+    
+    /// Takes action when a new game was added or modified.
+    /// - Parameter modifiedGame: The modified game to be displayed.
+    func delegateWasNotified(about modifiedGame: Game)
+    
+    /// Takes action when a new game was added or modified.
+    func delegateWasNotifiedAboutModifiedGames()
     
 }
 
@@ -49,7 +52,7 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     
     // MARK: View Actions
     
-    func loadView(with setupData: VIPViewSetupData?) {
+    func viewIsLoading(with setupData: VIPViewSetupData?) {
         let gamesViewSetup = setupData ?? .games(list: gamesList)
         presenter.setup(with: gamesViewSetup)
     }
@@ -61,13 +64,11 @@ extension GamesInterpreterImplementation: GamesInterpreter {
         presenter.updateTable(with: filteredGamesList)
     }
     
-    func userTapped(_ game: Game) {
+    func userTapped(_ game: Game, withActiveSearch isSearchActive: Bool) {
         presenter.displayGameDetails(for: game)
-    }
-    
-    func userTappedSearched(_ game: Game) {
-        presenter.displayGameDetails(for: game)
-        presenter.searchWasCompleted()
+        if isSearchActive {
+            presenter.searchWasCompleted()
+        }
     }
     
     func userTappedAddGameButton() {
@@ -76,17 +77,18 @@ extension GamesInterpreterImplementation: GamesInterpreter {
     
     // MARK: Delegate Actions
     
-    func gameChanged(to modifiedGame: Game) {
+    func delegateWasNotified(about modifiedGame: Game) {
         presenter.updateTable(with: gamesList)
     }
     
-    func gamesWereModified() {
+    func delegateWasNotifiedAboutModifiedGames() {
         presenter.updateTable(with: gamesList)
     }
     
 }
 
 // MARK: - Private Helpers
+
 extension GamesInterpreterImplementation {
     
     private var gamesList: [Game] {

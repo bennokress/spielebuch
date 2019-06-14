@@ -12,6 +12,10 @@ enum VIPViewSetupData {
     
     case games(list: [Game])
     case gameDetail(game: Game)
-    case gameModification(game: Game?)
+    case gameModification(game: Game?) // 2 Use Cases: Edit (game is set) and New (game is nil)
+    
+    func setup(destinationViewController: VIPViewController) {
+        destinationViewController.setup(with: self)
+    }
     
 }

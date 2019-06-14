@@ -12,14 +12,22 @@ import UIKit
 class GameModificationViewController: VIPViewController {
     
     private var interpreter: GameModificationInterpreter?
-    var delegate: GameModificationDelegate? = nil
+    var delegates: [GameModificationDelegate] = []
     
-    let nameTextField = UITextField()
-    let cancelBarButtonItem = UIBarButtonItem()
-    let saveBarButtonItem = UIBarButtonItem()
-    
+    // Data
     private var game: Game? = nil
     private var isInEditMode: Bool { return game != nil }
+    
+    // View Components
+    private let cancelBarButtonItem = UIBarButtonItem()
+    private let saveBarButtonItem = UIBarButtonItem()
+    private let nameTextField = UITextField()
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GameModificationViewController {
     
     override func loadView() {
         super.loadView()
@@ -33,9 +41,12 @@ class GameModificationViewController: VIPViewController {
         setupConstraints()
     }
     
-    // MARK: - Setup
+}
+
+// MARK: - View Setup
+
+extension GameModificationViewController {
     
-    // MARK: View
     private func setupView() {
         view.backgroundColor = .white
         setupNavigationBar()
@@ -63,10 +74,22 @@ class GameModificationViewController: VIPViewController {
         disableSaveButton()
     }
     
+    @objc func cancelModification() {
+        nameTextField.resignFirstResponder()
+        interpreter?.userTappedCancelButton()
+    }
+    
+    @objc func saveGame() {
+        nameTextField.resignFirstResponder()
+        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
+    }
+    
     // MARK: Name Text Field
     private func setupNameTextField() {
         nameTextField.borderStyle = .roundedRect
         nameTextField.placeholder = "Name"
+        nameTextField.returnKeyType = UIReturnKeyType.done
+        nameTextField.delegate = self
         nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
         view.addSubview(nameTextField)
     }
@@ -85,58 +108,48 @@ class GameModificationViewController: VIPViewController {
         }
     }
     
-    // MARK: - VIP Cycle
+}
+
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GameModificationViewController {
     
-    /// Initializes corresponding Interpreter and Presenter
     private func initializeVIP() {
         let presenter = GameModificationPresenterImplementation(for: self as GameModificationView)
         self.interpreter = GameModificationInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGameModificationView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGameModification.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
-// MARK: - Bar Button Items
-extension GameModificationViewController {
-    
-    @objc func cancelModification() {
-        interpreter?.userTappedCancelButton()
-    }
-    
-    @objc func saveGame() {
-        // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
-        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
-    }
-    
-}
+// MARK: View Protocol
+// --> Every action provided to the Presenter
 
-// MARK: - GameModificationView Protocol
 protocol GameModificationView: class {
     
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
-    
-    /// Normally used to display the value, but used in console for demonstration purposes here.
+    /// Fills in the details for the game that is being modified.
+    /// - Parameter game: The game to be modified.
     func fillFieldsWithCurrentValues(of game: Game)
     
     /// Removes the GameModificationView.
     func dismiss()
     
+    /// Sets the title of the view.
+    /// - Parameter title: The title to be displayed.
     func setTitle(to title: String)
     
-    func notifyDelegate(about modifiedGame: Game)
+    /// Notifies all delegates about the modified game.
+    /// - Parameter modifiedGame: The modified game.
+    func notifyDelegates(about modifiedGame: Game)
     
+    /// Disables the save button.
     func disableSaveButton()
     
+    /// Enable the save button.
     func enableSaveButton()
     
 }
 
-// MARK: - GameModificationView Conformance
 extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
@@ -151,11 +164,13 @@ extension GameModificationViewController: GameModificationView {
     }
     
     func setTitle(to title: String) {
-        self.title = title
+        DispatchQueue.main.async {
+            self.title = title
+        }
     }
     
-    func notifyDelegate(about modifiedGame: Game) {
-        delegate?.gameDetailChanged(for: modifiedGame)
+    func notifyDelegates(about modifiedGame: Game) {
+        delegates.forEach { $0.gameDetailChanged(for: modifiedGame) }
     }
     
     func disableSaveButton() {
@@ -174,12 +189,26 @@ extension GameModificationViewController: GameModificationView {
 
 // MARK: - SnapKit Helper
 extension GameModificationViewController {
+    
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
+    
 }
 
-// MARK: - GameModificationDelegate
+extension GameModificationViewController: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+}
+
+// MARK: - Delegate Protocols
+
 protocol GameModificationDelegate {
-    func gameDetailChanged(for game: Game)
+    
+    func gameDetailChanged(for modified: Game)
+    
 }
 

@@ -12,39 +12,47 @@ import UIKit
 class GamesViewController: VIPViewController {
     
     private var interpreter: GamesInterpreter?
-    private let gamesTableView = UITableView()
     
+    // Data
+    private var groupedGames: [String: [Game]] = [:]
+    
+    // View Components
+    private let gamesTableView = UITableView()
     private let searchController = UISearchController(searchResultsController: nil)
     
-    private var groupedGames: [String: [Game]] = [:]
+    // View State
     private var sections: [String] { return groupedGames.keys.sorted { $0 < $1 } }
+    private var isSearchActive = false
+    
+}
+
+// MARK: - View Lifecycle
+
+extension GamesViewController {
     
     override func loadView() {
         super.loadView()
         initializeVIP()
         setupView()
-        interpreter?.loadView(with: setupData)
+        interpreter?.viewIsLoading(with: setupData)
     }
     
-    // MARK: - Setup
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+    }
     
-    // MARK: View
+}
+
+// MARK: - View Setup
+
+extension GamesViewController {
+    
     private func setupView() {
         view.backgroundColor = .white
         setupGamesTableView()
         setupNavigationBar()
         setupSearchController()
-    }
-    
-    // MARK: Search Controller
-    private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Games"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
     }
     
     // MARK: Navigation Bar
@@ -54,31 +62,65 @@ class GamesViewController: VIPViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        let addBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
-        let searchBarButtonItem = setupNavigationItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
+        setupBarButtonItems()
+    }
+    
+    private func setupBarButtonItems() {
+        let addBarButtonItem = setupBarButtonItem(withUIImageNamed: "NavigationBarItem-Add", andAction: #selector(addItem))
+        let searchBarButtonItem = setupBarButtonItem(withUIImageNamed: "NavigationBarItem-Search", andAction: #selector(searchItems))
         navigationItem.rightBarButtonItem = addBarButtonItem
         navigationItem.leftBarButtonItem = searchBarButtonItem
     }
     
-    // MARK: Navigation Items
-    private func setupNavigationItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
+    private func setupBarButtonItem(withUIImageNamed assetName: String, andAction action: Selector?) -> UIBarButtonItem {
         let item = UIBarButtonItem(image: UIImage(named: assetName), style: .plain, target: self, action: action)
         item.tintColor = .black
         item.width = 24
         return item
     }
     
+    @objc func addItem() {
+        interpreter?.userTappedAddGameButton()
+    }
+    
+    @objc func searchItems() {
+        navigationItem.searchController?.searchBar.becomeFirstResponder()
+    }
+    
+    // MARK: Search Controller
+    private func setupSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search in Games"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
     // MARK: Games Table View
     private func setupGamesTableView() {
+        gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: Identifier.gameCell.rawValue)
+        gamesTableView.dataSource = self
+        gamesTableView.delegate = self
         view.addSubview(gamesTableView)
-        
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
         gamesTableView.snp.makeConstraints { (constraint) in
             constraint.edges.equalTo(self.view)
         }
-        
-        gamesTableView.register(UITableViewCell.self, forCellReuseIdentifier: "gameCell")
-        gamesTableView.dataSource = self
-        gamesTableView.delegate = self
+    }
+    
+}
+
+// MARK: - Private Helpers
+
+extension GamesViewController {
+    
+    private enum Identifier: String {
+        case gameCell
     }
     
     private func reloadGamesTableViewData() {
@@ -93,55 +135,49 @@ class GamesViewController: VIPViewController {
         }
     }
     
-    private var isSearchActive = false
+    private func game(at indexPath: IndexPath) -> Game {
+        let section = self.section(at: indexPath)
+        guard let gamesInSection = groupedGames[section] else {
+            let errorMessage = "Error while searching for Games in Section \"\(section)\""; log.error(errorMessage); fatalError(errorMessage)
+        }
+        return gamesInSection[indexPath.row]
+    }
     
-    // MARK: - VIP Cycle
+    private func section(at indexPath: IndexPath) -> String {
+        return sections[indexPath.section]
+    }
     
-    /// Initializes corresponding Interpreter and Presenter
+}
+
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
+extension GamesViewController {
+    
     private func initializeVIP() {
         let presenter = GamesPresenterImplementation(for: self as GamesView)
         self.interpreter = GamesInterpreterImplementation(with: presenter)
     }
     
-    /// Unwind Segue Setup
-    @IBAction func unwindToGamesView(sender: UIStoryboardSegue) {
-        VIPSegue.unwindToGames.prepare(from: sender, to: self as VIPViewController)
-    }
-    
 }
 
-// MARK: - Bar Button Items
-extension GamesViewController {
-    
-    @objc func addItem() {
-        interpreter?.userTappedAddGameButton()
-    }
-    
-    @objc func searchItems() {
-        navigationItem.searchController?.searchBar.becomeFirstResponder()
-    }
-    
-}
-
-// MARK: - Protocol Conformances
-
-// MARK: GamesView
+// MARK: View Protocol
+// --> Every action provided to the Presenter
 
 protocol GamesView: class {
     
-    /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
-    func setPassOnData(to passOnData: VIPViewSetupData?)
-    
-    /// Set the games to be displayed
+    /// Replaces the currently displayed games by the ones provided.
+    /// - Parameter groupedGames: The games to be displayed.
     func updateGames(from groupedGames: [String: [Game]])
     
-    /// Present a GameDetailView with the Setup Data
-    func showGameDetails(with setupData: VIPViewSetupData)
+    /// Presents a GameDetailView with the provided Data.
+    /// - Parameter setupData: The data used to set up the GameDetailView.
+    func showGameDetailView(with setupData: VIPViewSetupData)
     
-    /// Present an empty GameModificationView
+    /// Presents an empty GameModificationView.
     func showNewGameView()
     
-    /// Dismiss the SearchBar
+    /// Dismisses the search controller.
     func dismissSearchController()
     
 }
@@ -153,16 +189,16 @@ extension GamesViewController: GamesView {
         reloadGamesTableViewData()
     }
     
-    func showGameDetails(with setupData: VIPViewSetupData) {
+    func showGameDetailView(with setupData: VIPViewSetupData) {
         let gameDetailViewController = GameDetailViewController()
-        gameDetailViewController.delegate = self
-        gameDetailViewController.setSetupData(to: setupData)
+        gameDetailViewController.delegates.append(self)
+        gameDetailViewController.setup(with: setupData)
         push(gameDetailViewController)
     }
     
     func showNewGameView() {
         let newGameViewController = GameModificationViewController()
-        newGameViewController.delegate = self
+        newGameViewController.delegates.append(self)
         let newGameNavigationController = UINavigationController(rootViewController: newGameViewController)
         present(newGameNavigationController, animated: true)
     }
@@ -178,7 +214,8 @@ extension GamesViewController: GamesView {
     
 }
 
-// MARK: UITableViewDataSource
+// MARK: - Data Source Implementations
+
 extension GamesViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -192,21 +229,15 @@ extension GamesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let sectionTitle = sections[section]
         guard let gameCountForSection = groupedGames[sectionTitle]?.count else {
-            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
-            fatalError()
+            let errorMessage = "Error while searching for Games in Section \"\(sectionTitle)\""; log.error(errorMessage); fatalError(errorMessage)
         }
         return gameCountForSection
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let sectionTitle = sections[indexPath.section]
-        guard let sectionGames = groupedGames[sectionTitle] else {
-            log.error("Error while searching for Games in Section \"\(sectionTitle)\"")
-            fatalError()
-        }
-        let game = sectionGames[indexPath.row]
+        let game = self.game(at: indexPath)
         
-        let gameCell = tableView.dequeueReusableCell(withIdentifier: "gameCell", for: indexPath)
+        let gameCell = tableView.dequeueReusableCell(withIdentifier: Identifier.gameCell.rawValue, for: indexPath)
         gameCell.textLabel?.text = game.name
         gameCell.accessoryType = .disclosureIndicator
         return gameCell
@@ -214,19 +245,13 @@ extension GamesViewController: UITableViewDataSource {
     
 }
 
-// MARK: UITableViewDelegate
+// MARK: - Delegate Implementations
+
 extension GamesViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let firstLetter = sections[indexPath.section]
-        let game = groupedGames[firstLetter]![indexPath.row]
-        
-        if isSearchActive {
-            interpreter?.userTappedSearched(game)
-        } else {
-            interpreter?.userTapped(game)
-        }
-        
+        let game = self.game(at: indexPath)
+        interpreter?.userTapped(game, withActiveSearch: isSearchActive)
         DispatchQueue.main.async {
             tableView.deselectRow(at: indexPath, animated: true)
         }
@@ -234,14 +259,12 @@ extension GamesViewController: UITableViewDelegate {
     
 }
 
-// MARK: UISearchResultsUpdating
 extension GamesViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
         isSearchActive = true
         guard let searchTerm = searchController.searchBar.text else {
-            log.error("It seems like a search text was typed, but could not be retrieved.")
-            return
+            log.error("It seems like a search text was typed, but could not be retrieved."); return
         }
         interpreter?.userSearches(for: searchTerm)
     }
@@ -250,8 +273,8 @@ extension GamesViewController: UISearchResultsUpdating {
 
 extension GamesViewController: GameModificationDelegate {
     
-    func gameDetailChanged(for game: Game) {
-        interpreter?.gameChanged(to: game)
+    func gameDetailChanged(for modifiedGame: Game) {
+        interpreter?.delegateWasNotified(about: modifiedGame)
     }
     
 }
@@ -259,7 +282,9 @@ extension GamesViewController: GameModificationDelegate {
 extension GamesViewController: GameDetailDelegate {
     
     func gamesWereModified() {
-        interpreter?.gamesWereModified()
+        interpreter?.delegateWasNotifiedAboutModifiedGames()
     }
     
 }
+
+// MARK: - Delegate Protocols

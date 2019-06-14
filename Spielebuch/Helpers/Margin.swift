@@ -20,6 +20,7 @@ enum Margin {
         }
     }
     
+    /// To use with SnapKit when defining the offset for a top or leading margin.
     var standard: ConstraintOffsetTarget {
         switch self {
         case .horizontal: return standardValue
@@ -27,6 +28,7 @@ enum Margin {
         }
     }
     
+    /// To use with SnapKit when defining the offset for a bottom or trailing margin.
     var inverseStandard: ConstraintOffsetTarget {
         switch self {
         case .horizontal: return -standardValue

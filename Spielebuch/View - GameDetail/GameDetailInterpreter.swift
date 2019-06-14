@@ -12,25 +12,27 @@ class GameDetailInterpreterImplementation {
     
     private let presenter: GameDetailPresenter
     
-    /// This initializer is called when a new GameDetailView is created.
     init(with presenter: GameDetailPresenter) {
         self.presenter = presenter
     }
     
 }
 
-// MARK: - Public Methods
+// MARK: - VIP Cycle
+// --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
+
 protocol GameDetailInterpreter: class {
     
-    /// Takes the necessary actions when the GameDetailView is being initialized
-    func loadView(with setupData: VIPViewSetupData?)
+    /// Takes actions when the GameDetailView is loading.
+    /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
+    func viewIsLoading(with setupData: VIPViewSetupData?)
     
-    /// Takes the necessary actions when the GameDetailView is finished loading
-    func viewWillAppear(with setupData: VIPViewSetupData?)
+    /// Takes action when the user wants to edit the shown game.
+    func userTappedEditButton(for game: Game?)
     
-    func userTappedEditButton()
-    
-    func received(_ modifiedGame: Game)
+    /// Takes action when the game displayed by the corresponding view was modified elsewhere.
+    /// - Parameter modifiedGame: The modified game to be displayed.
+    func delegateReceived(_ modifiedGame: Game)
     
 }
 
@@ -38,23 +40,21 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
     
     // MARK: View Actions
     
-    func loadView(with setupData: VIPViewSetupData?) {
+    func viewIsLoading(with setupData: VIPViewSetupData?) {
         presenter.setup(with: setupData)
-    }
-    
-    func viewWillAppear(with setupData: VIPViewSetupData?) {
-        
     }
     
     // MARK: User Actions
     
-    func userTappedEditButton() {
-        presenter.editGameViewNeeded()
+    func userTappedEditButton(for game: Game?) {
+        guard let game = game else { return }
+        let gameModificationViewSetupData = VIPViewSetupData.gameModification(game: game)
+        presenter.displayEditGameView(with: gameModificationViewSetupData)
     }
     
     // MARK: Delegate Actions
     
-    func received(_ modifiedGame: Game) {
+    func delegateReceived(_ modifiedGame: Game) {
         presenter.showDetails(of: modifiedGame)
         presenter.requestGamesListReload()
     }
@@ -62,6 +62,7 @@ extension GameDetailInterpreterImplementation: GameDetailInterpreter {
 }
 
 // MARK: - Private Helpers
+
 extension GameDetailInterpreterImplementation {
     
 }
