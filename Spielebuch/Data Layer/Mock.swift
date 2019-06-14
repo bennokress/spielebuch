@@ -93,11 +93,15 @@ struct Mock {
     
     mutating func modify(_ game: Game, toBe modifiedGame: Game) {
         log.info("Game modified: \(game.name) → \(modifiedGame.name)")
-        guard let originalIndex = baseGames.firstIndex(of: game) else {
+        if let baseGameIndex = baseGames.firstIndex(of: game) {
+            baseGames.remove(at: baseGameIndex)
+            baseGames.insert(modifiedGame, at: baseGameIndex)
+        } else if let userGameIndex = userGames.firstIndex(of: game) {
+            userGames.remove(at: userGameIndex)
+            userGames.insert(modifiedGame, at: userGameIndex)
+        } else {
             log.error("Original game named \(game.name) not found"); return
         }
-        baseGames.remove(at: originalIndex)
-        baseGames.insert(modifiedGame, at: originalIndex)
     }
     
 }
