@@ -14,15 +14,20 @@ enum VIPSegue: String {
     // IMPORTANT: The cases have to be identically named to the identifier of the UIStoryboardSegue they represent!
     
     // MARK: Normal Segues
+    case goToGameDetail
     
     // MARK: Unwind Segues
     case unwindToGames
+    case unwindToGameDetail
     
     // MARK: - Public functions
     
     /// Passes data from the source view controller to the destination view controller of a normal segue.
     func prepare(for segue: UIStoryboardSegue, with passOnData: VIPViewSetupData?) {
-        guard let destinationViewController = segue.destination as? VIPViewController else { return }
+        guard let destinationViewController = segue.destination as? VIPViewController else {
+            log.error("The destination of the segue is not a VIPViewController")
+            return
+        }
         destinationViewController.setSetupData(to: passOnData)
     }
     
@@ -33,7 +38,10 @@ enum VIPSegue: String {
     
     /// Passes data from the source view controller to the destination view controller of an unwind segue.
     func prepare(from unwindSegue: UIStoryboardSegue, to destinationViewController: VIPViewController) {
-        guard let sourceViewController = unwindSegue.source as? VIPViewController else { return }
+        guard let sourceViewController = unwindSegue.source as? VIPViewController else {
+            log.error("The destination of the unwind segue is not a VIPViewController")
+            return
+        }
         destinationViewController.setSetupData(to: sourceViewController.passOnData)
     }
     
