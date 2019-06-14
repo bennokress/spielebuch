@@ -19,10 +19,12 @@ class GameModificationViewController: VIPViewController {
     let saveBarButtonItem = UIBarButtonItem()
     
     private var game: Game? = nil
+    private var isInEditMode: Bool { return game != nil }
     
     override func loadView() {
         super.loadView()
         initializeVIP()
+        interpreter?.viewIsLoading(with: setupData)
         setupView()
     }
     
@@ -42,7 +44,6 @@ class GameModificationViewController: VIPViewController {
     
     // MARK: Navigation Bar
     private func setupNavigationBar() {
-        title = "New Game"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
@@ -71,7 +72,7 @@ class GameModificationViewController: VIPViewController {
     }
     
     @objc private func nameTextFieldDidChange() {
-        interpreter?.userEditedNameTextField(to: nameTextField.text)
+        interpreter?.userEditedNameTextField(to: nameTextField.text, for: game)
     }
     
     // MARK: Constraints
@@ -108,7 +109,7 @@ extension GameModificationViewController {
     
     @objc func saveGame() {
         // TODO: Replace Dummy by making sure save can't be tapped without filled fields.
-        interpreter?.userTappedSaveGameButton(name: nameTextField.text ?? "Dummy")
+        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
     }
     
 }
@@ -125,7 +126,9 @@ protocol GameModificationView: class {
     /// Removes the GameModificationView.
     func dismiss()
     
-    func notifyDelegate()
+    func setTitle(to title: String)
+    
+    func notifyDelegate(about modifiedGame: Game)
     
     func disableSaveButton()
     
@@ -137,7 +140,8 @@ protocol GameModificationView: class {
 extension GameModificationViewController: GameModificationView {
     
     func fillFieldsWithCurrentValues(of game: Game) {
-        log.info("Filling fields for \(game.name)")
+        self.game = game
+        nameTextField.text = game.name
     }
     
     func dismiss() {
@@ -146,8 +150,12 @@ extension GameModificationViewController: GameModificationView {
         }
     }
     
-    func notifyDelegate() {
-        delegate?.gameChanged()
+    func setTitle(to title: String) {
+        self.title = title
+    }
+    
+    func notifyDelegate(about modifiedGame: Game) {
+        delegate?.gameDetailChanged(for: modifiedGame)
     }
     
     func disableSaveButton() {
@@ -170,7 +178,8 @@ extension GameModificationViewController {
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
 }
 
+// MARK: - GameModificationDelegate
 protocol GameModificationDelegate {
-    func gameChanged()
+    func gameDetailChanged(for game: Game)
 }
 

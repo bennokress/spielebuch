@@ -19,6 +19,21 @@ struct Game {
     }
 }
 
+extension Game: Hashable {
+    
+    static func == (lhs: Game, rhs: Game) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        if let groupName = groupAffiliation?.name {
+            hasher.combine(groupName)
+        }
+    }
+    
+}
+
 //extension Game {
 //    struct ScoreRules {
 //        let instructions = "In diesem Spiel werden zunächst die Punkte aufgeschrieben. Bei Gleichstand gewinnt der Spieler mit den wenigsten Karten. Herrscht auch dann noch Gleichstand so gewinnt der Spieler mit dem meisten Geld."

@@ -11,6 +11,7 @@ import UIKit
 class GameDetailViewController: VIPViewController {
     
     private var interpreter: GameDetailInterpreter?
+    var delegate: GameDetailDelegate? = nil
     
     private var game: Game? = nil
     
@@ -60,7 +61,7 @@ class GameDetailViewController: VIPViewController {
 extension GameDetailViewController {
     
     @objc func editGame() {
-        log.info("Edit Game Button tapped")
+        interpreter?.userTappedEditButton()
     }
     
 }
@@ -71,8 +72,13 @@ protocol GameDetailView: class {
     /// Makes the method from the superclass VIPViewController visible in order to pass data to a segue destination view controller.
     func setPassOnData(to passOnData: VIPViewSetupData?)
     
-    /// Normally used to display the value, but used in console for demonstration purposes here.
+    /// Used to display the game properties
     func showDetails(of game: Game)
+    
+    /// Presents the Edit Game View
+    func showEditGameView()
+    
+    func notifyGamesListAboutChange()
     
 }
 
@@ -80,8 +86,34 @@ protocol GameDetailView: class {
 extension GameDetailViewController: GameDetailView {
     
     func showDetails(of game: Game) {
+        self.game = game
         title = game.name
     }
     
+    func showEditGameView() {
+        let editGameViewController = GameModificationViewController()
+        editGameViewController.delegate = self
+        editGameViewController.setSetupData(to: .gameModification(game: game))
+        let editGameNavigationController = UINavigationController(rootViewController: editGameViewController)
+        present(editGameNavigationController, animated: true)
+    }
+    
+    func notifyGamesListAboutChange() {
+        delegate?.gamesWereModified()
+    }
+    
+}
+
+extension GameDetailViewController: GameModificationDelegate {
+    
+    func gameDetailChanged(for game: Game) {
+        interpreter?.received(game)
+    }
+    
+}
+
+// MARK: - GameDetailDelegate
+protocol GameDetailDelegate {
+    func gamesWereModified()
 }
 
