@@ -12,6 +12,26 @@ struct Game {
     let name: String
     let groupAffiliation: GameGroup?
 //    let scoreRules = ScoreRules()
+    
+    init(named name: String, asPartOf groupAffiliation: GameGroup? = nil) {
+        self.name = name
+        self.groupAffiliation = groupAffiliation
+    }
+}
+
+extension Game: Hashable {
+    
+    static func == (lhs: Game, rhs: Game) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        if let groupName = groupAffiliation?.name {
+            hasher.combine(groupName)
+        }
+    }
+    
 }
 
 //extension Game {

@@ -15,7 +15,7 @@ extension Game {
     
     static let standard = Game()
     init(testName name: String = standardName, testGroupAffiliation groupAffiliation: GameGroup? = standardGroupAffiliation) {
-        self = Game(name: name, groupAffiliation: groupAffiliation)
+        self = Game(named: name, asPartOf: groupAffiliation)
     }
 }
 
