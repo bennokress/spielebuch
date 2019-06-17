@@ -21,7 +21,9 @@ class PlayerModificationViewController: VIPViewController {
     // View Components
     private let cancelBarButtonItem = UIBarButtonItem()
     private let saveBarButtonItem = UIBarButtonItem()
-    private let nameTextField = UITextField()
+    private let firstNameTextField = UITextField()
+    private let lastNameTextField = UITextField()
+    private let nicknameTextField = UITextField()
     
 }
 
@@ -50,7 +52,7 @@ extension PlayerModificationViewController {
     private func setupView() {
         view.backgroundColor = .white
         setupNavigationBar()
-        setupNameTextField()
+        setupTextFields()
     }
     
     // MARK: Navigation Bar
@@ -75,33 +77,55 @@ extension PlayerModificationViewController {
     }
     
     @objc func cancelModification() {
-        nameTextField.resignFirstResponder()
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
+        nicknameTextField.resignFirstResponder()
         interpreter?.userTappedCancelButton()
     }
     
     @objc func savePlayer() {
-        nameTextField.resignFirstResponder()
-        interpreter?.userTappedSavePlayerButton(name: nameTextField.text, for: player)
+        firstNameTextField.resignFirstResponder()
+        lastNameTextField.resignFirstResponder()
+        nicknameTextField.resignFirstResponder()
+        interpreter?.userTappedSavePlayerButton(firstName: firstNameTextField.text, lastName: lastNameTextField.text, nickname: nicknameTextField.text, for: player)
     }
     
-    // MARK: Name Text Field
-    private func setupNameTextField() {
-        nameTextField.borderStyle = .roundedRect
-        nameTextField.placeholder = "Name"
-        nameTextField.returnKeyType = UIReturnKeyType.done
-        nameTextField.delegate = self
-        nameTextField.addTarget(self, action: #selector(nameTextFieldDidChange), for: .editingChanged)
-        view.addSubview(nameTextField)
+    // MARK: Text Fields
+    private func setupTextFields() {
+        setup(firstNameTextField, placeholder: "First Name", returnKeyType: .next, editingChangedAction: #selector(nameTextFieldDidChange))
+        setup(lastNameTextField, placeholder: "Last Name", returnKeyType: .next, editingChangedAction: #selector(nameTextFieldDidChange))
+        setup(nicknameTextField, placeholder: "Nickname (optional)", returnKeyType: .done, editingChangedAction: #selector(nameTextFieldDidChange))
+    }
+    
+    private func setup(_ textField: UITextField, placeholder: String, returnKeyType: UIReturnKeyType, editingChangedAction: Selector) {
+        textField.borderStyle = .roundedRect
+        textField.placeholder = placeholder
+        textField.returnKeyType = returnKeyType
+        textField.delegate = self
+        textField.addTarget(self, action: editingChangedAction, for: .editingChanged)
+        view.addSubview(textField)
     }
     
     @objc private func nameTextFieldDidChange() {
-        interpreter?.userEditedNameTextField(to: nameTextField.text, for: player)
+        interpreter?.userEditedTextFields(to: firstNameTextField.text, lastNameTextField.text, nicknameTextField.text, for: player)
     }
     
     // MARK: Constraints
     private func setupConstraints() {
-        nameTextField.snp.makeConstraints { (constraint) in
+        firstNameTextField.snp.makeConstraints { (constraint) in
             constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+            constraint.height.equalTo(50)
+        }
+        lastNameTextField.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(firstNameTextField.snp.bottom).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+            constraint.height.equalTo(50)
+        }
+        nicknameTextField.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(lastNameTextField.snp.bottom).offset(Margin.vertical.standard)
             constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
             constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
             constraint.height.equalTo(50)
@@ -154,7 +178,9 @@ extension PlayerModificationViewController: PlayerModificationView {
     
     func fillFieldsWithCurrentValues(of player: Player) {
         self.player = player
-        nameTextField.text = player.firstName
+        firstNameTextField.text = player.firstName
+        lastNameTextField.text = player.lastName
+        nicknameTextField.text = player.nickname
     }
     
     func dismiss() {

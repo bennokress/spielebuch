@@ -28,17 +28,21 @@ protocol PlayerModificationInterpreter: class {
     func viewIsLoading(with setupData: VIPViewSetupData?)
     
     /// Takes actions when the user wants to save a player.
-    /// - Parameter name: The name of the player.
+    /// - Parameter firstName: The first name of the player.
+    /// - Parameter lastName: The last name of the player.
+    /// - Parameter nickname: The nickname of the player.
     /// - Parameter player: [Optional] The existing player that should be modified. A new player should be created if this is nil.
-    func userTappedSavePlayerButton(name: String?, for player: Player?)
+    func userTappedSavePlayerButton(firstName: String?, lastName: String?, nickname: String?, for player: Player?)
     
     /// Takes action when the user cancels the player modification.
     func userTappedCancelButton()
     
     /// Takes action when the user edits the name text field by typing or deleting a character.
-    /// - Parameter textFieldValue: The new content of the name text field.
+    /// - Parameter firstNameTextFieldValue: The new content of the first name text field.
+    /// - Parameter lastNameTextFieldValue: The new content of the last name text field.
+    /// - Parameter nicknameTextFieldValue: The new content of the nickname text field.
     /// - Parameter player: [Optional] The existing player that is currently modified by the user. A new player is being created if this is nil.
-    func userEditedNameTextField(to textFieldValue: String?, for player: Player?)
+    func userEditedTextFields(to firstNameTextFieldValue: String?, _ lastNameTextFieldValue: String?, _ nicknameTextFieldValue: String?, for player: Player?)
     
 }
 
@@ -52,11 +56,12 @@ extension PlayerModificationInterpreterImplementation: PlayerModificationInterpr
     
     // MARK: User Actions
     
-    func userTappedSavePlayerButton(name: String?, for player: Player?) {
-        guard let name = name?.withTrimmedWhitespace else {
+    func userTappedSavePlayerButton(firstName: String?, lastName: String?, nickname: String?, for player: Player?) {
+        guard let firstName = firstName.withTrimmedWhitespace, let lastName = lastName.withTrimmedWhitespace else {
             log.error("The save button should not have been active!"); return
         }
-        let savedPlayer = Player(firstName: name, lastName: "Nachname", nickname: nil, base64Image: nil)
+        let nickname = nickname.withTrimmedWhitespace
+        let savedPlayer = Player(firstName: firstName, lastName: lastName, nickname: nickname, base64Image: nil)
         if let originalPlayer = player {
             Mock.shared.modify(originalPlayer, toBe: savedPlayer)
         } else {
@@ -69,15 +74,16 @@ extension PlayerModificationInterpreterImplementation: PlayerModificationInterpr
         presenter.cancelRequested()
     }
     
-    func userEditedNameTextField(to textFieldValue: String?, for player: Player?) {
-        guard let name = textFieldValue?.withTrimmedWhitespace, name.count > 0 else {
-            presenter.nameTextFieldIsEmpty()
+    func userEditedTextFields(to firstNameTextFieldValue: String?, _ lastNameTextFieldValue: String?, _ nicknameTextFieldValue: String?, for player: Player?) {
+        guard let firstName = firstNameTextFieldValue.withTrimmedWhitespace, let lastName = lastNameTextFieldValue.withTrimmedWhitespace else {
+            presenter.requiredTextFieldsAreNotYetFilled()
             return
         }
-        if let originalPlayer = player, originalPlayer.firstName == name {
-            presenter.nameIsUnchanged()
+        let nickname = nicknameTextFieldValue.withTrimmedWhitespace
+        if let originalPlayer = player, originalPlayer.firstName == firstName, originalPlayer.lastName == lastName, originalPlayer.nickname == nickname {
+            presenter.playerIsUnchanged()
         } else {
-            presenter.nameTextFieldIsFilled()
+            presenter.textFieldsAreFilled()
         }
     }
     

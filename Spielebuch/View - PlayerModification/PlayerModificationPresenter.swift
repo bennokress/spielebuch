@@ -35,13 +35,13 @@ protocol PlayerModificationPresenter: class {
     func cancelRequested()
     
     /// Instructs the PlayerModificationView to disable the save option.
-    func nameTextFieldIsEmpty()
+    func requiredTextFieldsAreNotYetFilled()
     
     /// Instructs the PlayerModificationView to enable the save button.
-    func nameTextFieldIsFilled()
+    func textFieldsAreFilled()
     
     /// Instructs the PlayerModificationView to disable the save button.
-    func nameIsUnchanged()
+    func playerIsUnchanged()
     
 }
 
@@ -65,15 +65,15 @@ extension PlayerModificationPresenterImplementation: PlayerModificationPresenter
         view.dismiss()
     }
     
-    func nameTextFieldIsEmpty() {
+    func requiredTextFieldsAreNotYetFilled() {
         view.disableSaveButton()
     }
     
-    func nameTextFieldIsFilled() {
+    func textFieldsAreFilled() {
         view.enableSaveButton()
     }
     
-    func nameIsUnchanged() {
+    func playerIsUnchanged() {
         view.disableSaveButton()
     }
     
