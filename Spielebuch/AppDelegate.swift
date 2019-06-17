@@ -93,7 +93,7 @@ extension AppDelegate {
             case .home: return UIImage()
             case .scores: return UIImage()
             case .games: return UIImage(named: "TabBarItem-Games")
-            case .players: return UIImage()
+            case .players: return UIImage(named: "TabBarItem-Players")
             }
         }
     }
@@ -103,9 +103,13 @@ extension AppDelegate {
         let gamesNavigationController = UINavigationController(rootViewController: gamesViewController)
         gamesNavigationController.title = TabBarItemParameters.games.title
         
+        let playersViewController = PlayersViewController()
+        let playersNavigationController = UINavigationController(rootViewController: playersViewController)
+        playersNavigationController.title = TabBarItemParameters.players.title
+        
         // TODO: Instantiate the View Controllers for all other tabs …
         
-        return [gamesNavigationController]
+        return [gamesNavigationController, playersNavigationController]
     }
     
     private func setupTabBar(with viewControllers: [UIViewController]) {
