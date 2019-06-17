@@ -15,3 +15,18 @@ struct Player {
     var displayname: String { return nickname ?? firstName }
     let base64Image: String?
 }
+
+extension Player: Hashable {
+    
+    static func == (lhs: Player, rhs: Player) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(firstName)
+        hasher.combine(lastName)
+        hasher.combine(nickname)
+        hasher.combine(base64Image)
+    }
+    
+}

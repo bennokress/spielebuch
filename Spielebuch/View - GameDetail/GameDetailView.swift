@@ -130,4 +130,3 @@ protocol GameDetailDelegate {
     func gamesWereModified()
     
 }
-

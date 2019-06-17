@@ -211,4 +211,3 @@ protocol GameModificationDelegate {
     func gameDetailChanged(for modified: Game)
     
 }
-

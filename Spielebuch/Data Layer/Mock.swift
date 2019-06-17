@@ -23,9 +23,21 @@ struct Mock {
     /// The combination of baseGames and userGames.
     var games: [Game] { return baseGames + userGames }
     
+    /// Players added or edited by the user. Will be deleted when restarting the app.
+    private var userPlayers: [Player] = []
+    
+    /// The players provided below. Those will be present with every app start.
+    private var basePlayers: [Player] = []
+    
+    /// The combination of basePlayers and userPlayers.
+    var players: [Player] { return basePlayers + userPlayers }
+    
     init() {
         baseGames = [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel]
+        basePlayers = [sandra, benno, norbert, gabi, urban, franziS, doris, phips, franziH, markus, andrea, alex, caro, christina, andi, günther, uli]
     }
+    
+    // MARK: - Mocked Games
     
     private let activity = Game(named: "Activity")
     private let alhambra = Game(named: "Alhambra")
@@ -86,6 +98,28 @@ struct Mock {
 //    private let woodlandsGrafDracula = Game(named: "Woodlands - Graf Dracula")
     private let sevenWondersDuel = Game(named: "7 Wonders Duel")
     
+    // MARK: - Mocked Players
+    
+    private let sandra = Player(firstName: "Sandra", lastName: "Gaede", nickname: nil, base64Image: nil)
+    private let benno = Player(firstName: "Benno", lastName: "Kress", nickname: nil, base64Image: nil)
+    private let norbert = Player(firstName: "Norbert", lastName: "Kress", nickname: nil, base64Image: nil)
+    private let gabi = Player(firstName: "Gabi", lastName: "Kress", nickname: nil, base64Image: nil)
+    private let urban = Player(firstName: "Urban", lastName: "Kress", nickname: nil, base64Image: nil)
+    private let franziS = Player(firstName: "Franziska", lastName: "Steinecker", nickname: "Franzi", base64Image: nil)
+    private let doris = Player(firstName: "Doris", lastName: "Gaede", nickname: nil, base64Image: nil)
+    private let phips = Player(firstName: "Philipp", lastName: "Hatlapatka", nickname: "Phips", base64Image: nil)
+    private let franziH = Player(firstName: "Franziska", lastName: "Hatlapatka", nickname: "Franzi", base64Image: nil)
+    private let markus = Player(firstName: "Markus", lastName: "Sager", nickname: nil, base64Image: nil)
+    private let andrea = Player(firstName: "Andrea", lastName: "Sager", nickname: nil, base64Image: nil)
+    private let alex = Player(firstName: "Alexander", lastName: "Barth", nickname: nil, base64Image: nil)
+    private let caro = Player(firstName: "Carolin", lastName: "Sinemus", nickname: "Caro", base64Image: nil)
+    private let christina = Player(firstName: "Christina", lastName: "Lang", nickname: nil, base64Image: nil)
+    private let andi = Player(firstName: "Alexander", lastName: "Lang", nickname: "Alex", base64Image: nil)
+    private let günther = Player(firstName: "Günther", lastName: "Bräuer", nickname: nil, base64Image: nil)
+    private let uli = Player(firstName: "Ulrike", lastName: "Bräuer", nickname: "Uli", base64Image: nil)
+    
+    // MARK: - Game Methods
+    
     mutating func save(_ game: Game) {
         log.info("Game saved: \(game.name)")
         userGames.append(game)
@@ -101,6 +135,26 @@ struct Mock {
             userGames.insert(modifiedGame, at: userGameIndex)
         } else {
             log.error("Original game named \(game.name) not found"); return
+        }
+    }
+    
+    // MARK: - Player Methods
+    
+    mutating func save(_ player: Player) {
+        log.info("Player saved: \(player.displayname)")
+        userPlayers.append(player)
+    }
+    
+    mutating func modify(_ player: Player, toBe modifiedPlayer: Player) {
+        log.info("Player modified: \(player.displayname) → \(modifiedPlayer.displayname)")
+        if let basePlayerIndex = basePlayers.firstIndex(of: player) {
+            basePlayers.remove(at: basePlayerIndex)
+            basePlayers.insert(modifiedPlayer, at: basePlayerIndex)
+        } else if let userPlayerIndex = userPlayers.firstIndex(of: player) {
+            userPlayers.remove(at: userPlayerIndex)
+            userPlayers.insert(modifiedPlayer, at: userPlayerIndex)
+        } else {
+            log.error("Original player named \(player.displayname) not found"); return
         }
     }
     
