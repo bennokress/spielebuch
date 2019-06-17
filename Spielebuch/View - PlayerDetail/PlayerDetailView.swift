@@ -100,12 +100,11 @@ extension PlayerDetailViewController: PlayerDetailView {
     }
     
     func showEditPlayerView(with setupData: VIPViewSetupData?) {
-        log.info("Edit Player View was requested")
-//        let editPlayerViewController = PlayerModificationViewController()
-//        editPlayerViewController.delegates.append(self)
-//        editPlayerViewController.setup(with: setupData)
-//        let editPlayerNavigationController = UINavigationController(rootViewController: editPlayerViewController)
-//        present(editPlayerNavigationController, animated: true)
+        let editPlayerViewController = PlayerModificationViewController()
+        editPlayerViewController.delegates.append(self)
+        editPlayerViewController.setup(with: setupData)
+        let editPlayerNavigationController = UINavigationController(rootViewController: editPlayerViewController)
+        present(editPlayerNavigationController, animated: true)
     }
     
     func notifyDelegatesAboutChange() {
@@ -116,13 +115,13 @@ extension PlayerDetailViewController: PlayerDetailView {
 
 // MARK: - Delegate Implementations
 
-//extension PlayerDetailViewController: PlayerModificationDelegate {
-//
-//    func playerDetailChanged(for player: Player) {
-//        interpreter?.delegateReceived(player)
-//    }
-//
-//}
+extension PlayerDetailViewController: PlayerModificationDelegate {
+
+    func playerDetailChanged(for player: Player) {
+        interpreter?.delegateReceived(player)
+    }
+
+}
 
 // MARK: - Delegate Protocols
 

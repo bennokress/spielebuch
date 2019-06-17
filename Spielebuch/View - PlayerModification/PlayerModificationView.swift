@@ -1,22 +1,22 @@
 //
-//  GameModificationView.swift
+//  PlayerModificationView.swift
 //  Spielebuch
 //
-//  Created by Benno Kress on 11.06.19.
+//  Created by Benno Kress on 17.06.19.
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
 import SnapKit
 import UIKit
 
-class GameModificationViewController: VIPViewController {
+class PlayerModificationViewController: VIPViewController {
     
-    private var interpreter: GameModificationInterpreter?
-    var delegates: [GameModificationDelegate] = []
+    private var interpreter: PlayerModificationInterpreter?
+    var delegates: [PlayerModificationDelegate] = []
     
     // Data
-    private var game: Game? = nil
-    private var isInEditMode: Bool { return game != nil }
+    private var player: Player? = nil
+    private var isInEditMode: Bool { return player != nil }
     
     // View Components
     private let cancelBarButtonItem = UIBarButtonItem()
@@ -27,7 +27,7 @@ class GameModificationViewController: VIPViewController {
 
 // MARK: - View Lifecycle
 
-extension GameModificationViewController {
+extension PlayerModificationViewController {
     
     override func loadView() {
         super.loadView()
@@ -45,7 +45,7 @@ extension GameModificationViewController {
 
 // MARK: - View Setup
 
-extension GameModificationViewController {
+extension PlayerModificationViewController {
     
     private func setupView() {
         view.backgroundColor = .white
@@ -66,7 +66,7 @@ extension GameModificationViewController {
         saveBarButtonItem.title = "Save"
         saveBarButtonItem.style = .done
         saveBarButtonItem.target = self
-        saveBarButtonItem.action = #selector(saveGame)
+        saveBarButtonItem.action = #selector(savePlayer)
         
         navigationItem.leftBarButtonItem = cancelBarButtonItem
         navigationItem.rightBarButtonItem = saveBarButtonItem
@@ -79,9 +79,9 @@ extension GameModificationViewController {
         interpreter?.userTappedCancelButton()
     }
     
-    @objc func saveGame() {
+    @objc func savePlayer() {
         nameTextField.resignFirstResponder()
-        interpreter?.userTappedSaveGameButton(name: nameTextField.text, for: game)
+        interpreter?.userTappedSavePlayerButton(name: nameTextField.text, for: player)
     }
     
     // MARK: Name Text Field
@@ -95,7 +95,7 @@ extension GameModificationViewController {
     }
     
     @objc private func nameTextFieldDidChange() {
-        interpreter?.userEditedNameTextField(to: nameTextField.text, for: game)
+        interpreter?.userEditedNameTextField(to: nameTextField.text, for: player)
     }
     
     // MARK: Constraints
@@ -113,11 +113,11 @@ extension GameModificationViewController {
 // MARK: - VIP Cycle
 // --> Separation of View, Interpreter and Presenter (see https://github.com/bennokress/Minimal-VIP-Architecture)
 
-extension GameModificationViewController {
+extension PlayerModificationViewController {
     
     private func initializeVIP() {
-        let presenter = GameModificationPresenterImplementation(for: self as GameModificationView)
-        self.interpreter = GameModificationInterpreterImplementation(with: presenter)
+        let presenter = PlayerModificationPresenterImplementation(for: self as PlayerModificationView)
+        self.interpreter = PlayerModificationInterpreterImplementation(with: presenter)
     }
     
 }
@@ -125,22 +125,22 @@ extension GameModificationViewController {
 // MARK: View Protocol
 // --> Every action provided to the Presenter
 
-protocol GameModificationView: class {
+protocol PlayerModificationView: class {
     
-    /// Fills in the details for the game that is being modified.
-    /// - Parameter game: The game to be modified.
-    func fillFieldsWithCurrentValues(of game: Game)
+    /// Fills in the details for the player that is being modified.
+    /// - Parameter player: The player to be modified.
+    func fillFieldsWithCurrentValues(of player: Player)
     
-    /// Removes the GameModificationView.
+    /// Removes the PlayerModificationView.
     func dismiss()
     
     /// Sets the title of the view.
     /// - Parameter title: The title to be displayed.
     func setTitle(to title: String)
     
-    /// Notifies all delegates about the modified game.
-    /// - Parameter modifiedGame: The modified game.
-    func notifyDelegates(about modifiedGame: Game)
+    /// Notifies all delegates about the modified player.
+    /// - Parameter modifiedPlayer: The modified player.
+    func notifyDelegates(about modifiedPlayer: Player)
     
     /// Disables the save button.
     func disableSaveButton()
@@ -150,11 +150,11 @@ protocol GameModificationView: class {
     
 }
 
-extension GameModificationViewController: GameModificationView {
+extension PlayerModificationViewController: PlayerModificationView {
     
-    func fillFieldsWithCurrentValues(of game: Game) {
-        self.game = game
-        nameTextField.text = game.name
+    func fillFieldsWithCurrentValues(of player: Player) {
+        self.player = player
+        nameTextField.text = player.firstName
     }
     
     func dismiss() {
@@ -169,8 +169,8 @@ extension GameModificationViewController: GameModificationView {
         }
     }
     
-    func notifyDelegates(about modifiedGame: Game) {
-        delegates.forEach { $0.gameDetailChanged(for: modifiedGame) }
+    func notifyDelegates(about modifiedPlayer: Player) {
+        delegates.forEach { $0.playerDetailChanged(for: modifiedPlayer) }
     }
     
     func disableSaveButton() {
@@ -188,14 +188,14 @@ extension GameModificationViewController: GameModificationView {
 }
 
 // MARK: - SnapKit Helper
-extension GameModificationViewController {
+extension PlayerModificationViewController {
     
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
     
 }
 
-extension GameModificationViewController: UITextFieldDelegate {
+extension PlayerModificationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -206,8 +206,8 @@ extension GameModificationViewController: UITextFieldDelegate {
 
 // MARK: - Delegate Protocols
 
-protocol GameModificationDelegate {
+protocol PlayerModificationDelegate {
     
-    func gameDetailChanged(for modified: Game)
+    func playerDetailChanged(for modified: Player)
     
 }

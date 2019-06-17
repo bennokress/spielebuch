@@ -197,11 +197,10 @@ extension PlayersViewController: PlayersView {
     }
     
     func showNewPlayerView() {
-        log.info("New Player View was requested")
-//        let newPlayerViewController = PlayerModificationViewController()
-//        newPlayerViewController.delegates.append(self)
-//        let newPlayerNavigationController = UINavigationController(rootViewController: newPlayerViewController)
-//        present(newPlayerNavigationController, animated: true)
+        let newPlayerViewController = PlayerModificationViewController()
+        newPlayerViewController.delegates.append(self)
+        let newPlayerNavigationController = UINavigationController(rootViewController: newPlayerViewController)
+        present(newPlayerNavigationController, animated: true)
     }
     
     func dismissSearchController() {
@@ -272,13 +271,13 @@ extension PlayersViewController: UISearchResultsUpdating {
     
 }
 
-//extension PlayersViewController: PlayerModificationDelegate {
-//    
-//    func playerDetailChanged(for modifiedPlayer: Player) {
-//        interpreter?.delegateWasNotified(about: modifiedPlayer)
-//    }
-//    
-//}
+extension PlayersViewController: PlayerModificationDelegate {
+    
+    func playerDetailChanged(for modifiedPlayer: Player) {
+        interpreter?.delegateWasNotified(about: modifiedPlayer)
+    }
+    
+}
 
 extension PlayersViewController: PlayerDetailDelegate {
     
