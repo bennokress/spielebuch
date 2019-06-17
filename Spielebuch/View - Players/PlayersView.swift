@@ -190,11 +190,10 @@ extension PlayersViewController: PlayersView {
     }
     
     func showPlayerDetailView(with setupData: VIPViewSetupData) {
-        log.info("Player Detail View was requested")
-//        let playerDetailViewController = PlayerDetailViewController()
-//        playerDetailViewController.delegates.append(self)
-//        playerDetailViewController.setup(with: setupData)
-//        push(playerDetailViewController)
+        let playerDetailViewController = PlayerDetailViewController()
+        playerDetailViewController.delegates.append(self)
+        playerDetailViewController.setup(with: setupData)
+        push(playerDetailViewController)
     }
     
     func showNewPlayerView() {
@@ -280,13 +279,13 @@ extension PlayersViewController: UISearchResultsUpdating {
 //    }
 //    
 //}
-//
-//extension PlayersViewController: PlayerDetailDelegate {
-//    
-//    func playersWereModified() {
-//        interpreter?.delegateWasNotifiedAboutModifiedPlayers()
-//    }
-//    
-//}
+
+extension PlayersViewController: PlayerDetailDelegate {
+    
+    func playersWereModified() {
+        interpreter?.delegateWasNotifiedAboutModifiedPlayers()
+    }
+    
+}
 
 // MARK: - Delegate Protocols
