@@ -50,7 +50,7 @@ extension PlayerModificationViewController {
 extension PlayerModificationViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
         setupTextFields()
     }

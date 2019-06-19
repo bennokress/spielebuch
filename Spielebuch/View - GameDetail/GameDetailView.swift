@@ -39,7 +39,7 @@ extension GameDetailViewController {
 extension GameDetailViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
     }
     

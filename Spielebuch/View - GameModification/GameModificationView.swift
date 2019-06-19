@@ -48,7 +48,7 @@ extension GameModificationViewController {
 extension GameModificationViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
         setupNameTextField()
     }

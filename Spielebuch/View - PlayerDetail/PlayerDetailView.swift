@@ -39,7 +39,7 @@ extension PlayerDetailViewController {
 extension PlayerDetailViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
     }
     

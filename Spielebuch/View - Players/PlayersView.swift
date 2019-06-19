@@ -49,7 +49,7 @@ extension PlayersViewController {
 extension PlayersViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupPlayersTableView()
         setupNavigationBar()
         setupSearchController()
