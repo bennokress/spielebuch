@@ -6,6 +6,7 @@
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
+import SnapKit
 import UIKit
 
 class GameDetailViewController: VIPViewController {
@@ -18,6 +19,7 @@ class GameDetailViewController: VIPViewController {
     
     // View Components
     private let editGameBarButtonItem = UIBarButtonItem()
+    private let placeholderLabel = UILabel()
     
 }
 
@@ -32,6 +34,11 @@ extension GameDetailViewController {
         setupView()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+    }
+    
 }
 
 // MARK: - View Setup
@@ -41,6 +48,7 @@ extension GameDetailViewController {
     private func setupView() {
         view.backgroundColor = .background
         setupNavigationBar()
+        setupPlaceholderLabel()
     }
     
     // MARK: Navigation Bar
@@ -58,6 +66,21 @@ extension GameDetailViewController {
     
     @objc func editGame() {
         interpreter?.userTappedEditButton(for: game)
+    }
+    
+    // MARK: Game Details
+    private func setupPlaceholderLabel() {
+        placeholderLabel.text = "No statistics yet."
+        view.addSubview(placeholderLabel)
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
+        placeholderLabel.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+        }
     }
     
 }
@@ -110,6 +133,15 @@ extension GameDetailViewController: GameDetailView {
     func notifyDelegatesAboutChange() {
         delegates.forEach { $0.gamesWereModified() }
     }
+    
+}
+
+// MARK: - SnapKit Helper
+
+extension GameDetailViewController {
+    
+    private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
+    private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
     
 }
 

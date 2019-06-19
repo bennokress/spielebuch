@@ -6,6 +6,7 @@
 //  Copyright © 2019 Benno Kress. All rights reserved.
 //
 
+import SnapKit
 import UIKit
 
 class PlayerDetailViewController: VIPViewController {
@@ -18,6 +19,7 @@ class PlayerDetailViewController: VIPViewController {
     
     // View Components
     private let editPlayerBarButtonItem = UIBarButtonItem()
+    private let fullNameLabel = UILabel()
     
 }
 
@@ -32,6 +34,11 @@ extension PlayerDetailViewController {
         setupView()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupConstraints()
+    }
+    
 }
 
 // MARK: - View Setup
@@ -41,6 +48,7 @@ extension PlayerDetailViewController {
     private func setupView() {
         view.backgroundColor = .background
         setupNavigationBar()
+        setupFullNameLabel()
     }
     
     // MARK: Navigation Bar
@@ -58,6 +66,21 @@ extension PlayerDetailViewController {
     
     @objc func editPlayer() {
         interpreter?.userTappedEditButton(for: player)
+    }
+    
+    // MARK: Player Details
+    private func setupFullNameLabel() {
+        fullNameLabel.text = player?.fullName
+        view.addSubview(fullNameLabel)
+    }
+    
+    // MARK: Constraints
+    private func setupConstraints() {
+        fullNameLabel.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+        }
     }
     
 }
@@ -110,6 +133,15 @@ extension PlayerDetailViewController: PlayerDetailView {
     func notifyDelegatesAboutChange() {
         delegates.forEach { $0.playersWereModified() }
     }
+    
+}
+
+// MARK: - SnapKit Helper
+
+extension PlayerDetailViewController {
+    
+    private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
+    private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
     
 }
 
