@@ -111,10 +111,10 @@ struct Mock {
     private let franziH = Player(firstName: "Franziska", lastName: "Hatlapatka", nickname: "Franzi", base64Image: nil)
     private let markus = Player(firstName: "Markus", lastName: "Sager", nickname: nil, base64Image: nil)
     private let andrea = Player(firstName: "Andrea", lastName: "Sager", nickname: nil, base64Image: nil)
-    private let alex = Player(firstName: "Alexander", lastName: "Barth", nickname: nil, base64Image: nil)
+    private let alex = Player(firstName: "Alexander", lastName: "Barth", nickname: "Alex", base64Image: nil)
     private let caro = Player(firstName: "Carolin", lastName: "Sinemus", nickname: "Caro", base64Image: nil)
     private let christina = Player(firstName: "Christina", lastName: "Lang", nickname: nil, base64Image: nil)
-    private let andi = Player(firstName: "Alexander", lastName: "Lang", nickname: "Alex", base64Image: nil)
+    private let andi = Player(firstName: "Andreas", lastName: "Lang", nickname: "Andi", base64Image: nil)
     private let günther = Player(firstName: "Günther", lastName: "Bräuer", nickname: nil, base64Image: nil)
     private let uli = Player(firstName: "Ulrike", lastName: "Bräuer", nickname: "Uli", base64Image: nil)
     
