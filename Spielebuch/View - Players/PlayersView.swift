@@ -89,7 +89,6 @@ extension PlayersViewController {
     
     // MARK: Search Controller
     private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
