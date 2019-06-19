@@ -195,6 +195,8 @@ extension GameModificationViewController {
     
 }
 
+// MARK: - Delegate Implementations
+
 extension GameModificationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

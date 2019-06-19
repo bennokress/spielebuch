@@ -214,12 +214,15 @@ extension PlayerModificationViewController: PlayerModificationView {
 }
 
 // MARK: - SnapKit Helper
+
 extension PlayerModificationViewController {
     
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
     
 }
+
+// MARK: - Delegate Implementations
 
 extension PlayerModificationViewController: UITextFieldDelegate {
     

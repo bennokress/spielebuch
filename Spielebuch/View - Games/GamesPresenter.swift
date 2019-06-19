@@ -43,7 +43,6 @@ protocol GamesPresenter: class {
     
 }
 
-// MARK: - GamesPresenter Conformance
 extension GamesPresenterImplementation: GamesPresenter {
     
     func setup(with setupData: VIPViewSetupData?) {
