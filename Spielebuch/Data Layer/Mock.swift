@@ -32,9 +32,19 @@ struct Mock {
     /// The combination of basePlayers and userPlayers.
     var players: [Player] { return basePlayers + userPlayers }
     
+    /// Matches added or edited by the user. Will be deleted when restarting the app.
+    private var userMatches: [Match] = []
+    
+    /// The matches provided below. Those will be present with every app start.
+    private var baseMatches: [Match] = []
+    
+    /// The combination of baseMatches and userMatches.
+    var matches: [Match] { return baseMatches + userMatches }
+    
     init() {
         baseGames = [activity, alhambra, arlerErde, aufAchse, azul, bearsVsBabies, cafeInternational, camelUp, campanile, carcassonne, dixit, explodingKittens, ganzSchönClever, haltMalKurz, heckmeckAmBratwurmeck, isleOfSkye, istanbul, kniffel, ligretto, marcoPolo, mauMau, orleans, phase10, pioneers, qwirkle, qwixx, raceToNewFoundLand, robinsonCrusoe, romme, safeHouse, schlagDenRaab, schüttels, speedCups, spiel, stechen, taKe, ubongo, ulm, uno, village, wizard, woodlands, sevenWondersDuel]
         basePlayers = [sandra, benno, norbert, gabi, urban, franziS, doris, phips, franziH, markus, andrea, alex, caro, christina, andi, günther, uli, django, michelle]
+        baseMatches = [match01, match02, match03, match04, match05, match06, match07, match08, match09, match10, match11, match12, match13, match14, match15, match16, match17, match18, match19, match20, match21]
     }
     
     // MARK: - Mocked Games
@@ -120,6 +130,155 @@ struct Mock {
     private var django: Player              { return Player(firstName: "Rudi",      lastName: "Siegl",      nickname: "Django", base64Image: nil) }
     private var michelle: Player            { return Player(firstName: "Michelle",  lastName: "Siegl",      nickname: nil,      base64Image: nil) }
     
+    // MARK: - Mocked Scores
+    private var score01benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: true,      value: 100) }
+    private var score01sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 99) }
+    
+    private var score02benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 55) }
+    private var score02sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 88) }
+    private var score02urban: Score         { return Score(player: urban,       isScoreOfStartingPlayer: true,      value: 66) }
+    private var score02franzi: Score        { return Score(player: franziS,     isScoreOfStartingPlayer: false,     value: 77) }
+    
+    private var score03benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 1) }
+    private var score03sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 5) }
+    private var score03norbert: Score       { return Score(player: norbert,     isScoreOfStartingPlayer: true,      value: 3) }
+    private var score03gabi: Score          { return Score(player: gabi,        isScoreOfStartingPlayer: false,     value: 4) }
+    
+    private var score04benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 30) }
+    private var score04sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 28) }
+    
+    private var score05benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 15) }
+    private var score05sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 14) }
+    private var score05django: Score        { return Score(player: django,      isScoreOfStartingPlayer: false,     value: 13) }
+    private var score05michelle: Score      { return Score(player: michelle,    isScoreOfStartingPlayer: true,      value: 12) }
+    
+    private var score06benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 300) }
+    private var score06sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 212) }
+    
+    private var score07benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 38) }
+    private var score07sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 28) }
+    private var score07markus: Score        { return Score(player: markus,      isScoreOfStartingPlayer: false,     value: 40) }
+    private var score07andrea: Score        { return Score(player: andrea,      isScoreOfStartingPlayer: true,      value: 27) }
+    
+    private var score08benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 300) }
+    private var score08sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 280) }
+    private var score08doris: Score         { return Score(player: doris,       isScoreOfStartingPlayer: true,      value: 297) }
+    
+    private var score09benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 10) }
+    private var score09sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 14) }
+    private var score09alex: Score          { return Score(player: alex,        isScoreOfStartingPlayer: true,      value: 9) }
+    private var score09caro: Score          { return Score(player: caro,        isScoreOfStartingPlayer: false,     value: 11) }
+    
+    private var score10benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 21) }
+    private var score10sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 28) }
+    
+    private var score11benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: true,      value: 50) }
+    private var score11sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 48) }
+    
+    private var score12benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 6) }
+    private var score12sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 4) }
+    private var score12günther: Score       { return Score(player: günther,     isScoreOfStartingPlayer: false,     value: 8) }
+    private var score12uli: Score           { return Score(player: uli,         isScoreOfStartingPlayer: true,      value: 9) }
+    
+    private var score13benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 30) }
+    private var score13sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 28) }
+    private var score13christina: Score     { return Score(player: christina,   isScoreOfStartingPlayer: false,     value: 30) }
+    private var score13andi: Score          { return Score(player: andi,        isScoreOfStartingPlayer: true,      value: 28) }
+    
+    private var score14benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 1) }
+    private var score14sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 2) }
+    
+    private var score15benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 31) }
+    private var score15sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 28) }
+    
+    private var score16benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: true,      value: 19) }
+    private var score16sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 21) }
+    
+    private var score17benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 8) }
+    private var score17sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 7) }
+    private var score17norbert: Score       { return Score(player: norbert,     isScoreOfStartingPlayer: false,     value: 6) }
+    private var score17gabi: Score          { return Score(player: gabi,        isScoreOfStartingPlayer: false,     value: 5) }
+    
+    private var score18benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 30) }
+    private var score18sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: true,      value: 28) }
+    
+    private var score19benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: false,     value: 500) }
+    private var score19sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 399) }
+    private var score19doris: Score         { return Score(player: doris,       isScoreOfStartingPlayer: true,      value: 486) }
+    
+    private var score20benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: true,      value: 37) }
+    private var score20sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 27) }
+    private var score20phips: Score         { return Score(player: phips,       isScoreOfStartingPlayer: false,     value: 30) }
+    private var score20franzi: Score        { return Score(player: franziH,     isScoreOfStartingPlayer: false,     value: 32) }
+    
+    private var score21benno: Score         { return Score(player: benno,       isScoreOfStartingPlayer: true,      value: 8) }
+    private var score21sandra: Score        { return Score(player: sandra,      isScoreOfStartingPlayer: false,     value: 9) }
+    
+    // MARK: - Mocked Matches
+    private var match01: Match {
+        return Match(date: Date(timeIntervalSince1970: 1561104000), game: kniffel, scores: [score01benno, score01sandra])
+    }
+    private var match02: Match {
+        return Match(date: Date(timeIntervalSince1970: 1561017600), game: woodlands, scores: [score02benno, score02sandra, score02urban, score02franzi])
+    }
+    private var match03: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560931200), game: ulm, scores: [score03benno, score03sandra, score03norbert, score03gabi])
+    }
+    private var match04: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560844800), game: haltMalKurz, scores: [score04benno, score04sandra])
+    }
+    private var match05: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560758400), game: ganzSchönClever, scores: [score05benno, score05sandra, score05django, score05michelle])
+    }
+    private var match06: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560672000), game: spiel, scores: [score06benno, score06sandra])
+    }
+    private var match07: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560585600), game: qwixx, scores: [score07benno, score07sandra, score07markus, score07andrea])
+    }
+    private var match08: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560499200), game: azul, scores: [score08benno, score08sandra, score08doris])
+    }
+    private var match09: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560412800), game: activity, scores: [score09benno, score09sandra, score09alex, score09caro])
+    }
+    private var match10: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560326400), game: ubongo, scores: [score10benno, score10sandra])
+    }
+    private var match11: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560240000), game: istanbul, scores: [score11benno, score11sandra])
+    }
+    private var match12: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560153600), game: romme, scores: [score12benno, score12sandra, score12günther, score12uli])
+    }
+    private var match13: Match {
+        return Match(date: Date(timeIntervalSince1970: 1560067200), game: mauMau, scores: [score13benno, score13sandra, score13christina, score13andi])
+    }
+    private var match14: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559980800), game: ligretto, scores: [score14benno, score14sandra])
+    }
+    private var match15: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559894400), game: aufAchse, scores: [score15benno, score15sandra])
+    }
+    private var match16: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559808000), game: bearsVsBabies, scores: [score16benno, score16sandra])
+    }
+    private var match17: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559721600), game: isleOfSkye, scores: [score17benno, score17sandra, score17norbert, score17gabi])
+    }
+    private var match18: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559635200), game: carcassonne, scores: [score18benno, score18sandra])
+    }
+    private var match19: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559548800), game: kniffel, scores: [score19benno, score19sandra, score19doris])
+    }
+    private var match20: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559462400), game: pioneers, scores: [score20benno, score20sandra, score20phips, score20franzi])
+    }
+    private var match21: Match {
+        return Match(date: Date(timeIntervalSince1970: 1559376000), game: explodingKittens, scores: [score21benno, score21sandra])
+    }
+    
     // MARK: - Game Methods
     
     mutating func save(_ game: Game) {
@@ -158,6 +317,17 @@ struct Mock {
         } else {
             log.error("Original player named \(player.displayname) not found"); return
         }
+    }
+    
+    // MARK: - Match Methods
+    
+    mutating func save(_ match: Match) {
+        log.info("Match saved")
+        userMatches.append(match)
+    }
+    
+    mutating func modify(_ match: Match, toBe modifiedMatch: Match) {
+        log.info("Match modified")
     }
     
 }
