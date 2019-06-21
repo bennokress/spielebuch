@@ -38,3 +38,15 @@ extension String {
     }
     
 }
+
+extension UIColor {
+    
+    open class var background: UIColor {
+        if #available(iOS 13.0, *) {
+            return .systemBackground
+        } else {
+            return .white
+        }
+    }
+    
+}

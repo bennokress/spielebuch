@@ -50,7 +50,7 @@ extension PlayerModificationViewController {
 extension PlayerModificationViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
         setupTextFields()
     }
@@ -214,12 +214,15 @@ extension PlayerModificationViewController: PlayerModificationView {
 }
 
 // MARK: - SnapKit Helper
+
 extension PlayerModificationViewController {
     
     private var snpSafeArea: ConstraintLayoutGuideDSL { return self.view.safeAreaLayoutGuide.snp }
     private var snpNavigationBar: ConstraintViewDSL { return self.navigationController!.navigationBar.snp }
     
 }
+
+// MARK: - Delegate Implementations
 
 extension PlayerModificationViewController: UITextFieldDelegate {
     

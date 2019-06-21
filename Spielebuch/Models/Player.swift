@@ -13,6 +13,7 @@ struct Player {
     let lastName: String
     let nickname: String?
     var displayname: String { return nickname ?? firstName }
+    var fullName: String { return "\(firstName) \(lastName)" }
     let base64Image: String?
 }
 
