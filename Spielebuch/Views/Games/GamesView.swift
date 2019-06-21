@@ -49,7 +49,7 @@ extension GamesViewController {
 extension GamesViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupGamesTableView()
         setupNavigationBar()
         setupSearchController()
@@ -89,7 +89,6 @@ extension GamesViewController {
     
     // MARK: Search Controller
     private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false

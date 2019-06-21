@@ -48,7 +48,7 @@ extension GameModificationViewController {
 extension GameModificationViewController {
     
     private func setupView() {
-        view.backgroundColor = .white
+        view.backgroundColor = .background
         setupNavigationBar()
         setupNameTextField()
     }
@@ -195,6 +195,8 @@ extension GameModificationViewController {
     
 }
 
+// MARK: - Delegate Implementations
+
 extension GameModificationViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -211,4 +213,3 @@ protocol GameModificationDelegate {
     func gameDetailChanged(for modified: Game)
     
 }
-
