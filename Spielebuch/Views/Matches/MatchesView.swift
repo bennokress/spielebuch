@@ -13,7 +13,7 @@ class MatchesViewController: VIPViewController {
     private var interpreter: MatchesInterpreter?
     
     // Data
-    private var groupedMatches: [String: [Match]] = [:] // TODO: Matches grouped by Month and Year? Or better a simple array?
+    private var groupedMatches: [String: [Match]] = [:]
     
     // View Components
     private let matchesTableView = UITableView()
@@ -183,15 +183,14 @@ extension MatchesViewController: MatchesView {
     }
     
     func showMatchDetailView(with setupData: VIPViewSetupData) {
-        log.warning("Match Detail View is not yet implemented")
-//        let matchDetailViewController = MatchDetailViewController()
-//        matchDetailViewController.delegates.append(self)
-//        matchDetailViewController.setup(with: setupData)
-//        push(matchDetailViewController)
+        let matchDetailViewController = MatchDetailViewController()
+        matchDetailViewController.delegates.append(self)
+        matchDetailViewController.setup(with: setupData)
+        push(matchDetailViewController)
     }
     
     func showNewMatchView() {
-        log.warning("New Match View is not yet implemented")
+        log.info("New Match View is not yet implemented")
 //        let newMatchiewController = MatchModificationViewController()
 //        newMatchiewController.delegates.append(self)
 //        let newMatchNavigationController = UINavigationController(rootViewController: newMatchiewController)
@@ -254,12 +253,12 @@ extension MatchesViewController: UITableViewDelegate {
 //
 //}
 
-//extension MatchesViewController: MatchDetailDelegate {
-//
-//    func matchesWereModified() {
-//        interpreter?.delegateWasNotifiedAboutModifiedMatches()
-//    }
-//
-//}
+extension MatchesViewController: MatchDetailDelegate {
+
+    func matchesWereModified() {
+        interpreter?.delegateWasNotifiedAboutModifiedMatches()
+    }
+
+}
 
 // MARK: - Delegate Protocols

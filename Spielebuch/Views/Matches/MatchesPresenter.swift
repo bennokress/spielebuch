@@ -66,7 +66,7 @@ extension MatchesPresenterImplementation: MatchesPresenter {
     }
     
     func filterUsageWasConcluded() {
-        log.warning("Not yet implemented")
+        log.info("Not yet implemented")
     }
     
 }
@@ -76,7 +76,7 @@ extension MatchesPresenterImplementation: MatchesPresenter {
 extension MatchesPresenterImplementation {
     
     private func group(matches: [Match]) -> [String : [Match]] {
-        log.warning("Grouping matches is not yet correctly implemented.")
+        log.info("Grouping matches is not yet correctly implemented.")
         // TODO: Group matches by date maybe?
         let sortedMatches = matches.sorted { $0.game.name.lowercased() < $1.game.name.lowercased() }
         var groupedMatches: [String : [Match]] = [:]
