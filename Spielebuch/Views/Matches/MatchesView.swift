@@ -190,11 +190,10 @@ extension MatchesViewController: MatchesView {
     }
     
     func showNewMatchView() {
-        log.info("New Match View is not yet implemented")
-//        let newMatchiewController = MatchModificationViewController()
-//        newMatchiewController.delegates.append(self)
-//        let newMatchNavigationController = UINavigationController(rootViewController: newMatchiewController)
-//        present(newMatchNavigationController, animated: true)
+        let newMatchiewController = MatchModificationViewController()
+        newMatchiewController.delegates.append(self)
+        let newMatchNavigationController = UINavigationController(rootViewController: newMatchiewController)
+        present(newMatchNavigationController, animated: true)
     }
     
 }
@@ -245,13 +244,13 @@ extension MatchesViewController: UITableViewDelegate {
     
 }
 
-//extension MatchesViewController: MatchModificationDelegate {
-//
-//    func matchDetailChanged(for modifiedMatch: Match) {
-//        interpreter?.delegateWasNotified(about: modifiedMatch)
-//    }
-//
-//}
+extension MatchesViewController: MatchModificationDelegate {
+
+    func matchDetailChanged(for modifiedMatch: Match) {
+        interpreter?.delegateWasNotified(about: modifiedMatch)
+    }
+
+}
 
 extension MatchesViewController: MatchDetailDelegate {
 

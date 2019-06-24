@@ -131,12 +131,11 @@ extension MatchDetailViewController: MatchDetailView {
     }
     
     func showEditMatchView(with setupData: VIPViewSetupData?) {
-        log.info("Match Modification View is not yet implemented")
-//        let editMatchViewController = MatchModificationViewController()
-//        editMatchViewController.delegates.append(self)
-//        editMatchViewController.setup(with: setupData)
-//        let editMatchNavigationController = UINavigationController(rootViewController: editMatchViewController)
-//        present(editMatchNavigationController, animated: true)
+        let editMatchViewController = MatchModificationViewController()
+        editMatchViewController.delegates.append(self)
+        editMatchViewController.setup(with: setupData)
+        let editMatchNavigationController = UINavigationController(rootViewController: editMatchViewController)
+        present(editMatchNavigationController, animated: true)
     }
     
     func notifyDelegatesAboutChange() {
@@ -156,13 +155,13 @@ extension MatchDetailViewController {
 
 // MARK: - Delegate Implementations
 
-//extension MatchDetailViewController: MatchModificationDelegate {
-//    
-//    func matchDetailChanged(for match: Match) {
-//        interpreter?.delegateReceived(match)
-//    }
-//    
-//}
+extension MatchDetailViewController: MatchModificationDelegate {
+    
+    func matchDetailChanged(for match: Match) {
+        interpreter?.delegateReceived(match)
+    }
+    
+}
 
 // MARK: - Delegate Protocols
 
