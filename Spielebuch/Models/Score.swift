@@ -13,3 +13,17 @@ struct Score {
     let isScoreOfStartingPlayer: Bool
     let value: Double
 }
+
+extension Score: Hashable {
+    
+    static func == (lhs: Score, rhs: Score) -> Bool {
+        return lhs.hashValue == rhs.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(player)
+        hasher.combine(isScoreOfStartingPlayer)
+        hasher.combine(value)
+    }
+    
+}

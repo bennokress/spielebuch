@@ -16,7 +16,18 @@ class MatchModificationInterpreterImplementation {
         self.presenter = presenter
     }
     
+    // MARK: View Data Management
+    
+    private var originalMatch: Match? = nil
+    
+    private var date: Date? = nil
     private var game: Game? = nil
+    private var scores: [Score] = []
+    
+    private var newMatch: Match? { return Match.initIfPossible(date: date, game: game, scores: scores) }
+    private var isOriginalMatchEdited: Bool { return newMatch != originalMatch }
+    private var isValidMatchConstructable: Bool { return newMatch != nil }
+    
 }
 
 // MARK: - VIP Cycle
@@ -47,7 +58,19 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     // MARK: View Actions
     
     func viewIsLoading(with setupData: VIPViewSetupData?) {
-        presenter.setup(with: setupData)
+        if let setupData = setupData, case let VIPViewSetupData.matchModification(includedMatch) = setupData, let match = includedMatch {
+            // Edit Mode
+            originalMatch = match
+            date = match.date
+            game = match.game
+            scores = match.scores
+            // TODO: Replace with single instructions for presenter
+            presenter.setupInEditMode(with: setupData)
+        } else {
+            // Create Mode
+            // TODO: Replace with single instructions for presenter
+            presenter.setupInCreationMode()
+        }
     }
     
     // MARK: User Actions
