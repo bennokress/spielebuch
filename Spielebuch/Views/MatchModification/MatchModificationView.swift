@@ -21,6 +21,9 @@ class MatchModificationViewController: VIPViewController {
     // View Components
     private let cancelBarButtonItem = UIBarButtonItem()
     private let saveBarButtonItem = UIBarButtonItem()
+    // ↓ Dummies to see the workflow … will be replaced later
+    private let chooseGameDummyButton = UIButton(type: .system)
+    private let chosenGameDummyLabel = UILabel()
     
 }
 
@@ -49,6 +52,8 @@ extension MatchModificationViewController {
     private func setupView() {
         view.backgroundColor = .background
         setupNavigationBar()
+        setupChooseGameDummyButton()
+        setupChosenGameDummyLabel()
     }
     
     // MARK: Navigation Bar
@@ -82,9 +87,37 @@ extension MatchModificationViewController {
         interpreter?.userTappedSaveMatchButton(game: dummyGame, on: Date(), for: nil)
     }
     
+    // MARK: Choose Game Dummy
+    private func setupChooseGameDummyButton() {
+        chooseGameDummyButton.setTitle("Choose Game", for: .normal)
+        chooseGameDummyButton.addTarget(self, action: #selector(chooseGameButtonTapped), for: .touchUpInside)
+        view.addSubview(chooseGameDummyButton)
+    }
+    
+    private func setupChosenGameDummyLabel() {
+        chosenGameDummyLabel.text = ""
+        view.addSubview(chosenGameDummyLabel)
+    }
+    
+    @objc func chooseGameButtonTapped() {
+        interpreter?.userTappedDummyChooseGameButton()
+    }
+    
     // MARK: Constraints
     private func setupConstraints() {
-        
+        chooseGameDummyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        chooseGameDummyButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        chooseGameDummyButton.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.height.equalTo(50)
+        }
+        chosenGameDummyLabel.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(chooseGameDummyButton.snp.top)
+            constraint.left.equalTo(chooseGameDummyButton.snp.right).offset(Margin.horizontal.standard)
+            constraint.bottom.equalTo(chooseGameDummyButton.snp.bottom)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+        }
     }
     
 }
@@ -92,8 +125,6 @@ extension MatchModificationViewController {
 // MARK: - Private Helpers
 
 extension MatchModificationViewController {
-    
-    
     
 }
 
@@ -135,12 +166,17 @@ protocol MatchModificationView: class {
     /// Enable the save button.
     func enableSaveButton()
     
+    /// Display the given game.
+    /// - Parameter game: The game to be displayed.
+    func set(_ game: Game)
+    
 }
 
 extension MatchModificationViewController: MatchModificationView {
     
     func fillFieldsWithCurrentValues(of match: Match) {
         self.match = match
+        set(match.game)
         log.info("Would fill some field for a match of \(match.game.name) on \(match.date.shortDescription).")
     }
     
@@ -169,6 +205,12 @@ extension MatchModificationViewController: MatchModificationView {
     func enableSaveButton() {
         DispatchQueue.main.async {
             self.saveBarButtonItem.isEnabled = true
+        }
+    }
+    
+    func set(_ game: Game) {
+        DispatchQueue.main.async {
+            self.chosenGameDummyLabel.text = game.name
         }
     }
     

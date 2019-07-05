@@ -16,6 +16,7 @@ class MatchModificationInterpreterImplementation {
         self.presenter = presenter
     }
     
+    private var game: Game? = nil
 }
 
 // MARK: - VIP Cycle
@@ -35,6 +36,9 @@ protocol MatchModificationInterpreter: class {
     
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
+    
+    /// DUMMY - Later: userChose(_ game)
+    func userTappedDummyChooseGameButton()
     
 }
 
@@ -60,6 +64,12 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
+    }
+    
+    func userTappedDummyChooseGameButton() {
+        guard let game = Mock.shared.games.randomElement() else { return }
+        self.game = game
+        presenter.matchWasUpdated(to: game)
     }
     
     // MARK: Delegate Actions

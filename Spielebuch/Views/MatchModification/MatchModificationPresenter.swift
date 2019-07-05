@@ -34,6 +34,10 @@ protocol MatchModificationPresenter: class {
     /// Instructs the MatchModificationView to be dismissed.
     func cancelRequested()
     
+    /// Instructs the MatchModificationView to display the updated game of the match.
+    /// - Parameter game: The game of the match.
+    func matchWasUpdated(to game: Game)
+    
 }
 
 extension MatchModificationPresenterImplementation: MatchModificationPresenter {
@@ -54,6 +58,10 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
     func cancelRequested() {
         view.dismiss()
+    }
+    
+    func matchWasUpdated(to game: Game) {
+        view.set(game)
     }
     
 }
