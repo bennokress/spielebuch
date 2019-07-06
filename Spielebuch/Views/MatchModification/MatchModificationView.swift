@@ -80,9 +80,7 @@ extension MatchModificationViewController {
     }
     
     @objc func saveMatch() {
-        log.warning("Saving a new match of a dummy game")
-        let dummyGame = Game(named: "Dummy")
-        interpreter?.userTappedSaveMatchButton(game: dummyGame, on: Date(), for: nil)
+        interpreter?.userTappedSaveMatchButton()
     }
     
     // MARK: Choose Date Dummy

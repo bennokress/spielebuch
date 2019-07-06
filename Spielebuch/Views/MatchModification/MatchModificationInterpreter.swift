@@ -44,10 +44,7 @@ protocol MatchModificationInterpreter: class {
     func userChose(_ date: Date)
     
     /// Takes actions when the user wants to save a match.
-    /// - Parameter game: The played game.
-    /// - Parameter date: The date of the match.
-    /// - Parameter game: [Optional] The existing match that should be modified. A new match should be created if this is nil.
-    func userTappedSaveMatchButton(game: Game, on date: Date, for match: Match?)
+    func userTappedSaveMatchButton()
     
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
@@ -83,9 +80,12 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
         presenter.matchIsSavable(isValidMatchConstructable && isOriginalMatchEdited)
     }
     
-    func userTappedSaveMatchButton(game: Game, on date: Date, for match: Match?) {
-        let savedMatch = Match(date: date, game: game, scores: [])
-        if let originalMatch = match {
+    func userTappedSaveMatchButton() {
+        guard let savedMatch = newMatch else {
+            log.error("The match could not be constructed, the save button should not have been activated!")
+            return
+        }
+        if let originalMatch = originalMatch, isOriginalMatchEdited {
             Mock.shared.modify(originalMatch, toBe: savedMatch)
         } else {
             Mock.shared.save(savedMatch)
