@@ -22,6 +22,8 @@ class MatchModificationViewController: VIPViewController {
     // ↓ Dummies to see the workflow … may be replaced later
     private let chooseDateButton = UIButton(type: .system)
     private let chosenDateLabel = UILabel()
+    private let addScoreButton = UIButton(type: .system)
+    private let scoresLabel = UILabel()
     
 }
 
@@ -52,6 +54,8 @@ extension MatchModificationViewController {
         setupNavigationBar()
         setupChosenDateLabel()
         setupChooseDateButton()
+        setupAddScoreButton()
+        setupScoresLabel()
     }
     
     // MARK: Navigation Bar
@@ -100,6 +104,25 @@ extension MatchModificationViewController {
         interpreter?.userChose(randomDate)
     }
     
+    // MARK: Add Score Dummy
+    private func setupAddScoreButton() {
+        addScoreButton.setTitle("+ Add Random Scores", for: .normal)
+        addScoreButton.titleLabel?.font = .systemFont(ofSize: chosenDateLabel.font.pointSize)
+        addScoreButton.addTarget(self, action: #selector(addScoreButtonTapped), for: .touchUpInside)
+        view.addSubview(addScoreButton)
+    }
+    
+    private func setupScoresLabel() {
+        scoresLabel.text = ""
+        scoresLabel.numberOfLines = 0
+        view.addSubview(scoresLabel)
+    }
+    
+    @objc func addScoreButtonTapped() {
+        // TODO: Should display fields for a new score (Player, ScoreComponents of the chosen Game)
+        interpreter?.userTappedAddScoreButton()
+    }
+    
     // MARK: Constraints
     private func setupConstraints() {
         chosenDateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -113,6 +136,17 @@ extension MatchModificationViewController {
             constraint.top.equalTo(chosenDateLabel.snp.top)
             constraint.left.equalTo(chosenDateLabel.snp.right)
             constraint.bottom.equalTo(chosenDateLabel.snp.bottom)
+        }
+        addScoreButton.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(chosenDateLabel.snp.bottom).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.vertical.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.vertical.inverseStandard)
+            constraint.height.equalTo(50)
+        }
+        scoresLabel.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(addScoreButton.snp.bottom).offset(Margin.vertical.standard)
+            constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
+            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
         }
     }
     
@@ -152,6 +186,10 @@ protocol MatchModificationView: class {
     /// - Parameter game: The date to be displayed.
     func set(_ date: Date)
     
+    /// Display the given score.
+    /// - Parameter score: The score to be displayed.
+    func display(_ scores: [Score])
+    
     /// Notifies all delegates about the modified match.
     /// - Parameter modifiedMatch: The modified match.
     func notifyDelegates(about modifiedMatch: Match)
@@ -181,6 +219,17 @@ extension MatchModificationViewController: MatchModificationView {
     func set(_ date: Date) {
         DispatchQueue.main.async {
             self.chooseDateButton.setTitle(date.shortDescription, for: .normal)
+        }
+    }
+    
+    func display(_ scores: [Score]) {
+        var scoresInfo = ""
+        for (rank, score) in scores.enumerated() {
+            log.verbose("\(rank + 1).\t\(score.player.fullName) → \(score.value)")
+            scoresInfo.appendLine("\(rank + 1).\t\(score.player.fullName)")
+        }
+        DispatchQueue.main.async {
+            self.scoresLabel.text = scoresInfo
         }
     }
     

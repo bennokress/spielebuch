@@ -49,6 +49,9 @@ protocol MatchModificationInterpreter: class {
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
     
+    /// DUMMY - Adds 2-4 more or less random scores.
+    func userTappedAddScoreButton()
+    
 }
 
 extension MatchModificationInterpreterImplementation: MatchModificationInterpreter {
@@ -97,6 +100,17 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
         presenter.cancelRequested()
     }
     
+    func userTappedAddScoreButton() {
+        var newScores: [Score] = []
+        for player in playersForNewMatch {
+            let scoreValue = Int.random(in: 0...100)
+            newScores.append(Score(player: player, isScoreOfStartingPlayer: player.fullName == "Sandra Gaede", value: Double(scoreValue)))
+        }
+        self.scores = newScores
+        presenter.matchWasUpdated(with: newScores)
+        presenter.matchIsSavable(isValidMatchConstructable && isOriginalMatchEdited)
+    }
+    
     // MARK: Delegate Actions
     
 }
@@ -105,6 +119,21 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
 
 extension MatchModificationInterpreterImplementation {
     
-    // private functions …
+    // DUMMY FUNCTIONS
+    
+    var playersForNewMatch: [Player] {
+        var playerPool = Mock.shared.players
+        let benno = playerPool.first { $0.fullName == "Benno Kress" }!
+        let sandra = playerPool.first { $0.fullName == "Sandra Gaede" }!
+        var players = [benno, sandra]
+        playerPool = playerPool.filter { $0 != benno && $0 != sandra }
+        for _ in 3...4 where Bool.random() {
+            // Randomly adds 0-2 Players (Player 3 & Player 4)
+            let additionalPlayer = playerPool.randomElement()!
+            players.append(additionalPlayer)
+            playerPool = playerPool.filter { $0 != additionalPlayer }
+        }
+        return players
+    }
     
 }

@@ -53,6 +53,11 @@ extension String {
         return components.filter { !$0.isEmpty }.joined(separator: " ")
     }
     
+    mutating func appendLine(_ line: String) {
+        if self.count > 0 { self.append("\n") }
+        self.append(line)
+    }
+    
 }
 
 extension UIColor {

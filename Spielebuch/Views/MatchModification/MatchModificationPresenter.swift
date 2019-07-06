@@ -43,6 +43,10 @@ protocol MatchModificationPresenter: class {
     /// - Parameter date: The date of the match.
     func matchWasUpdated(to date: Date)
     
+    /// Instructs the MatchModificationView to display the updated scores of the match.
+    /// - Parameter scores: The scores of the match
+    func matchWasUpdated(with scores: [Score])
+    
     /// Instructs the MatchModificationView to enable or disable the save button.
     /// - Parameter isSavable: The state of the current data.
     func matchIsSavable(_ isSavable: Bool)
@@ -52,8 +56,10 @@ protocol MatchModificationPresenter: class {
 extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
     func setupInEditMode(for match: Match) {
+        let sortedScores = match.scores.sorted { $0.value > $1.value }
         view.setTitle(to: match.game.name)
         view.set(match.date)
+        view.display(sortedScores)
     }
     
     func setupInCreationMode(with game: Game, on date: Date) {
@@ -72,6 +78,11 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
     func matchWasUpdated(to date: Date) {
         view.set(date)
+    }
+    
+    func matchWasUpdated(with scores: [Score]) {
+        let sortedScores = scores.sorted { $0.value > $1.value }
+        view.display(sortedScores)
     }
     
     func matchIsSavable(_ isSavable: Bool) {
