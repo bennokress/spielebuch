@@ -39,6 +39,10 @@ protocol MatchModificationInterpreter: class {
     /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
     func viewIsLoading(with setupData: VIPViewSetupData?)
     
+    /// Takes action when the user chose a date
+    /// - Parameter date: The date of the match.
+    func userChose(_ date: Date)
+    
     /// Takes actions when the user wants to save a match.
     /// - Parameter game: The played game.
     /// - Parameter date: The date of the match.
@@ -47,10 +51,6 @@ protocol MatchModificationInterpreter: class {
     
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
-    
-    /// Takes action when the user chose a date
-    /// - Parameter date: The date of the match.
-    func userChose(_ date: Date)
     
 }
 
@@ -77,6 +77,12 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     
     // MARK: User Actions
     
+    func userChose(_ date: Date) {
+        self.date = date
+        presenter.matchWasUpdated(to: date)
+        presenter.matchIsSavable(isValidMatchConstructable && isOriginalMatchEdited)
+    }
+    
     func userTappedSaveMatchButton(game: Game, on date: Date, for match: Match?) {
         let savedMatch = Match(date: date, game: game, scores: [])
         if let originalMatch = match {
@@ -89,12 +95,6 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
-    }
-    
-    func userChose(_ date: Date) {
-        self.date = date
-        presenter.matchWasUpdated(to: date)
-        log.info("Match Date was set to \(date.shortDescription).")
     }
     
     // MARK: Delegate Actions

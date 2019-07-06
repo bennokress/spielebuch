@@ -43,6 +43,10 @@ protocol MatchModificationPresenter: class {
     /// - Parameter date: The date of the match.
     func matchWasUpdated(to date: Date)
     
+    /// Instructs the MatchModificationView to enable or disable the save button.
+    /// - Parameter isSavable: The state of the current data.
+    func matchIsSavable(_ isSavable: Bool)
+    
 }
 
 extension MatchModificationPresenterImplementation: MatchModificationPresenter {
@@ -68,6 +72,14 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
     func matchWasUpdated(to date: Date) {
         view.set(date)
+    }
+    
+    func matchIsSavable(_ isSavable: Bool) {
+        if isSavable {
+            view.enableSaveButton()
+        } else {
+            view.disableSaveButton()
+        }
     }
     
 }
