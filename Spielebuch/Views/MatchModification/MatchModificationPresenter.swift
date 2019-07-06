@@ -24,11 +24,13 @@ class MatchModificationPresenterImplementation {
 protocol MatchModificationPresenter: class {
     
     /// Populates the MatchModificationView with data from an existing match.
-    /// - Parameter setupData: Data containing the match to be modified. Set by the preceeding view controller.
-    func setupInEditMode(with setupData: VIPViewSetupData)
+    /// - Parameter match: The match to be modified.
+    func setupInEditMode(for match: Match)
     
     /// Populates the MatchModificationView with empty data.
-    func setupInCreationMode()
+    /// - Parameter game: The chosen game for the match.
+    /// - Parameter date: The date of the match.
+    func setupInCreationMode(with game: Game, on date: Date)
     
     /// Instructs the MatchModificationView to be dismissed and notify delegates about the modified match.
     /// - Parameter savedMatch: The modified match.
@@ -37,26 +39,32 @@ protocol MatchModificationPresenter: class {
     /// Instructs the MatchModificationView to be dismissed.
     func cancelRequested()
     
-    /// Instructs the MatchModificationView to display the updated game of the match.
-    /// - Parameter game: The game of the match.
-    func matchWasUpdated(to game: Game)
+    /// Instructs the MatchModificationView to display the updated date of the match.
+    /// - Parameter date: The date of the match.
+    func matchWasUpdated(to date: Date)
+    
+    /// Instructs the MatchModificationView to display the updated scores of the match.
+    /// - Parameter scores: The scores of the match
+    func matchWasUpdated(with scores: [Score])
+    
+    /// Instructs the MatchModificationView to enable or disable the save button.
+    /// - Parameter isSavable: The state of the current data.
+    func matchIsSavable(_ isSavable: Bool)
     
 }
 
 extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
-    func setupInEditMode(with setupData: VIPViewSetupData) {
-        guard case let VIPViewSetupData.matchModification(match) = setupData, let matchToModify = match else {
-            log.warning("The view should appear in Edit Mode, but no match was found. Moving on in Creation Mode.")
-            setupInCreationMode()
-            return
-        }
-        view.setTitle(to: "Edit Match")
-        view.fillFieldsWithCurrentValues(of: matchToModify)
+    func setupInEditMode(for match: Match) {
+        let sortedScores = match.scores.sorted { $0.value > $1.value }
+        view.setTitle(to: match.game.name)
+        view.set(match.date)
+        view.display(sortedScores)
     }
     
-    func setupInCreationMode() {
-        view.setTitle(to: "New Match")
+    func setupInCreationMode(with game: Game, on date: Date) {
+        view.setTitle(to: game.name)
+        view.set(date)
     }
     
     func matchSavedSuccessfully(_ savedMatch: Match) {
@@ -68,8 +76,21 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
         view.dismiss()
     }
     
-    func matchWasUpdated(to game: Game) {
-        view.set(game)
+    func matchWasUpdated(to date: Date) {
+        view.set(date)
+    }
+    
+    func matchWasUpdated(with scores: [Score]) {
+        let sortedScores = scores.sorted { $0.value > $1.value }
+        view.display(sortedScores)
+    }
+    
+    func matchIsSavable(_ isSavable: Bool) {
+        if isSavable {
+            view.enableSaveButton()
+        } else {
+            view.disableSaveButton()
+        }
     }
     
 }

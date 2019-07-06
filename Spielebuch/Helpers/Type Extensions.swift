@@ -15,6 +15,12 @@ extension Base64Image {
 }
 
 extension Date {
+    static var randomInLastWeek: Date {
+        let secondsOfOneWeek = 604800
+        let randomTimeIntervalWithinLastWeek = -1 * Double(Int.random(in: 0...secondsOfOneWeek))
+        return Date().addingTimeInterval(randomTimeIntervalWithinLastWeek)
+    }
+    
     var shortDescription: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = .autoupdatingCurrent
@@ -45,6 +51,11 @@ extension String {
     private var withCondensedWhitespace: String {
         let components = self.components(separatedBy: .whitespacesAndNewlines)
         return components.filter { !$0.isEmpty }.joined(separator: " ")
+    }
+    
+    mutating func appendLine(_ line: String) {
+        if self.count > 0 { self.append("\n") }
+        self.append(line)
     }
     
 }

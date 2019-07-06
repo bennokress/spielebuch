@@ -15,7 +15,7 @@ enum Margin {
     
     private var standardValue: Float {
         switch self {
-        case .horizontal: return 20
+        case .horizontal: return 16
         case .vertical: return 8
         }
     }

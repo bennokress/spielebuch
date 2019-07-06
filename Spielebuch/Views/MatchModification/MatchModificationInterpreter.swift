@@ -39,17 +39,18 @@ protocol MatchModificationInterpreter: class {
     /// - Parameter setupData: [Optional] Data needed to populate the view. Set by the preceeding view controller.
     func viewIsLoading(with setupData: VIPViewSetupData?)
     
-    /// Takes actions when the user wants to save a match.
-    /// - Parameter game: The played game.
+    /// Takes action when the user chose a date
     /// - Parameter date: The date of the match.
-    /// - Parameter game: [Optional] The existing match that should be modified. A new match should be created if this is nil.
-    func userTappedSaveMatchButton(game: Game, on date: Date, for match: Match?)
+    func userChose(_ date: Date)
+    
+    /// Takes actions when the user wants to save a match.
+    func userTappedSaveMatchButton()
     
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
     
-    /// DUMMY - Later: userChose(_ game)
-    func userTappedDummyChooseGameButton()
+    /// DUMMY - Adds 2-4 more or less random scores.
+    func userTappedAddScoreButton()
     
 }
 
@@ -64,20 +65,30 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
             date = match.date
             game = match.game
             scores = match.scores
-            // TODO: Replace with single instructions for presenter
-            presenter.setupInEditMode(with: setupData)
+            presenter.setupInEditMode(for: match)
         } else {
-            // Create Mode
-            // TODO: Replace with single instructions for presenter
-            presenter.setupInCreationMode()
+            guard let randomGame = Mock.shared.games.randomElement() else { return }
+            let now = Date()
+            game = randomGame
+            date = now
+            presenter.setupInCreationMode(with: randomGame, on: now)
         }
     }
     
     // MARK: User Actions
     
-    func userTappedSaveMatchButton(game: Game, on date: Date, for match: Match?) {
-        let savedMatch = Match(date: date, game: game, scores: [])
-        if let originalMatch = match {
+    func userChose(_ date: Date) {
+        self.date = date
+        presenter.matchWasUpdated(to: date)
+        presenter.matchIsSavable(isValidMatchConstructable && isOriginalMatchEdited)
+    }
+    
+    func userTappedSaveMatchButton() {
+        guard let savedMatch = newMatch else {
+            log.error("The match could not be constructed, the save button should not have been activated!")
+            return
+        }
+        if let originalMatch = originalMatch, isOriginalMatchEdited {
             Mock.shared.modify(originalMatch, toBe: savedMatch)
         } else {
             Mock.shared.save(savedMatch)
@@ -89,10 +100,15 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
         presenter.cancelRequested()
     }
     
-    func userTappedDummyChooseGameButton() {
-        guard let game = Mock.shared.games.randomElement() else { return }
-        self.game = game
-        presenter.matchWasUpdated(to: game)
+    func userTappedAddScoreButton() {
+        var newScores: [Score] = []
+        for player in playersForNewMatch {
+            let scoreValue = Int.random(in: 0...100)
+            newScores.append(Score(player: player, isScoreOfStartingPlayer: player.fullName == "Sandra Gaede", value: Double(scoreValue)))
+        }
+        self.scores = newScores
+        presenter.matchWasUpdated(with: newScores)
+        presenter.matchIsSavable(isValidMatchConstructable && isOriginalMatchEdited)
     }
     
     // MARK: Delegate Actions
@@ -103,6 +119,21 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
 
 extension MatchModificationInterpreterImplementation {
     
-    // private functions …
+    // DUMMY FUNCTIONS
+    
+    var playersForNewMatch: [Player] {
+        var playerPool = Mock.shared.players
+        let benno = playerPool.first { $0.fullName == "Benno Kress" }!
+        let sandra = playerPool.first { $0.fullName == "Sandra Gaede" }!
+        var players = [benno, sandra]
+        playerPool = playerPool.filter { $0 != benno && $0 != sandra }
+        for _ in 3...4 where Bool.random() {
+            // Randomly adds 0-2 Players (Player 3 & Player 4)
+            let additionalPlayer = playerPool.randomElement()!
+            players.append(additionalPlayer)
+            playerPool = playerPool.filter { $0 != additionalPlayer }
+        }
+        return players
+    }
     
 }

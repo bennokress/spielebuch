@@ -328,6 +328,15 @@ struct Mock {
     
     mutating func modify(_ match: Match, toBe modifiedMatch: Match) {
         log.info("Match modified")
+        if let baseMatchIndex = baseMatches.firstIndex(of: match) {
+            baseMatches.remove(at: baseMatchIndex)
+            baseMatches.insert(modifiedMatch, at: baseMatchIndex)
+        } else if let userMatchIndex = userMatches.firstIndex(of: match) {
+            userMatches.remove(at: userMatchIndex)
+            userMatches.insert(modifiedMatch, at: userMatchIndex)
+        } else {
+            log.error("Original match of \(match.game.name) on \(match.date.shortDescription) not found"); return
+        }
     }
     
 }
