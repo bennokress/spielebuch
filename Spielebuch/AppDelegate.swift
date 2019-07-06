@@ -82,7 +82,7 @@ extension AppDelegate {
     
     enum TabBarItemParameters: String {
         case home = "Home"
-        case scores = "Scores"
+        case matches = "Matches"
         case games = "Games"
         case players = "Players"
         
@@ -91,7 +91,7 @@ extension AppDelegate {
         var icon: UIImage? {
             switch self {
             case .home: return UIImage()
-            case .scores: return UIImage()
+            case .matches: return UIImage(named: "TabBarItem-Matches")
             case .games: return UIImage(named: "TabBarItem-Games")
             case .players: return UIImage(named: "TabBarItem-Players")
             }
@@ -107,9 +107,13 @@ extension AppDelegate {
         let playersNavigationController = UINavigationController(rootViewController: playersViewController)
         playersNavigationController.title = TabBarItemParameters.players.title
         
-        // TODO: Instantiate the View Controllers for all other tabs …
+        let matchesViewController = MatchesViewController()
+        let matchesNavigationController = UINavigationController(rootViewController: matchesViewController)
+        matchesNavigationController.title = TabBarItemParameters.matches.title
         
-        return [gamesNavigationController, playersNavigationController]
+        // TODO: Instantiate the View Controller for the Home Tab …
+        
+        return [matchesNavigationController, gamesNavigationController, playersNavigationController]
     }
     
     private func setupTabBar(with viewControllers: [UIViewController]) {

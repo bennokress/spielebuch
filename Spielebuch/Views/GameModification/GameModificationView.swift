@@ -122,7 +122,7 @@ extension GameModificationViewController {
     
 }
 
-// MARK: View Protocol
+// MARK: GameModificationView Protocol
 // --> Every action provided to the Presenter
 
 protocol GameModificationView: class {
