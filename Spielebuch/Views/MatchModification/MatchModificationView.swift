@@ -15,15 +15,13 @@ class MatchModificationViewController: VIPViewController {
     var delegates: [MatchModificationDelegate] = []
     
     // Data
-    private var match: Match? = nil
-    private var isInEditMode: Bool { return match != nil }
     
     // View Components
     private let cancelBarButtonItem = UIBarButtonItem()
     private let saveBarButtonItem = UIBarButtonItem()
-    // ↓ Dummies to see the workflow … will be replaced later
-    private let chooseGameDummyButton = UIButton(type: .system)
-    private let chosenGameDummyLabel = UILabel()
+    // ↓ Dummies to see the workflow … may be replaced later
+    private let chooseDateButton = UIButton(type: .system)
+    private let chosenDateLabel = UILabel()
     
 }
 
@@ -34,8 +32,8 @@ extension MatchModificationViewController {
     override func loadView() {
         super.loadView()
         initializeVIP()
-        interpreter?.viewIsLoading(with: setupData)
         setupView()
+        interpreter?.viewIsLoading(with: setupData)
     }
     
     override func viewDidLoad() {
@@ -52,8 +50,8 @@ extension MatchModificationViewController {
     private func setupView() {
         view.backgroundColor = .background
         setupNavigationBar()
-        setupChooseGameDummyButton()
-        setupChosenGameDummyLabel()
+        setupChosenDateLabel()
+        setupChooseDateButton()
     }
     
     // MARK: Navigation Bar
@@ -87,36 +85,36 @@ extension MatchModificationViewController {
         interpreter?.userTappedSaveMatchButton(game: dummyGame, on: Date(), for: nil)
     }
     
-    // MARK: Choose Game Dummy
-    private func setupChooseGameDummyButton() {
-        chooseGameDummyButton.setTitle("Choose Game", for: .normal)
-        chooseGameDummyButton.addTarget(self, action: #selector(chooseGameButtonTapped), for: .touchUpInside)
-        view.addSubview(chooseGameDummyButton)
+    // MARK: Choose Date Dummy
+    private func setupChooseDateButton() {
+        chooseDateButton.titleLabel?.font = .systemFont(ofSize: chosenDateLabel.font.pointSize)
+        chooseDateButton.addTarget(self, action: #selector(chooseDateButtonTapped), for: .touchUpInside)
+        view.addSubview(chooseDateButton)
     }
     
-    private func setupChosenGameDummyLabel() {
-        chosenGameDummyLabel.text = ""
-        view.addSubview(chosenGameDummyLabel)
+    private func setupChosenDateLabel() {
+        chosenDateLabel.text = "on " // Space necessary for natural spacing to chooseDateButton
+        view.addSubview(chosenDateLabel)
     }
     
-    @objc func chooseGameButtonTapped() {
-//        interpreter?.userTappedDummyChooseGameButton()
+    @objc func chooseDateButtonTapped() {
+        let randomDate = Date.randomInLastWeek // TODO: Replace with actual choice when implemented
+        interpreter?.userChose(randomDate)
     }
     
     // MARK: Constraints
     private func setupConstraints() {
-        chooseGameDummyButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        chooseGameDummyButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        chooseGameDummyButton.snp.makeConstraints { (constraint) in
-            constraint.top.equalTo(snpSafeArea.top).offset(Margin.vertical.standard)
+        chosenDateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        chosenDateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        chosenDateLabel.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(snpSafeArea.top)
             constraint.left.equalTo(snpSafeArea.left).offset(Margin.horizontal.standard)
             constraint.height.equalTo(50)
         }
-        chosenGameDummyLabel.snp.makeConstraints { (constraint) in
-            constraint.top.equalTo(chooseGameDummyButton.snp.top)
-            constraint.left.equalTo(chooseGameDummyButton.snp.right).offset(Margin.horizontal.standard)
-            constraint.bottom.equalTo(chooseGameDummyButton.snp.bottom)
-            constraint.right.equalTo(snpSafeArea.right).offset(Margin.horizontal.inverseStandard)
+        chooseDateButton.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(chosenDateLabel.snp.top)
+            constraint.left.equalTo(chosenDateLabel.snp.right)
+            constraint.bottom.equalTo(chosenDateLabel.snp.bottom)
         }
     }
     
@@ -145,16 +143,16 @@ extension MatchModificationViewController {
 
 protocol MatchModificationView: class {
     
-    /// Fills in the details for the match that is being modified.
-    /// - Parameter match: The match to be modified.
-    func fillFieldsWithCurrentValues(of match: Match)
-    
     /// Removes the MatchModificationView.
     func dismiss()
     
     /// Sets the title of the view.
     /// - Parameter title: The title to be displayed.
     func setTitle(to title: String)
+    
+    /// Display the given date.
+    /// - Parameter game: The date to be displayed.
+    func set(_ date: Date)
     
     /// Notifies all delegates about the modified match.
     /// - Parameter modifiedMatch: The modified match.
@@ -166,19 +164,9 @@ protocol MatchModificationView: class {
     /// Enable the save button.
     func enableSaveButton()
     
-    /// Display the given game.
-    /// - Parameter game: The game to be displayed.
-    func set(_ game: Game)
-    
 }
 
 extension MatchModificationViewController: MatchModificationView {
-    
-    func fillFieldsWithCurrentValues(of match: Match) {
-        self.match = match
-        set(match.game)
-        log.info("Would fill some field for a match of \(match.game.name) on \(match.date.shortDescription).")
-    }
     
     func dismiss() {
         DispatchQueue.main.async {
@@ -189,6 +177,12 @@ extension MatchModificationViewController: MatchModificationView {
     func setTitle(to title: String) {
         DispatchQueue.main.async {
             self.title = title
+        }
+    }
+    
+    func set(_ date: Date) {
+        DispatchQueue.main.async {
+            self.chooseDateButton.setTitle(date.shortDescription, for: .normal)
         }
     }
     
@@ -205,12 +199,6 @@ extension MatchModificationViewController: MatchModificationView {
     func enableSaveButton() {
         DispatchQueue.main.async {
             self.saveBarButtonItem.isEnabled = true
-        }
-    }
-    
-    func set(_ game: Game) {
-        DispatchQueue.main.async {
-            self.chosenGameDummyLabel.text = game.name
         }
     }
     

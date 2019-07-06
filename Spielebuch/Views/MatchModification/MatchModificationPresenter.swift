@@ -29,7 +29,8 @@ protocol MatchModificationPresenter: class {
     
     /// Populates the MatchModificationView with empty data.
     /// - Parameter game: The chosen game for the match.
-    func setupInCreationMode(with game: Game)
+    /// - Parameter date: The date of the match.
+    func setupInCreationMode(with game: Game, on date: Date)
     
     /// Instructs the MatchModificationView to be dismissed and notify delegates about the modified match.
     /// - Parameter savedMatch: The modified match.
@@ -38,9 +39,9 @@ protocol MatchModificationPresenter: class {
     /// Instructs the MatchModificationView to be dismissed.
     func cancelRequested()
     
-    /// Instructs the MatchModificationView to display the updated game of the match.
-    /// - Parameter game: The game of the match.
-    func matchWasUpdated(to game: Game)
+    /// Instructs the MatchModificationView to display the updated date of the match.
+    /// - Parameter date: The date of the match.
+    func matchWasUpdated(to date: Date)
     
 }
 
@@ -48,11 +49,12 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
     func setupInEditMode(for match: Match) {
         view.setTitle(to: match.game.name)
-        view.fillFieldsWithCurrentValues(of: match)
+        view.set(match.date)
     }
     
-    func setupInCreationMode(with game: Game) {
+    func setupInCreationMode(with game: Game, on date: Date) {
         view.setTitle(to: game.name)
+        view.set(date)
     }
     
     func matchSavedSuccessfully(_ savedMatch: Match) {
@@ -64,8 +66,8 @@ extension MatchModificationPresenterImplementation: MatchModificationPresenter {
         view.dismiss()
     }
     
-    func matchWasUpdated(to game: Game) {
-        view.set(game)
+    func matchWasUpdated(to date: Date) {
+        view.set(date)
     }
     
 }

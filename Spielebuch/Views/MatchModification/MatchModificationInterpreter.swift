@@ -48,6 +48,10 @@ protocol MatchModificationInterpreter: class {
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
     
+    /// Takes action when the user chose a date
+    /// - Parameter date: The date of the match.
+    func userChose(_ date: Date)
+    
 }
 
 extension MatchModificationInterpreterImplementation: MatchModificationInterpreter {
@@ -61,11 +65,13 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
             date = match.date
             game = match.game
             scores = match.scores
-            
             presenter.setupInEditMode(for: match)
         } else {
-            guard let game = Mock.shared.games.randomElement() else { return }
-            presenter.setupInCreationMode(with: game)
+            guard let randomGame = Mock.shared.games.randomElement() else { return }
+            let now = Date()
+            game = randomGame
+            date = now
+            presenter.setupInCreationMode(with: randomGame, on: now)
         }
     }
     
@@ -83,6 +89,12 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
+    }
+    
+    func userChose(_ date: Date) {
+        self.date = date
+        presenter.matchWasUpdated(to: date)
+        log.info("Match Date was set to \(date.shortDescription).")
     }
     
     // MARK: Delegate Actions
