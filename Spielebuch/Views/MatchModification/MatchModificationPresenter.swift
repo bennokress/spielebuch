@@ -24,11 +24,12 @@ class MatchModificationPresenterImplementation {
 protocol MatchModificationPresenter: class {
     
     /// Populates the MatchModificationView with data from an existing match.
-    /// - Parameter setupData: Data containing the match to be modified. Set by the preceeding view controller.
-    func setupInEditMode(with setupData: VIPViewSetupData)
+    /// - Parameter match: The match to be modified.
+    func setupInEditMode(for match: Match)
     
     /// Populates the MatchModificationView with empty data.
-    func setupInCreationMode()
+    /// - Parameter game: The chosen game for the match.
+    func setupInCreationMode(with game: Game)
     
     /// Instructs the MatchModificationView to be dismissed and notify delegates about the modified match.
     /// - Parameter savedMatch: The modified match.
@@ -45,18 +46,13 @@ protocol MatchModificationPresenter: class {
 
 extension MatchModificationPresenterImplementation: MatchModificationPresenter {
     
-    func setupInEditMode(with setupData: VIPViewSetupData) {
-        guard case let VIPViewSetupData.matchModification(match) = setupData, let matchToModify = match else {
-            log.warning("The view should appear in Edit Mode, but no match was found. Moving on in Creation Mode.")
-            setupInCreationMode()
-            return
-        }
-        view.setTitle(to: "Edit Match")
-        view.fillFieldsWithCurrentValues(of: matchToModify)
+    func setupInEditMode(for match: Match) {
+        view.setTitle(to: match.game.name)
+        view.fillFieldsWithCurrentValues(of: match)
     }
     
-    func setupInCreationMode() {
-        view.setTitle(to: "New Match")
+    func setupInCreationMode(with game: Game) {
+        view.setTitle(to: game.name)
     }
     
     func matchSavedSuccessfully(_ savedMatch: Match) {

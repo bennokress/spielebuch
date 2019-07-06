@@ -48,9 +48,6 @@ protocol MatchModificationInterpreter: class {
     /// Takes action when the user cancels the match modification.
     func userTappedCancelButton()
     
-    /// DUMMY - Later: userChose(_ game)
-    func userTappedDummyChooseGameButton()
-    
 }
 
 extension MatchModificationInterpreterImplementation: MatchModificationInterpreter {
@@ -64,12 +61,11 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
             date = match.date
             game = match.game
             scores = match.scores
-            // TODO: Replace with single instructions for presenter
-            presenter.setupInEditMode(with: setupData)
+            
+            presenter.setupInEditMode(for: match)
         } else {
-            // Create Mode
-            // TODO: Replace with single instructions for presenter
-            presenter.setupInCreationMode()
+            guard let game = Mock.shared.games.randomElement() else { return }
+            presenter.setupInCreationMode(with: game)
         }
     }
     
@@ -87,12 +83,6 @@ extension MatchModificationInterpreterImplementation: MatchModificationInterpret
     
     func userTappedCancelButton() {
         presenter.cancelRequested()
-    }
-    
-    func userTappedDummyChooseGameButton() {
-        guard let game = Mock.shared.games.randomElement() else { return }
-        self.game = game
-        presenter.matchWasUpdated(to: game)
     }
     
     // MARK: Delegate Actions

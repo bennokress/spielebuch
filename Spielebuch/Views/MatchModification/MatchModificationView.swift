@@ -100,7 +100,7 @@ extension MatchModificationViewController {
     }
     
     @objc func chooseGameButtonTapped() {
-        interpreter?.userTappedDummyChooseGameButton()
+//        interpreter?.userTappedDummyChooseGameButton()
     }
     
     // MARK: Constraints
